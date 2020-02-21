@@ -13,9 +13,15 @@
                   @if ( session('mensaje') )
                     <div class="alert alert-success">{{ session('mensaje') }}</div>
                   @endif
-                  @if ( session('error') )
-                    <div class="alert alert-danger">{{ session('error') }}</div>
-                  @endif
+                  @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div><br />
+@endif
                   <form method="POST" action="/posts" enctype="multipart/form-data">
                     @csrf
                     <input
@@ -24,15 +30,14 @@
                       placeholder="Nombre"
                       class="form-control mb-2"
                     />
-                    <input
-                      type="text"
-                      name="descripcion"
-                      placeholder="Descripcion"
-                      class="form-control mb-2"
-                    />
+                    <textarea
+                    name="descripcion"
+                    placeholder="Descripcion"
+                    class="form-control mb-2"
+                    ></textarea>
                     <input
                       type="file"
-                      name="avatar"
+                      name="postimagen"
                       placeholder="Tu imagen"
                       class="form-control mb-2"
                     />

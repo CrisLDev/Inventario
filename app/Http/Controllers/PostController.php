@@ -48,12 +48,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $files=$request->file('avatar');
-        $nombre=$request->nombre;
-        $descripcion = $request->descripcion;
 
-        if($files&&$nombre&&$descripcion){ 
-            $path = $request->file('avatar')->store('public/posts/img');
+        $todobien = $request->validate([
+            'nombre' => 'required|max:120',
+            'descripcion' => 'required',
+            'postimagen' => 'mimes:jpeg,bmp,png|required'
+        ]);
+
+        /*$files=$request->file('postimagen');
+        $nombre=$request->nombre;
+        $descripcion = $request->descripcion;*/
+
+        if($todobien){ 
+            $path = $request->file('postimagen')->store('public/posts/img');
             $post = new Post();
             $post->ps_nombre=$request->nombre;
             $post->ps_descripcion=$request->descripcion;
@@ -62,7 +69,7 @@ class PostController extends Controller
             $post->save();
             return back()->with('mensaje', 'Post Publicado'); 
         }
-        return back()->with('error', 'Debes llenar todos los malditos campos IMBÉCIL.'); 
+        return back()->with('error', 'Debes llenar todos los malditos campos IMBÉCIL.');
     }
 
     /**
