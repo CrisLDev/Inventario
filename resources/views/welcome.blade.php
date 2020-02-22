@@ -11,7 +11,7 @@
         <div class="carousel-inner">
             @foreach ($posts as $post)
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                    <img src="{{$post->ps_path}}" class="d-block w-100 h-auto" alt="...">
+                    <img src="{{$post->ps_path}}" class="d-block w-100" style="height: 50vh !important;" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>{{$post->ps_nombre}}</h5>
                     </div>

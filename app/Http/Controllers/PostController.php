@@ -60,12 +60,14 @@ class PostController extends Controller
         $descripcion = $request->descripcion;*/
 
         if($todobien){ 
-            $path = $request->file('postimagen')->store('public/posts/img');
+            $saveTo = 'public/posts/img';
+            $path = $request->file('postimagen')->store($saveTo);
+            $filename = substr($path, strlen($saveTo) + 1);
             $post = new Post();
             $post->ps_nombre=$request->nombre;
             $post->ps_descripcion=$request->descripcion;
             $post->ps_us_id = auth()->user()->id;
-            $post->ps_path = $path;
+            $post->ps_path = '/storage/posts/img/'.$filename;
             $post->save();
             return back()->with('mensaje', 'Post Publicado'); 
         }
