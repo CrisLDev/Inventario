@@ -32,7 +32,7 @@ class HomeController extends Controller
     }
 
     public function welcome(){
-        $posts = Post::all();
+        $posts = Post::limit(3)->latest()->get();
         return view('welcome', compact('posts'));
     }
 }
