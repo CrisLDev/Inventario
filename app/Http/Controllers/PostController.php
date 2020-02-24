@@ -82,7 +82,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::where('ps_id', $id)->firstOrFail();
+
+        return view('posts.post', compact('post'));
     }
 
     /**

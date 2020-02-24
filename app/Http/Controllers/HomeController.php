@@ -30,9 +30,4 @@ class HomeController extends Controller
         $items_inactivos = Item::Where('it_Activo', '<=', '0')->get()->count();
         return view('home', compact('items', 'items_activos', 'items_inactivos'));
     }
-
-    public function welcome(){
-        $posts = Post::limit(3)->latest()->get();
-        return view('welcome', compact('posts'));
-    }
 }

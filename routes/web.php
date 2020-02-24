@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'HomeController@welcome');
+Route::get('/', 'WelcomeController@welcome');
 
 Auth::routes();
 
@@ -20,3 +20,8 @@ Route::resource('/items', 'ItemController');
 Route::resource('/posts', 'PostController');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+public function welcome(){
+    $posts = Post::limit(3)->latest()->get();
+    return view('welcome', compact('posts'));
+}
