@@ -23,6 +23,6 @@ Route::resource('/categorias', 'IcategoriaController');
 
 Route::resource('/comentarios', 'PcomentarioController');
 
-Route::post('/post/{id}/comentarios', 'PcomentarioController@postNewComment')->name('home');
+Route::post('/posts/{id}/comentarios', 'PcomentarioController@crear')->name('comentarios.crear');
 
 Route::get('/home', 'HomeController@index')->name('home');

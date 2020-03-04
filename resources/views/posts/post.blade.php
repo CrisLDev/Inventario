@@ -37,7 +37,7 @@
                                     </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="{{route('comentarios.store', $post->id)}}">
+                                        <form method="POST" action="{{route('comentarios.crear', $post->id)}}">
                                             @csrf
                                             <textarea
                                             name="descripcion"
@@ -50,22 +50,29 @@
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Publicar</button>
                                     </div>
                                 </div>
                                 </div>
                             </div>
                         </div>
         
-                        <div class="card-body">
+                        <div class="card-body pb-0">
                             <p>
                             <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                 Mostrar Comentarios
                               </button>
                             </p>
                             <div class="collapse" id="collapseExample">
-                                <div class="card card-body">
-                                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                <div class="card card-body pb-0">
+                                  @foreach ($comentarios as $comentario)
+                                      <div class="card card-body mb-3 pb-0">
+                                          <div class="d-flex justify-content-between">
+                                            <label>{{$comentario->name}}</label>
+                                            <label>{{$comentario->rango}}</label>
+                                          </div>
+                                          <p>{{$comentario->pcom_texto}}</p>
+                                      </div>
+                                  @endforeach
                                 </div>
                               </div>
                         </div>

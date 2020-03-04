@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\PComentario;
 
+use App\Post;
+
 class PcomentarioController extends Controller
 {
 
@@ -93,5 +95,17 @@ class PcomentarioController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function crear(Request $request, $id){
+        $post = Post::findOrFail($id);
+        $comentario = new PComentario();
+        $comentario->pcom_texto=$request->descripcion;
+        $comentario->pcom_ps_id=$post->id;
+        $comentario->pcom_us_id = auth()->user()->id;
+        //$item->it_activo = '0';
+        $comentario->save();
+
+        return back()->with('mensaje', 'Comentario Publicado.');
     }
 }

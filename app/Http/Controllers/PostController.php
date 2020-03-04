@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Post;
+
+use App\PComentario;
+
+use App\User;
 
 class PostController extends Controller
 {
@@ -82,9 +87,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);;
+        $post = Post::findOrFail($id);
+        
+        $comentarios = PComentario::join('users', 'p_comentarios.pcom_us_id', '=', 'users.id')->get();
 
-        return view('posts.post', compact('post'));
+        return view('posts.post', compact('post', 'comentarios'));
     }
 
     /**

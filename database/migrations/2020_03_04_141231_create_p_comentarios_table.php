@@ -18,6 +18,7 @@ class CreatePComentariosTable extends Migration
             $table->integer('pcom_ps_id');
             $table->integer('pcom_us_id');
             $table->text('pcom_texto');
+            $table->boolean('ps_activo')->default('1');
             $table->timestamps();
         });
     }

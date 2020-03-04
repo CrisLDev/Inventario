@@ -51,6 +51,9 @@
                                 <a class="nav-link" href="/items"><i class="fas fa-sitemap"></i> Items</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="/categorias"><i class="fab fa-wpforms"></i> Categorias</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="/contactanos"><i class="fas fa-id-card"></i> Contactanos</a>
                             </li>
                         @endguest
