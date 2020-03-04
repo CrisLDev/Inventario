@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Post;
 
-class PostController extends Controller
+use App\ICategoria;
+
+class IcategoriaController extends Controller
 {
 
     /**
@@ -25,9 +26,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $usuarioId = auth()->user()->id;
-        $posts = Post::where('ps_us_id', $usuarioId)->paginate(5);
-        return view('posts.lista', compact('posts'));
+        $categorias = ICategoria::get();
+        return view('categorias.lista', compact('categorias'));
     }
 
     /**
@@ -37,7 +37,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.crear');
+        return view('categorias.crear');
     }
 
     /**
@@ -48,30 +48,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $categoria = new ICategoria();
+        $categoria->icat_nombre=$request->nombre;
+        $categoria->icat_descripcion=$request->descripcion;
+        $categoria->icat_us_id = auth()->user()->id;
+        $categoria->save();
 
-        $todobien = $request->validate([
-            'nombre' => 'required|max:120',
-            'descripcion' => 'required',
-            'postimagen' => 'mimes:jpeg,bmp,png|required'
-        ]);
-
-        /*$files=$request->file('postimagen');
-        $nombre=$request->nombre;
-        $descripcion = $request->descripcion;*/
-
-        if($todobien){ 
-            $saveTo = 'public/posts/img';
-            $path = $request->file('postimagen')->store($saveTo);
-            $filename = substr($path, strlen($saveTo) + 1);
-            $post = new Post();
-            $post->ps_nombre=$request->nombre;
-            $post->ps_descripcion=$request->descripcion;
-            $post->ps_us_id = auth()->user()->id;
-            $post->ps_path = '/storage/posts/img/'.$filename;
-            $post->save();
-            return back()->with('mensaje', 'Post Publicado'); 
-        }
-        return back()->with('error', 'Debes llenar todos los malditos campos IMBÉCIL.');
+        return back()->with('mensaje', 'Categoria Agregada');
     }
 
     /**
@@ -82,9 +65,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);;
-
-        return view('posts.post', compact('post'));
+        //
     }
 
     /**
@@ -95,7 +76,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categoria = ICategoria::findOrFail($id);
+        return view('categorias.editar', compact('categoria'));
     }
 
     /**
@@ -107,7 +89,11 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $categoriaUpdate = ICategoria::findOrFail($id);
+        $categoriaUpdate->icat_nombre=$request->nombre;
+        $categoriaUpdate->icat_descripcion=$request->descripcion;
+        $categoriaUpdate->save();
+        return back()->with('mensaje', 'Categoria actualizada');
     }
 
     /**

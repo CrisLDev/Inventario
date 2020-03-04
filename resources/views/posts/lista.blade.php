@@ -23,7 +23,7 @@
                         <tbody>
                             @foreach ($posts as $post)
                                 <tr>
-                                    <th scope="row">{{$post->ps_id}}</th>
+                                    <th scope="row">{{$post->id}}</th>
                                     <td>{{$post->ps_nombre}}</td>
                                     <td>{{$post->ps_descripcion}}</td>
                                     <td>Accion</td>

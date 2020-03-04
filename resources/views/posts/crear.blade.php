@@ -29,11 +29,13 @@
                       name="nombre"
                       placeholder="Nombre"
                       class="form-control mb-2"
+                      value="{{old('nombre')}}"
                     />
                     <textarea
                     name="descripcion"
                     placeholder="Descripcion"
                     class="form-control mb-2"
+                    value="{{old('descripcion')}}"
                     ></textarea>
                     <input
                       type="file"

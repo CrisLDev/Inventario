@@ -15,7 +15,11 @@ class CreateICategoriasTable extends Migration
     {
         Schema::create('i_categorias', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('icat_us_id');
             $table->timestamps();
+            $table->string('icat_nombre');
+            $table->text('icat_descripcion');
+            $table->boolean('icat_activo')->default('1');
         });
     }
 

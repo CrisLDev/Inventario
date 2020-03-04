@@ -19,4 +19,6 @@ Route::resource('/items', 'ItemController');
 
 Route::resource('/posts', 'PostController');
 
+Route::resource('/categorias', 'IcategoriaController');
+
 Route::get('/home', 'HomeController@index')->name('home');

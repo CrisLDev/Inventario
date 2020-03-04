@@ -11,7 +11,7 @@
         <div class="carousel-inner">
             @foreach ($posts as $post)
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                  <a href="/posts/{{$post->ps_id}}">
+                  <a href="/posts/{{$post->id}}">
                     <img src="{{$post->ps_path}}" class="d-block w-100" style="height: 50vh !important;" alt="...">
                   </a>
                     <div class="carousel-caption d-none d-md-block">
