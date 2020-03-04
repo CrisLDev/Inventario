@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Item;
 
+use App\ICategoria;
+
 class ItemController extends Controller
 {
 
@@ -38,7 +40,8 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('items.crear');
+        $categorias = ICategoria::get();
+        return view('items.crear', compact('categorias'));
     }
 
     /**
@@ -52,6 +55,7 @@ class ItemController extends Controller
         $item = new Item();
         $item->it_nombre=$request->nombre;
         $item->it_descripcion=$request->descripcion;
+        $item->it_categoria=$request->categoria;
         $item->it_us_id = auth()->user()->id;
         //$item->it_activo = '0';
         $item->save();

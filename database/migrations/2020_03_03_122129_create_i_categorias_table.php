@@ -20,6 +20,9 @@ class CreateICategoriasTable extends Migration
             $table->string('icat_nombre');
             $table->text('icat_descripcion');
             $table->boolean('icat_activo')->default('1');
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
         });
     }
 

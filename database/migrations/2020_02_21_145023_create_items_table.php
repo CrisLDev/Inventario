@@ -18,6 +18,7 @@ class CreateItemsTable extends Migration
             $table->integer('it_us_id');
             $table->timestamps();
             $table->string('it_nombre');
+            $table->string('it_categoria');
             $table->text('it_descripcion');
             $table->boolean('it_activo')->default('1');
             $table->engine = 'InnoDB';

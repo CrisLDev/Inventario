@@ -29,6 +29,11 @@
                       class="form-control mb-2"
                       value="{{old('descripcion')}}"
                     />
+                    <select class="form-control mb-2" name="categoria">
+                    @foreach ($categorias as $categoria)
+                      <option value="{{$categoria->icat_nombre}}">{{$categoria->icat_nombre}}</option>
+                    @endforeach
+                    </select>
                     <button class="btn btn-primary btn-block" type="submit">Agregar</button>
                   </form>
                 </div>

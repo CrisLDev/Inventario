@@ -21,6 +21,9 @@ class CreatePostsTable extends Migration
             $table->text('ps_descripcion');
             $table->boolean('ps_activo')->default('1');
             $table->string('ps_path');
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
         });
     }
 
