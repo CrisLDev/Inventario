@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PComentarios extends Model
+class PComentario extends Model
 {
     //
 }

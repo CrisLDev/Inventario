@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    @if ( session('mensaje') )
+        <div class="alert alert-success">{{ session('mensaje') }}</div>
+    @endif
     <div class="row">
         <div class="col-md-9">
             <div class="row">
@@ -34,12 +37,13 @@
                                     </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="/posts" enctype="multipart/form-data">
+                                        <form method="POST" action="{{route('comentarios.store', $post->id)}}">
                                             @csrf
                                             <textarea
                                             name="descripcion"
                                             placeholder="Escribe algo."
                                             class="form-control mb-2"
+                                            value="{{old('descripcion')}}"
                                             ></textarea>
                                             <button class="btn btn-primary btn-block" type="submit">Publicar</button>
                                           </form>

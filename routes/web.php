@@ -21,4 +21,8 @@ Route::resource('/posts', 'PostController');
 
 Route::resource('/categorias', 'IcategoriaController');
 
+Route::resource('/comentarios', 'PcomentarioController');
+
+Route::post('/post/{id}/comentarios', 'PcomentarioController@postNewComment')->name('home');
+
 Route::get('/home', 'HomeController@index')->name('home');

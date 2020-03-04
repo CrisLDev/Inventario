@@ -15,6 +15,9 @@ class CreatePComentariosTable extends Migration
     {
         Schema::create('p_comentarios', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('pcom_ps_id');
+            $table->integer('pcom_us_id');
+            $table->text('pcom_texto');
             $table->timestamps();
         });
     }
