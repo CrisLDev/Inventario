@@ -26,7 +26,7 @@ class IcategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = ICategoria::get();
+        $categorias = ICategoria::where('icat_activo', '>', '0')->get();
         return view('categorias.lista', compact('categorias'));
     }
 
@@ -104,6 +104,10 @@ class IcategoriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $categoriaDestroy = ICategoria::findOrFail($id);
+        $categoriaDestroy->icat_activo= 0;
+        //$categoriaDestroy->delete();
+        $categoriaDestroy->save();
+        return back()->with('mensaje', 'Categoria Eliminada');
     }
 }
