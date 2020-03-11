@@ -13,7 +13,7 @@
                   @if ( session('mensaje') )
                     <div class="alert alert-success">{{ session('mensaje') }}</div>
                   @endif
-                <form method="POST" action="{{route('categorias.update',$categoria->id)}}">
+                <form method="POST" onsubmit="disable()" id="form-prevent-multiple-submits" action="{{route('categorias.update',$categoria->id)}}">
                     @method('PUT')
                     @csrf
                     <input
@@ -30,7 +30,10 @@
                       class="form-control mb-2"
                       value="{{$categoria->icat_descripcion}}"
                     />
-                    <button class="btn btn-warning btn-block" type="submit">Editar</button>
+                    <button class="btn btn-warning btn-block" id="button-prevent-multiple-submits" type="submit">
+                      <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
+                                                <span id="btex">Editar</span>
+                    </button>
                   </form>
                 </div>
             </div>

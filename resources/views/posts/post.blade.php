@@ -37,7 +37,7 @@
                                     </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="{{route('comentarios.crear', $post->id)}}">
+                                        <form method="POST" onsubmit="disable()" id="form-prevent-multiple-submits" action="{{route('comentarios.crear', $post->id)}}">
                                             @csrf
                                             <textarea
                                             name="descripcion"
@@ -45,7 +45,9 @@
                                             class="form-control mb-2"
                                             value="{{old('descripcion')}}"
                                             ></textarea>
-                                            <button class="btn btn-primary btn-block" type="submit">Publicar</button>
+                                            <button class="btn btn-primary btn-block" id="button-prevent-multiple-submits" type="submit">
+                                                <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
+                                                <span id="btex">Publicar</span></button>
                                           </form>
                                     </div>
                                     <div class="modal-footer">

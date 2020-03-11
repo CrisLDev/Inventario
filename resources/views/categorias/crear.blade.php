@@ -13,7 +13,7 @@
                   @if ( session('mensaje') )
                     <div class="alert alert-success">{{ session('mensaje') }}</div>
                   @endif
-                  <form method="POST" action="/categorias">
+                  <form method="POST" onsubmit="disable()" id="form-prevent-multiple-submits" action="/categorias">
                     @csrf
                     <input
                       type="text"
@@ -29,7 +29,10 @@
                       class="form-control mb-2"
                       value="{{old('descripcion')}}"
                     />
-                    <button class="btn btn-primary btn-block" type="submit">Agregar</button>
+                    <button class="btn btn-primary btn-block" id="button-prevent-multiple-submits" type="submit">
+                      <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
+                      <span id="btex">Agregar</span>
+                    </button>
                   </form>
                 </div>
             </div>

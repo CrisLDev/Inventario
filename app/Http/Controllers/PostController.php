@@ -55,7 +55,7 @@ class PostController extends Controller
     {
 
         $todobien = $request->validate([
-            'nombre' => 'required|max:120',
+            'ps_nombre' => 'required|max:120|unique:posts',
             'descripcion' => 'required',
             'postimagen' => 'mimes:jpeg,bmp,png|required'
         ]);
@@ -69,7 +69,7 @@ class PostController extends Controller
             $path = $request->file('postimagen')->store($saveTo);
             $filename = substr($path, strlen($saveTo) + 1);
             $post = new Post();
-            $post->ps_nombre=$request->nombre;
+            $post->ps_nombre=$request->ps_nombre;
             $post->ps_descripcion=$request->descripcion;
             $post->ps_us_id = auth()->user()->id;
             $post->ps_path = '/storage/posts/img/'.$filename;

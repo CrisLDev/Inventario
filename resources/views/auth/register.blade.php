@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" onsubmit="disable()" id="form-prevent-multiple-submits" action="{{ route('register') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -63,8 +63,9 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary btn-block">
-                                    <i class="fas fa-registered"></i> {{ __('Register') }}
+                                <button type="submit" id="button-prevent-multiple-submits" class="btn btn-primary btn-block">
+                                    <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
+                                    <span id="btex"><i class="fas fa-registered"></i> {{ __('Register') }}</span>
                                 </button>
                             </div>
                         </div>
