@@ -103,6 +103,8 @@
         </main>
     </div>
 
-<script src="{{asset('js/submit.js')}}"></script>
+    <script src="{{asset('js/submit.js')}}"></script>
+    @yield('scripts')
+    
 </body>
 </html>

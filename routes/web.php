@@ -25,4 +25,11 @@ Route::resource('/comentarios', 'PcomentarioController');
 
 Route::post('/posts/{id}/comentarios', 'PcomentarioController@crear')->name('comentarios.crear');
 
+/*Route::get('/getgi', function(){
+    $hola = Request::all();
+    return dd(Response::json($request));
+});*/
+
+Route::get('/getgi', 'ItemController@trae')->name('items.trae');
+
 Route::get('/home', 'HomeController@index')->name('home');

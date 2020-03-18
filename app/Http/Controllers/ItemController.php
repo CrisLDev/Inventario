@@ -71,8 +71,20 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        //
+        $item = Item::findOrFail($id);
+
+        return view('items.item', compact('item'));
     }
+
+    public function trae(Request $request){
+        if($request->ajax()) {
+          
+            $item = Item::findOrFail($request->cnic);
+           
+            //return dd($item->id);
+            return response()->json($item);
+        }
+}
 
     /**
      * Show the form for editing the specified resource.
