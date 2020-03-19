@@ -21,8 +21,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/submit.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -35,6 +37,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
@@ -103,7 +106,16 @@
         </main>
     </div>
 
-    <script src="{{asset('js/submit.js')}}"></script>
+    <script src="{{asset('js/jquery.min.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.dropdown-toggle').click(function(){
+                $('.dropdown-menu-right').toogleClass('show');
+            });
+        });
+    </script>
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/scripts.js')}}"></script>
     @yield('scripts')
     
 </body>

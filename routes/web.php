@@ -32,4 +32,8 @@ Route::post('/posts/{id}/comentarios', 'PcomentarioController@crear')->name('com
 
 Route::get('/getgi', 'ItemController@trae')->name('items.trae');
 
+Route::post('/hola', 'ItemController@editar')->name('items.editar');
+
+Route::post('/hola2', 'ItemController@crearr')->name('items.crearr');
+
 Route::get('/home', 'HomeController@index')->name('home');

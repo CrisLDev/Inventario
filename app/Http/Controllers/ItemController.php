@@ -29,8 +29,9 @@ class ItemController extends Controller
     public function index()
     {
         $usuarioId = auth()->user()->id;
+        $categorias = ICategoria::get();
         $items = Item::where('it_us_id', $usuarioId)->paginate(5);
-        return view('items.lista', compact('items'));
+        return view('items.lista', compact('items', 'categorias'));
     }
 
     /**
@@ -53,14 +54,14 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $item = new Item();
-        $item->it_nombre=$request->nombre;
+        $item->it_nombre=$request->name;
         $item->it_descripcion=$request->descripcion;
         $item->it_categoria=$request->categoria;
         $item->it_us_id = auth()->user()->id;
         //$item->it_activo = '0';
         $item->save();
 
-        return back()->with('mensaje', 'Item Agregado');
+        return response()->json ( $data);
     }
 
     /**
@@ -86,6 +87,35 @@ class ItemController extends Controller
         }
 }
 
+public function crearr(Request $request)
+    {
+
+        $todobien = $request->validate([
+            'it_nombre' => 'required|max:120|unique:items'
+        ]);
+
+        if($todobien){
+            $data = new Item();
+            $data->it_nombre=$request->it_nombre;
+            $data->it_descripcion=$request->descripcion;
+            $data->it_categoria=$request->categoria;
+            $data->it_us_id = auth()->user()->id;
+            //$item->it_activo = '0';
+            $data->save();
+            return response()->json ($data);
+        }
+        return response()->json ( ['mensaje' => 'error']);
+    }
+
+public function editar(Request $request){
+    $data = Item::find ( $request->id );
+    $data->it_nombre = $request->name;
+    $data->it_descripcion = $request->descripcion;
+    $data->it_categoria=$request->categoria;
+    $data->save();
+    return response()->json ( $data);
+}
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -104,7 +134,7 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
     }
