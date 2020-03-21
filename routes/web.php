@@ -36,4 +36,6 @@ Route::post('/hola', 'ItemController@editar')->name('items.editar');
 
 Route::post('/hola2', 'ItemController@crearr')->name('items.crearr');
 
+Route::post('/eliminar', 'ItemController@eliminar')->name('items.eliminar');
+
 Route::get('/home', 'HomeController@index')->name('home');

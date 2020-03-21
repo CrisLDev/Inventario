@@ -13,10 +13,9 @@
           </button>
         </div>
         <div class="modal-body">
-                        <div class="card">
+                        <div class="card modalE">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <span>Agregar Item</span>
-                                <a href="/categorias" class="btn btn-primary btn-sm">Volver a lista de categorias...</a>
+                                <span>Items Accion</span>
                             </div>
                             <div class="card-body">  
                                 <div id="Modal">
@@ -60,15 +59,27 @@
                                         </div>
                                       </form>
                                 </div>
-                                <div id="eliminarModal">
-
-                                </div>
                             </div>
+                        </div>
+                        <div id="eliminarModal">
+                          <div class="container text-center">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <i class="fas fa-exclamation-triangle"></i>
+                              </div>
+                              <div class="col-md-12">
+                                ¿Esta seguro que quiere eliminar este Item?
+                              </div>
+                            </div>
+                          </div>
                         </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-target="#verModal" data-dismiss="modal" data-toggle="modal">Save changes</button>
+          <div class="col-md-12">
+            <button type="button" data-dismiss="modal" id="eliminar-prevent-multiple-submits" class="btn btn-danger btn-block">Eliminar</button>
+          </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerE">Close</button>
+          <button type="button" class="btn btn-primary" data-target="#verModal" data-dismiss="modal" data-toggle="modal" id="verE">Save changes</button>
         </div>
       </div>
     </div>
@@ -132,9 +143,9 @@
                                 <th scope="col">Descripcion</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody">
                             @foreach ($items as $item)
-                                <tr>
+                                <tr class="item{{$item->id}}tr">
                                     <th scope="row"><div id="nid">{{$item->id}}</div></th>
                                     <td><label for="" class="item{{$item->id}}">{{$item->it_nombre}}</label></td>
                                     <td><label for="" class="item{{$item->id}}d">{{$item->it_descripcion}}</label></td>
@@ -154,14 +165,11 @@
 <script>
     $(document).ready(function() {
     $('#success-alert').addClass('show').hide();
-    $(".ajax").click(function(evt){
+    $(".ajax").click(function(){
+      $('.modalE').show();
         $('.cls').empty();
         $('.cls').removeClass().addClass('cls');
         var $this = $(this);
-        //$.get('getgi', function(data){
-            //$('#getRequestData').append(data);
-            //console.log(data);
-        //});
         cnic = $this.data('valor');
         $.ajax({
             type: "GET",
@@ -182,8 +190,12 @@
     });
     
     $('#editar').click(function(){
+      $('.modalE').show();
+      $('#eliminar-prevent-multiple-submits').hide();
         $('.editarModal').show();
+        $('#eliminarModal').hide();
         $('.crearModal').hide();
+        $('#verE').show();
         $('#form-prevent-multiple-submits').submit(function(e){
         e.preventDefault();
         var Ename = $('#nombreE').val();
@@ -216,6 +228,11 @@
 
 
     $('#crear').click(function(){
+      $('#eliminarModal').hide();
+      $('#eliminar-prevent-multiple-submits').hide();
+      $('#cerE').show();
+      $('#verE').hide();
+      $('.modalE').show();
         $('.crearModal').show();
         $('.editarModal').hide();
         $('#form-prevent-multiple-submits').trigger("reset");
@@ -239,21 +256,44 @@
                 $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
                 $("#success-alert").slideUp(500);
                 });
-                $('#tablaI').append("<tr><th scope='row'><div id='nid'>" + data.id + "</div></th><td><label class='item"+data.id+"'>" + data.it_nombre + "</label></td><td><label for='' class='item"+data.id+"d'>" + data.it_descripcion + "</label></td><td><a data-toggle='modal' data-target='#verModal' data-valor='item"+data.id+"' class='btn btn-primary text-white btn-sm ajax'>Ver Más</a></tr>");
+                $('#tablaI').append("<tr class='item"+data.id+"tr'><th scope='row'><div id='nid'>" + data.id + "</div></th><td><label class='item"+data.id+"'>" + data.it_nombre + "</label></td><td><label for='' class='item"+data.id+"d'>" + data.it_descripcion + "</label></td><td><a data-toggle='modal' data-target='#verModal' data-valor='"+ data.id +"' class='btn btn-primary text-white btn-sm ajax'>Ver Más</a></tr>");
                 $("#nombre").append(data.it_nombre);
-                $("#idE").val(data.id);
+                $('#idE').val(data.id);
                 $("#descripcion").append(data.it_descripcion);
                 $('.item' + data.id).text(data.it_nombre);
                 $('.item' + data.id+ 'd').text(data.it_descripcion);
                 $("#categoria").append(data.it_categoria);
                 $("#categoriaE").val(data.it_categoria);
+                $('#verE').show();
                 }
         });
     });
     });
 
-    
-
+    $('#eliminar').click(function(){
+      $('.modalE').hide();
+      $('#eliminarModal').show();
+      $('#verE').hide();
+      $('#cerE').hide();
+      $('#eliminar-prevent-multiple-submits').show();
+      var id = $('#idE').val();
+      $('#eliminar-prevent-multiple-submits').on('click',function(){
+        $.ajax({
+          type:'POST',
+          url:'eliminar',
+          data:{
+            '_token': $('input[name=_token]').val(),
+            'id': id
+          },success: function(data){
+            $('.item' + data.id + 'tr').remove();
+            $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
+                $("#success-alert").slideUp(500);
+            });
+            
+          }
+        });
+      });
+    });
 
 });
     </script>

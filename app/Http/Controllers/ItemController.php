@@ -30,7 +30,7 @@ class ItemController extends Controller
     {
         $usuarioId = auth()->user()->id;
         $categorias = ICategoria::get();
-        $items = Item::where('it_us_id', $usuarioId)->paginate(5);
+        $items = Item::where('it_activo', '>', '0')->paginate(5);
         return view('items.lista', compact('items', 'categorias'));
     }
 
@@ -114,6 +114,14 @@ public function editar(Request $request){
     $data->it_categoria=$request->categoria;
     $data->save();
     return response()->json ( $data);
+}
+
+public function eliminar(Request $request){
+    $id = $request->id;
+    $data = Item::findOrFail($id);
+    $data->it_activo= 0;
+    $data->save();
+    return response()->json ($data);
 }
 
     /**
