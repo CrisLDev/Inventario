@@ -104,7 +104,6 @@ public function crearr(Request $request)
             $data->save();
             return response()->json ($data);
         }
-        return response()->json ( ['mensaje' => 'error']);
     }
 
 public function editar(Request $request){

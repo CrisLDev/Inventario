@@ -149,7 +149,7 @@
                                     <th scope="row"><div id="nid">{{$item->id}}</div></th>
                                     <td><label for="" class="item{{$item->id}}">{{$item->it_nombre}}</label></td>
                                     <td><label for="" class="item{{$item->id}}d">{{$item->it_descripcion}}</label></td>
-                                <td><a data-toggle="modal" data-target="#verModal" data-valor="{{$item->id}}" class="btn btn-primary text-white btn-sm ajax">Ver Más</a>
+                                <td><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -164,13 +164,44 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
+      
     $('#success-alert').addClass('show').hide();
-    $(".ajax").click(function(){
+
+    $('#crear').click(function(){
+      $('#eliminarModal').hide();
+      $('#eliminar-prevent-multiple-submits').hide();
+      $('#cerE').show();
+      $('#verE').hide();
       $('.modalE').show();
+        $('.crearModal').show();
+        $('.editarModal').hide();
+        $('#form-prevent-multiple-submits').trigger("reset");
+      });
+
+      $('#editar').click(function(){
+      $('.modalE').show();
+      $('#eliminar-prevent-multiple-submits').hide();
+        $('.editarModal').show();
+        $('#eliminarModal').hide();
+        $('.crearModal').hide();
+        $('#verE').show();
+      });
+
+      $('#eliminar').click(function(){
+      $('.modalE').hide();
+      $('#eliminarModal').show();
+      $('#verE').hide();
+      $('#cerE').hide();
+      $('#eliminar-prevent-multiple-submits').show();
+    });
+
+
+    $(".verMas").click(function(){
         $('.cls').empty();
         $('.cls').removeClass().addClass('cls');
-        var $this = $(this);
-        cnic = $this.data('valor');
+        $("#idE").val();
+        $('.modalE').show();
+        cnic = $(this).attr('data-id');
         $.ajax({
             type: "GET",
             data: {'cnic':cnic},
@@ -188,14 +219,7 @@
             }
         });
     });
-    
-    $('#editar').click(function(){
-      $('.modalE').show();
-      $('#eliminar-prevent-multiple-submits').hide();
-        $('.editarModal').show();
-        $('#eliminarModal').hide();
-        $('.crearModal').hide();
-        $('#verE').show();
+  
         $('#form-prevent-multiple-submits').submit(function(e){
         e.preventDefault();
         var Ename = $('#nombreE').val();
@@ -224,24 +248,14 @@
         }
         });
     });
-    });
-
-
-    $('#crear').click(function(){
-      $('#eliminarModal').hide();
-      $('#eliminar-prevent-multiple-submits').hide();
-      $('#cerE').show();
-      $('#verE').hide();
-      $('.modalE').show();
-        $('.crearModal').show();
-        $('.editarModal').hide();
-        $('#form-prevent-multiple-submits').trigger("reset");
-        $("#crear-prevent-multiple-submits").click(function(e) {
+        
+      
+      $("#crear-prevent-multiple-submits").click(function(e) {
         e.preventDefault();
         $.ajax({
             type: 'POST',
             url: 'hola2',
-            data: {'_token': $('input[name=_token]').val(),
+            data: {'_token': $('input[name=_token]').val(),    
             'it_nombre': $('#nombreE').val(), 
             'descripcion': $('#descripcionE').val(),
             'categoria': $('#categoriaE').val()
@@ -256,7 +270,7 @@
                 $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
                 $("#success-alert").slideUp(500);
                 });
-                $('#tablaI').append("<tr class='item"+data.id+"tr'><th scope='row'><div id='nid'>" + data.id + "</div></th><td><label class='item"+data.id+"'>" + data.it_nombre + "</label></td><td><label for='' class='item"+data.id+"d'>" + data.it_descripcion + "</label></td><td><a data-toggle='modal' data-target='#verModal' data-valor='"+ data.id +"' class='btn btn-primary text-white btn-sm ajax'>Ver Más</a></tr>");
+                $('#tablaI').append("<tr class='item"+data.id+"tr'><th scope='row'><div id='nid'>" + data.id + "</div></th><td><label class='item"+data.id+"'>" + data.it_nombre + "</label></td><td><label for='' class='item"+data.id+"d'>" + data.it_descripcion + "</label></td><td><a data-toggle='modal' data-target='#verModal' data-id='"+ data.id +"' class='btn btn-primary text-white btn-sm verMas'>Ver Más</a></tr>");
                 $("#nombre").append(data.it_nombre);
                 $('#idE').val(data.id);
                 $("#descripcion").append(data.it_descripcion);
@@ -268,16 +282,9 @@
                 }
         });
     });
-    });
 
-    $('#eliminar').click(function(){
-      $('.modalE').hide();
-      $('#eliminarModal').show();
-      $('#verE').hide();
-      $('#cerE').hide();
-      $('#eliminar-prevent-multiple-submits').show();
-      var id = $('#idE').val();
       $('#eliminar-prevent-multiple-submits').on('click',function(){
+        var id = $('#idE').val();
         $.ajax({
           type:'POST',
           url:'eliminar',
@@ -293,7 +300,6 @@
           }
         });
       });
-    });
 
 });
     </script>
