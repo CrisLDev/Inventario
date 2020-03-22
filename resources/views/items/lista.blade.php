@@ -111,7 +111,7 @@
         </div>
         <div class="modal-footer d-block">
           <div class="d-flex justify-content-between">
-            <a data-target="#editarModal" data-dismiss="modal" class="btn btn-warning text-white" id="editar" data-toggle="modal">Editar</a>
+            <a id="editar" data-target="#editarModal" data-dismiss="modal" class="btn btn-warning text-white" onclick="actualizarDatos()" data-toggle="modal">Editar</a>
             <a data-target="#editarModal" data-dismiss="modal" class="btn btn-danger text-white" id="eliminar" data-toggle="modal">Eliminar</a>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
@@ -130,12 +130,15 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
-                    <a id="crear" data-target="#editarModal" data-dismiss="modal" data-toggle="modal" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
+                    <a onclick="guardarDatos()" id="crear" data-target="#editarModal" data-dismiss="modal" data-toggle="modal" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
                 </div>
 
                 <div class="card-body">
-                    <table class="table" id="tablaI">
-                        <thead>
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                          <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Fecha Creación</th>
@@ -143,18 +146,11 @@
                                 <th scope="col">Descripcion</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody">
-                            @foreach ($items as $item)
-                                <tr class="item{{$item->id}}tr">
-                                    <th scope="row"><div id="nid">{{$item->id}}</div></th>
-                                    <td><label for="" class="item{{$item->id}}">{{$item->it_nombre}}</label></td>
-                                    <td><label for="" class="item{{$item->id}}d">{{$item->it_descripcion}}</label></td>
-                                <td><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{$items->links()}}
+                        <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -164,7 +160,8 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-      
+      $('#datatable').DataTable();
+    /*  
     $('#success-alert').addClass('show').hide();
 
     $('#crear').click(function(){
@@ -195,7 +192,7 @@
       $('#eliminar-prevent-multiple-submits').show();
     });
 
-
+    /*
     $(".verMas").click(function(){
         $('.cls').empty();
         $('.cls').removeClass().addClass('cls');
@@ -300,6 +297,89 @@
           }
         });
       });
+*/
+
+
+
+
+
+
+$.ajaxSetup({
+  headers:{
+    'X-CSRF-TOKEN': $('meta[name="csfr-token"]').attr('content')
+  }
+});
+
+function verDatos(){
+  $.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "/ver",
+    success: function(response){
+      var rows = "";
+      $.each(response, function(key, value){
+        rows = rows + "<tr>";
+        rows = rows + "<td>"+value.id+"</id>"
+        rows = rows + "<td>"+value.it_nombre +"</id>"
+        rows = rows + "<td>"+value.it_descripcion+"</id>"
+        rows = rows + "<td>";
+        rows = rows + "<a onClick='editarDatos("+value.id+","+value.it_nombre+","+value.it_descripcion+","+value.categoria+")' data-toggle='modal' data-target='#verModal' class='btn btn-warning text-white btn-sm'>Ver Más</a>"
+        rows = rows + "<a onClick='eliminarDatos("+value.id+")' data-toggle='modal' data-target='#verModal' class='btn btn-danger text-white btn-sm'>Eliminar</a>"
+        rows = rows + "</td></tr>";
+      });
+      $('tbody').html(rows);
+    }
+  })
+}
+
+verDatos();
+
+function guardarDatos(){
+  var nombre = $('#nombreE').val('');
+  var descripcion = $('#descripcionE').val('');
+  var categoria = $('#categoriaE').val('');;
+  $.ajax({
+    type:"POST",
+    dataType: "json",
+    url: "/ver"
+    data: {nombre: nombre, descripcion:descripcion, categoria:categoria},
+    success: function(response){
+      viewData();
+      clearData();
+      $('#guardar').show();
+    }
+  })
+}
+
+function limpiarDatos(){
+  $('#idE').val('');
+  $('#nombreE').val('');
+  $('#descripcionE').val('');
+  $('#categoriaE').val('');
+}
+
+function editarDatos(idE, nombreE, descripcionE, categoriaE){
+  
+}
+
+function actualizarDatos(){
+  
+}
+
+function eliminarDatos(id){
+  
+}
+
+
+
+
+
+
+
+
+
+
+
 
 });
     </script>

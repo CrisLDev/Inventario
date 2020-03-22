@@ -24,6 +24,10 @@
     
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
+
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
 
 </head>
@@ -105,7 +109,6 @@
             @yield('content')
         </main>
     </div>
-
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script>
         $(document).ready(function() {
@@ -115,6 +118,9 @@
         });
     </script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/jquery.dataTables.min.js')}}" defer></script>
+    <script src="{{asset('js/dataTables.bootstrap4.min.js')}}" defer></script>
+    <script src="{{asset('js/buttons.bootstrap4.min.js')}}" defer></script>
     <script src="{{asset('js/scripts.js')}}"></script>
     @yield('scripts')
     

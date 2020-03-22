@@ -30,7 +30,9 @@ Route::post('/posts/{id}/comentarios', 'PcomentarioController@crear')->name('com
     return dd(Response::json($request));
 });*/
 
-Route::get('/getgi', 'ItemController@trae')->name('items.trae');
+Route::get('/ver', 'ItemController@index');
+
+Route::get('/items', 'ItemController@vista');
 
 Route::post('/hola', 'ItemController@editar')->name('items.editar');
 
