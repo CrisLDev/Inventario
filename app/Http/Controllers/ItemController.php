@@ -28,13 +28,10 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::where('it_activo', '>', '0')->get();
-        return response()->json($items);
-    }
-
-    public function vista(){
+        $usuarioId = auth()->user()->id;
         $categorias = ICategoria::get();
-        return view('items/lista', compact('categorias'));
+        $items = Item::where('it_activo', '>', '0')->orderBy('id', 'desc')->paginate(5);
+        return view('items.lista', compact('items', 'categorias'));
     }
 
     /**
@@ -146,8 +143,7 @@ public function eliminar(Request $request){
      */
     public function update(Request $request)
     {
-        $item = Item::find($id)->update($request->all());
-        return response()->json($post);
+        //
     }
 
     /**
@@ -158,10 +154,6 @@ public function eliminar(Request $request){
      */
     public function destroy($id)
     {
-        $id = $request->id;
-    $data = Item::findOrFail($id);
-    $data->it_activo= 0;
-    $data->save();
-    return response()->json (['done']);
+        //
     }
 }

@@ -74,9 +74,9 @@
                           </div>
                         </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer eliminard">
           <div class="col-md-12">
-            <button type="button" data-dismiss="modal" id="eliminar-prevent-multiple-submits" class="btn btn-danger btn-block">Eliminar</button>
+            <button type="button" data-dismiss="modal" class="btn btn-danger btn-block eliminar">Eliminar</button>
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerE">Close</button>
           <button type="button" class="btn btn-primary" data-target="#verModal" data-dismiss="modal" data-toggle="modal" id="verE">Save changes</button>
@@ -111,7 +111,7 @@
         </div>
         <div class="modal-footer d-block">
           <div class="d-flex justify-content-between">
-            <a id="editar" data-target="#editarModal" data-dismiss="modal" class="btn btn-warning text-white" onclick="actualizarDatos()" data-toggle="modal">Editar</a>
+            <a data-target="#editarModal" data-dismiss="modal" class="btn btn-warning text-white" id="editar" data-toggle="modal">Editar</a>
             <a data-target="#editarModal" data-dismiss="modal" class="btn btn-danger text-white" id="eliminar" data-toggle="modal">Eliminar</a>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
@@ -130,15 +130,12 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
-                    <a onclick="guardarDatos()" id="crear" data-target="#editarModal" data-dismiss="modal" data-toggle="modal" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
+                    <a id="crear" data-target="#editarModal" data-dismiss="modal" data-toggle="modal" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
                 </div>
 
-                <div class="card-body">
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-                          <thead>
+                <div class="card-body" id="cardH">
+                    <table class="table" id="tablaI">
+                        <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Fecha Creación</th>
@@ -146,11 +143,18 @@
                                 <th scope="col">Descripcion</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
+                        <tbody id="tbody">
+                            @foreach ($items as $item)
+                                <tr class="item{{$item->id}}tr">
+                                    <th scope="row"><div id="nid">{{$item->id}}</div></th>
+                                    <td><label for="" class="item{{$item->id}}">{{$item->it_nombre}}</label></td>
+                                    <td><label for="" class="item{{$item->id}}d">{{$item->it_descripcion}}</label></td>
+                                <td><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{$items->links()}}
                 </div>
             </div>
         </div>
@@ -160,13 +164,11 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-      $('#datatable').DataTable();
-    /*  
+      
     $('#success-alert').addClass('show').hide();
-
     $('#crear').click(function(){
       $('#eliminarModal').hide();
-      $('#eliminar-prevent-multiple-submits').hide();
+      $('.eliminar').hide();
       $('#cerE').show();
       $('#verE').hide();
       $('.modalE').show();
@@ -174,26 +176,23 @@
         $('.editarModal').hide();
         $('#form-prevent-multiple-submits').trigger("reset");
       });
-
       $('#editar').click(function(){
       $('.modalE').show();
-      $('#eliminar-prevent-multiple-submits').hide();
+      $('.eliminar').hide();
         $('.editarModal').show();
         $('#eliminarModal').hide();
         $('.crearModal').hide();
         $('#verE').show();
       });
-
-      $('#eliminar').click(function(){
+      $('.eliminar').click(function(){
       $('.modalE').hide();
       $('#eliminarModal').show();
       $('#verE').hide();
       $('#cerE').hide();
-      $('#eliminar-prevent-multiple-submits').show();
+      $('.eliminar').show();
     });
 
-    /*
-    $(".verMas").click(function(){
+    $("#cardH").on('click', '.verMas', function(){
         $('.cls').empty();
         $('.cls').removeClass().addClass('cls');
         $("#idE").val();
@@ -267,7 +266,7 @@
                 $("#success-alert").fadeTo(2000, 500).slideUp(500, function() {
                 $("#success-alert").slideUp(500);
                 });
-                $('#tablaI').append("<tr class='item"+data.id+"tr'><th scope='row'><div id='nid'>" + data.id + "</div></th><td><label class='item"+data.id+"'>" + data.it_nombre + "</label></td><td><label for='' class='item"+data.id+"d'>" + data.it_descripcion + "</label></td><td><a data-toggle='modal' data-target='#verModal' data-id='"+ data.id +"' class='btn btn-primary text-white btn-sm verMas'>Ver Más</a></tr>");
+                $('#tablaI').prepend("<tr class='item"+data.id+"tr'><th scope='row'><div id='nid'>" + data.id + "</div></th><td><label class='item"+data.id+"'>" + data.it_nombre + "</label></td><td><label for='' class='item"+data.id+"d'>" + data.it_descripcion + "</label></td><td><a data-toggle='modal' data-target='#verModal' data-id='"+ data.id +"' class='btn btn-primary text-white btn-sm verMas'>Ver Más</a></tr>");
                 $("#nombre").append(data.it_nombre);
                 $('#idE').val(data.id);
                 $("#descripcion").append(data.it_descripcion);
@@ -279,8 +278,7 @@
                 }
         });
     });
-
-      $('#eliminar-prevent-multiple-submits').on('click',function(){
+      $('.eliminard').on('click','.eliminar',function(){
         var id = $('#idE').val();
         $.ajax({
           type:'POST',
@@ -297,90 +295,6 @@
           }
         });
       });
-*/
-
-
-
-
-
-
-$.ajaxSetup({
-  headers:{
-    'X-CSRF-TOKEN': $('meta[name="csfr-token"]').attr('content')
-  }
-});
-
-function verDatos(){
-  $.ajax({
-    type: "GET",
-    dataType: "json",
-    url: "/ver",
-    success: function(response){
-      var rows = "";
-      $.each(response, function(key, value){
-        rows = rows + "<tr>";
-        rows = rows + "<td>"+value.id+"</id>"
-        rows = rows + "<td>"+value.it_nombre +"</id>"
-        rows = rows + "<td>"+value.it_descripcion+"</id>"
-        rows = rows + "<td>";
-        rows = rows + "<a onClick='editarDatos("+value.id+","+value.it_nombre+","+value.it_descripcion+","+value.categoria+")' data-toggle='modal' data-target='#verModal' class='btn btn-warning text-white btn-sm'>Ver Más</a>"
-        rows = rows + "<a onClick='eliminarDatos("+value.id+")' data-toggle='modal' data-target='#verModal' class='btn btn-danger text-white btn-sm'>Eliminar</a>"
-        rows = rows + "</td></tr>";
-      });
-      $('tbody').html(rows);
-    }
-  })
-}
-
-verDatos();
-
-function guardarDatos(){
-  var nombre = $('#nombreE').val('');
-  var descripcion = $('#descripcionE').val('');
-  var categoria = $('#categoriaE').val('');;
-  $.ajax({
-    type:"POST",
-    dataType: "json",
-    url: "/ver"
-    data: {nombre: nombre, descripcion:descripcion, categoria:categoria},
-    success: function(response){
-      viewData();
-      clearData();
-      $('#guardar').show();
-    }
-  })
-}
-
-function limpiarDatos(){
-  $('#idE').val('');
-  $('#nombreE').val('');
-  $('#descripcionE').val('');
-  $('#categoriaE').val('');
-}
-
-function editarDatos(idE, nombreE, descripcionE, categoriaE){
-  
-}
-
-function actualizarDatos(){
-  
-}
-
-function eliminarDatos(id){
-  
-}
-
-
-
-
-
-
-
-
-
-
-
-
 });
     </script>
 @endsection
