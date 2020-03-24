@@ -39,3 +39,7 @@ Route::post('/hola2', 'ItemController@crearr')->name('items.crearr');
 Route::post('/eliminar', 'ItemController@eliminar')->name('items.eliminar');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/pdf', 'ItemController@export_pdf')->name('items.export_pdf');
+
+Route::get('/export', 'ItemController@export_exl')->name('items.export_exl');

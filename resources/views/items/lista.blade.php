@@ -74,9 +74,9 @@
                           </div>
                         </div>
         </div>
-        <div class="modal-footer eliminard">
+        <div class="modal-footer">
           <div class="col-md-12">
-            <button type="button" data-dismiss="modal" class="btn btn-danger btn-block eliminar">Eliminar</button>
+            <button type="button" data-dismiss="modal" id="eliminar-prevent-multiple-submits" class="btn btn-danger btn-block">Eliminar</button>
           </div>
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cerE">Close</button>
           <button type="button" class="btn btn-primary" data-target="#verModal" data-dismiss="modal" data-toggle="modal" id="verE">Save changes</button>
@@ -130,10 +130,12 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
+                    <a class="btn btn-warning" href="{{ route('items.export_exl') }}">Export User Data</a>
+                    <a class="btn btn-success" href="{{ route('items.export_pdf') }}">PDF</a>
                     <a id="crear" data-target="#editarModal" data-dismiss="modal" data-toggle="modal" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
                 </div>
 
-                <div class="card-body" id="cardH">
+                <div class="card-body">
                     <table class="table" id="tablaI">
                         <thead>
                             <tr>
@@ -168,7 +170,7 @@
     $('#success-alert').addClass('show').hide();
     $('#crear').click(function(){
       $('#eliminarModal').hide();
-      $('.eliminar').hide();
+      $('#eliminar-prevent-multiple-submits').hide();
       $('#cerE').show();
       $('#verE').hide();
       $('.modalE').show();
@@ -178,21 +180,20 @@
       });
       $('#editar').click(function(){
       $('.modalE').show();
-      $('.eliminar').hide();
+      $('#eliminar-prevent-multiple-submits').hide();
         $('.editarModal').show();
         $('#eliminarModal').hide();
         $('.crearModal').hide();
         $('#verE').show();
       });
-      $('.eliminar').click(function(){
+      $('#eliminar').click(function(){
       $('.modalE').hide();
       $('#eliminarModal').show();
       $('#verE').hide();
       $('#cerE').hide();
-      $('.eliminar').show();
+      $('#eliminar-prevent-multiple-submits').show();
     });
-
-    $("#cardH").on('click', '.verMas', function(){
+    $(".verMas").click(function(){
         $('.cls').empty();
         $('.cls').removeClass().addClass('cls');
         $("#idE").val();
@@ -278,7 +279,7 @@
                 }
         });
     });
-      $('.eliminard').on('click','.eliminar',function(){
+      $('#eliminar-prevent-multiple-submits').on('click',function(){
         var id = $('#idE').val();
         $.ajax({
           type:'POST',

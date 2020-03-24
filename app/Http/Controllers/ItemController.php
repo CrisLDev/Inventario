@@ -6,7 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Item;
 
+use PDF;
+
 use App\ICategoria;
+
+use App\Exports\ExportItems;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 class ItemController extends Controller
 {
@@ -121,6 +127,22 @@ public function eliminar(Request $request){
     $data->it_activo= 0;
     $data->save();
     return response()->json ($data);
+}
+
+public function export_pdf(){
+    // Fetch all customers from database
+    $data = Item::where('it_activo', '>', '0')->orderBy('id', 'desc')->get();
+    // Send data to the view using loadView function of PDF facade
+    $pdf = PDF::loadView('items.pdfi', ['items' => $data])->setPaper('a4','landscape');
+    // If you want to store the generated pdf to the server then you can use the store function
+    /*$pdf->save(storage_path().'_filename.pdf');*/
+    // Finally, you can download the file using download function
+    $now = new \DateTime();
+    return $pdf->download('iitems_'.$now->format('d-m-Y').'_.pdf');
+}
+
+public function export_exl(){
+    return Excel::download(new ExportItems, 'users.xlsx');
 }
 
     /**
