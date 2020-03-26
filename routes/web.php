@@ -7,39 +7,36 @@
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| contains the 'web' middleware group. Now create something great!
 |
 */
 
-Route::get('/', 'WelcomeController@welcome');
+Route::get( '/', 'WelcomeController@welcome' );
 
 Auth::routes();
 
-Route::resource('/items', 'ItemController');
+Route::resource( '/categorias', 'IcategoriaController' );
 
-Route::resource('/posts', 'PostController');
+Route::resource( '/comentarios', 'PcomentarioController' );
 
-Route::resource('/categorias', 'IcategoriaController');
+Route::post( '/posts/{id}/comentarios', 'PcomentarioController@crear' )->name( 'comentarios.crear' );
 
-Route::resource('/comentarios', 'PcomentarioController');
+/*Rutas para Items*/
 
-Route::post('/posts/{id}/comentarios', 'PcomentarioController@crear')->name('comentarios.crear');
+Route::get( '/items', 'ItemController@index' )->name( 'items.index' );
 
-/*Route::get('/getgi', function(){
-    $hola = Request::all();
-    return dd(Response::json($request));
-});*/
+Route::post( '/items', 'ItemController@crear' )->name( 'items.crear' );
 
-Route::get('/getgi', 'ItemController@trae')->name('items.trae');
+Route::get( '/items/ver', 'ItemController@ver' )->name( 'items.ver' );
 
-Route::post('/hola', 'ItemController@editar')->name('items.editar');
+Route::post( '/items/editar', 'ItemController@editar' )->name( 'items.editar' );
 
-Route::post('/hola2', 'ItemController@crearr')->name('items.crearr');
+Route::post( '/items/eliminar', 'ItemController@eliminar' )->name( 'items.eliminar' );
 
-Route::post('/eliminar', 'ItemController@eliminar')->name('items.eliminar');
+Route::get( '/pdf', 'ItemController@export_pdf' )->name( 'items.export_pdf' );
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get( '/export', 'ItemController@export_exl' )->name( 'items.export_exl' );
 
-Route::get('/pdf', 'ItemController@export_pdf')->name('items.export_pdf');
+/*Fin rutas para Items*/
 
-Route::get('/export', 'ItemController@export_exl')->name('items.export_exl');
+Route::get( '/home', 'HomeController@index' )->name( 'home' );

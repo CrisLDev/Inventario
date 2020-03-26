@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Validation\Rule;
+
 use App\Item;
 
 use PDF;
+
+use Response;
+
+use Validator;
 
 use App\ICategoria;
 
@@ -14,168 +20,95 @@ use App\Exports\ExportItems;
 
 use Maatwebsite\Excel\Facades\Excel;
 
-class ItemController extends Controller
-{
+class ItemController extends Controller {
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
+    * Create a new controller instance.
+    *
+    * @return void
+    */
+
+    public function __construct() {
+        $this->middleware( 'auth' );
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+    * Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+
+    public function index() {
         $usuarioId = auth()->user()->id;
         $categorias = ICategoria::get();
-        $items = Item::where('it_activo', '>', '0')->orderBy('id', 'desc')->paginate(5);
-        return view('items.lista', compact('items', 'categorias'));
+        $items = Item::where( 'it_activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 5 );
+        return view( 'items.lista', compact( 'items', 'categorias' ) );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $categorias = ICategoria::get();
-        return view('items.crear', compact('categorias'));
-    }
+    public function ver( Request $request ) {
+        if ( $request->ajax() ) {
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $item = new Item();
-        $item->it_nombre=$request->name;
-        $item->it_descripcion=$request->descripcion;
-        $item->it_categoria=$request->categoria;
-        $item->it_us_id = auth()->user()->id;
-        //$item->it_activo = '0';
-        $item->save();
+            $item = Item::findOrFail( $request->cnic );
 
-        return response()->json ( $data);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $item = Item::findOrFail($id);
-
-        return view('items.item', compact('item'));
-    }
-
-    public function trae(Request $request){
-        if($request->ajax()) {
-          
-            $item = Item::findOrFail($request->cnic);
-           
-            //return dd($item->id);
-            return response()->json($item);
+            //return dd( $item->id );
+            return response()->json( $item );
         }
-}
+    }
 
-public function crearr(Request $request)
-    {
+    public function crear( Request $request ) {
 
-        $todobien = $request->validate([
-            'it_nombre' => 'required|max:120|unique:items'
+        $validator = Validator::make($request->all(), [
+            'it_nombre|max:25' => 'required',Rule::unique('items')->where(function ($query){
+                return $query->where('it_Activo', 1);
+            }),
         ]);
 
-        if($todobien){
+        if($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else{
             $data = new Item();
-            $data->it_nombre=$request->it_nombre;
-            $data->it_descripcion=$request->descripcion;
-            $data->it_categoria=$request->categoria;
+            $data->it_nombre = $request->it_nombre;
+            $data->it_descripcion = $request->descripcion;
+            $data->it_categoria = $request->categoria;
             $data->it_us_id = auth()->user()->id;
             //$item->it_activo = '0';
             $data->save();
-            return response()->json ($data);
+            return response()->json ( $data );
         }
     }
 
-public function editar(Request $request){
-    $data = Item::find ( $request->id );
-    $data->it_nombre = $request->name;
-    $data->it_descripcion = $request->descripcion;
-    $data->it_categoria=$request->categoria;
-    $data->save();
-    return response()->json ( $data);
-}
-
-public function eliminar(Request $request){
-    $id = $request->id;
-    $data = Item::findOrFail($id);
-    $data->it_activo= 0;
-    $data->save();
-    return response()->json ($data);
-}
-
-public function export_pdf(){
-    // Fetch all customers from database
-    $data = Item::where('it_activo', '>', '0')->orderBy('id', 'desc')->get();
-    // Send data to the view using loadView function of PDF facade
-    $pdf = PDF::loadView('items.pdfi', ['items' => $data])->setPaper('a4','landscape');
-    // If you want to store the generated pdf to the server then you can use the store function
-    /*$pdf->save(storage_path().'_filename.pdf');*/
-    // Finally, you can download the file using download function
-    $now = new \DateTime();
-    return $pdf->download('iitems_'.$now->format('d-m-Y').'_.pdf');
-}
-
-public function export_exl(){
-    return Excel::download(new ExportItems, 'users.xlsx');
-}
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function editar( Request $request ) {
+        $data = Item::find ( $request->id );
+        $data->it_nombre = $request->name;
+        $data->it_descripcion = $request->descripcion;
+        $data->it_categoria = $request->categoria;
+        $data->save();
+        return response()->json ( $data );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        //
+    public function eliminar( Request $request ) {
+        $id = $request->id;
+        $data = Item::findOrFail( $id );
+        $data->it_activo = 0;
+        $data->save();
+        return response()->json ( $data );
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function export_pdf() {
+        // Fetch all customers from database
+        $data = Item::where( 'it_activo', '>', '0' )->orderBy( 'id', 'desc' )->get();
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView( 'items.pdfi', ['items' => $data] )->setPaper( 'a4', 'landscape' );
+        // If you want to store the generated pdf to the server then you can use the store function
+        /*$pdf->save( storage_path().'_filename.pdf' );
+        */
+        // Finally, you can download the file using download function
+        $now = new \DateTime();
+        return $pdf->download( 'iitems_'.$now->format( 'd-m-Y' ).'_.pdf' );
+    }
+
+    public function export_exl() {
+        $now = new \DateTime();
+        return Excel::download( new ExportItems, 'items_'.$now->format( 'd-m-Y' ).'_.xlsx' );
     }
 }

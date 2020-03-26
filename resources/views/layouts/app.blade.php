@@ -55,9 +55,6 @@
                                 <a class="nav-link" href="/home"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/posts"><i class="fas fa-edit"></i> Posts</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="/items"><i class="fas fa-sitemap"></i> Items</a>
                             </li>
                             <li class="nav-item">

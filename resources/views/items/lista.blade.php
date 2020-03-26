@@ -125,13 +125,16 @@
         <button type="button" class="close" data-dismiss="alert">x</button>
         <strong>Success! </strong> Product have added to your wishlist.
       </div>
+      <div class="alert alert-danger collapse hidden" id="danger-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+      </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
-                    <a class="btn btn-warning" href="{{ route('items.export_exl') }}">Export User Data</a>
-                    <a class="btn btn-success" href="{{ route('items.export_pdf') }}">PDF</a>
+                    <a class="btn btn-warning text-white btn-sm" href="{{ route('items.export_exl') }}"><i class="fas fa-file-excel"></i> Excel</a>
+                    <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
                     <a id="crear" data-target="#editarModal" data-dismiss="modal" data-toggle="modal" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
                 </div>
 
@@ -203,7 +206,7 @@
             type: "GET",
             data: {'cnic':cnic},
             dataType: 'json',
-            url: "getgi",
+            url: "items/ver",
             success: function(data){
                 $("#nombre").append(data.it_nombre);
                 $("#idE").val(data.id);
@@ -224,7 +227,7 @@
         var id = $('#idE').val();
         $.ajax({
            type: "POST",
-           url:  "hola",
+           url:  "items/editar",
            data: {'_token': $('input[name=_token]').val(),'id':id,'name': $('#nombreE').val(), 'descripcion': $('#descripcionE').val(),
             'categoria': $('#categoriaE').val()},
            beforeSend: function(){
@@ -251,7 +254,7 @@
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: 'hola2',
+            url: 'items',
             data: {'_token': $('input[name=_token]').val(),    
             'it_nombre': $('#nombreE').val(), 
             'descripcion': $('#descripcionE').val(),
@@ -261,6 +264,16 @@
             $('#crear-prevent-multiple-submits').attr("disabled", true);
            },
             success: function(data) {
+              if (data.errors){
+                  $.each(data.errors, function(key, value){
+                  			$('.alert-danger').show();
+                        $('.alert-danger').append('<p>'+value+'</p>');
+                        $('#crear-prevent-multiple-submits').attr("disabled", false)
+                        $("#danger-alert").fadeTo(5000, 500).slideUp(500, function() {
+                        $("#danger-alert").slideUp(500);
+                        });
+                  		});
+                }else{
                 $('.cls').empty();
                 $('#crear-prevent-multiple-submits').attr("disabled", false);
                 $('#success-alert').text('Se ha agregado correctamente.');
@@ -277,13 +290,14 @@
                 $("#categoriaE").val(data.it_categoria);
                 $('#verE').show();
                 }
+              }
         });
     });
       $('#eliminar-prevent-multiple-submits').on('click',function(){
         var id = $('#idE').val();
         $.ajax({
           type:'POST',
-          url:'eliminar',
+          url:'items/eliminar',
           data:{
             '_token': $('input[name=_token]').val(),
             'id': id
