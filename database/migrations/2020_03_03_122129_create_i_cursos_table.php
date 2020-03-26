@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateICategoriasTable extends Migration
+class CreateICursosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateICategoriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('i_categorias', function (Blueprint $table) {
+        Schema::create('i_cursos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('icat_us_id');
+            $table->integer('icur_us_id');
             $table->timestamps();
-            $table->string('icat_nombre');
-            $table->text('icat_descripcion');
-            $table->boolean('icat_activo')->default('1');
+            $table->string('icur_nombre');
+            $table->text('icur_descripcion');
+            $table->boolean('icur_activo')->default('1');
             $table->engine = 'InnoDB';
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
