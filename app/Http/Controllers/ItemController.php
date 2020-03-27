@@ -14,14 +14,13 @@ use Response;
 
 use Validator;
 
-use App\ICategoria;
-
 use App\Exports\ExportItems;
 
 use Maatwebsite\Excel\Facades\Excel;
 
-class ItemController extends Controller {
+use App\Curso;
 
+class ItemController extends Controller {
     /**
     * Create a new controller instance.
     *
@@ -40,58 +39,130 @@ class ItemController extends Controller {
 
     public function index() {
         $usuarioId = auth()->user()->id;
-        $categorias = ICategoria::get();
-        $items = Item::where( 'it_activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 5 );
-        return view( 'items.lista', compact( 'items', 'categorias' ) );
+        $items = Item::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 5 );
+        return view( 'items.lista', compact( 'items', 'cursos' ) );
     }
 
-    public function ver( Request $request ) {
-        if ( $request->ajax() ) {
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
 
-            $item = Item::findOrFail( $request->cnic );
-
-            //return dd( $item->id );
-            return response()->json( $item );
-        }
+    public function create() {
+        $cursos = Curso::get();
+        return view( 'items.crear', compact('cursos'));
     }
 
-    public function crear( Request $request ) {
+    /**
+    * Store a newly created resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
 
-        $validator = Validator::make($request->all(), [
-            'it_nombre|max:25' => 'required',Rule::unique('items')->where(function ($query){
-                return $query->where('it_Activo', 1);
+    public function store( Request $request ) {
+        $todobien = Validator::make($request->all(),[
+            'nombre' => Rule::unique('items')->where(function ($query){
+                return $query->where('activo', 1);
             }),
         ]);
-
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()->all()]);
+        if($todobien->fails()){
+            return redirect()->back()->withErrors($todobien->errors());
         }else{
-            $data = new Item();
-            $data->it_nombre = $request->it_nombre;
-            $data->it_descripcion = $request->descripcion;
-            $data->it_categoria = $request->categoria;
-            $data->it_us_id = auth()->user()->id;
-            //$item->it_activo = '0';
-            $data->save();
-            return response()->json ( $data );
-        }
-    }
-
-    public function editar( Request $request ) {
-        $data = Item::find ( $request->id );
-        $data->it_nombre = $request->name;
-        $data->it_descripcion = $request->descripcion;
-        $data->it_categoria = $request->categoria;
+        $id = $request->curso;
+        $cursos = Curso::select('curso','paralelo')->where('id', $id)->get();
+        $cursosaguardar = $cursos[0]->curso." ".$cursos[0]->paralelo;
+        $data = new Item();
+        $data->nombre = $request->nombre;
+        $data->curso = $cursos[0]->curso;
+        $data->descripcion = $request->descripcion;
+        $data->codigo = $request->codigo;
+        $data->cantidad = $request->cantidad;
+        $data->paralelo = $cursos[0]->paralelo;
+        $data->cu_id = $request->curso;
+        $data->us_id = auth()->user()->id;
+        //$item->it_activo = '0';
         $data->save();
-        return response()->json ( $data );
+        return back()->with('mensaje', 'Item agregado con éxito.');
+    }
     }
 
-    public function eliminar( Request $request ) {
-        $id = $request->id;
+    /**
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+
+    public function show( $id ) {
+        $post = Post::findOrFail( $id );
+
+        $comentarios = PComentario::join( 'users', 'p_comentarios.pcom_us_id', '=', 'users.id' )->get();
+
+        return view( 'posts.post', compact( 'post', 'comentarios' ) );
+    }
+
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+
+    public function edit( $id ) {
+        $items = Item::findOrFail($id);;
+        $cursos = Curso::get();
+        return view('items.editar', compact('items','cursos'));
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+
+    public function update( Request $request, $id ) {
+        $todobien = Validator::make($request->all(),[
+            'nombre' => Rule::unique('items')->where(function ($query){
+                return $query->where('activo', 1);
+            }),
+        ]);
+        if($todobien->fails()){
+            return redirect()->back()->withErrors($todobien->errors());
+        }else{
+        $data = Item::findOrFail($id);
+        $id = $request->curso;
+        $cursos = Curso::select('curso','paralelo')->where('id', $id)->get();
+        $cursosaguardar = $cursos[0]->curso." ".$cursos[0]->paralelo;
+        $data->nombre = $request->nombre;
+        $data->curso = $cursos[0]->curso;
+        $data->descripcion = $request->descripcion;
+        $data->codigo = $request->codigo;
+        $data->cantidad = $request->cantidad;
+        $data->paralelo = $cursos[0]->paralelo;
+        $data->cu_id = $request->curso;
+        $data->us_id = auth()->user()->id;
+        //$item->it_activo = '0';
+        $data->save();
+        return back()->with('mensaje', 'Item editado con éxito.');
+    }
+    }
+
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+
+    public function destroy( $id ) {
         $data = Item::findOrFail( $id );
-        $data->it_activo = 0;
+        $data->activo = 0;
         $data->save();
-        return response()->json ( $data );
+        return back()->with( 'mensaje', 'Item Eliminado' );
     }
 
     public function export_pdf() {
@@ -110,5 +181,15 @@ class ItemController extends Controller {
     public function export_exl() {
         $now = new \DateTime();
         return Excel::download( new ExportItems, 'items_'.$now->format( 'd-m-Y' ).'_.xlsx' );
+    }
+
+    public function ver( Request $request ) {
+        if ( $request->ajax() ) {
+
+            $item = Item::findOrFail( $request->cnic );
+
+            //return dd( $item->id );
+            return response()->json( $item );
+        }
     }
 }

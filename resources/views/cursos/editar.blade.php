@@ -5,15 +5,6 @@
         @if ( session('mensaje') )
         <div class="alert alert-success">{{ session('mensaje') }}</div>
         @endif
-        @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-      </div><br />
-        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -21,8 +12,9 @@
                         Nuevo Rol
                     </div>
                     <div class="card-body">
-                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('items.store')}}">
+                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('items.update')}}">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="nombre">Nombre Item</label>
                                 <input
@@ -31,7 +23,7 @@
                                 id="nombre"
                                 placeholder="Nombre del Rol"
                                 class="form-control mb-2"
-                                value="{{old('nombre')}}"
+                                value="{{$items->nombre}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -55,7 +47,7 @@
                                 id="descripcion"
                                 placeholder="descripcion"
                                 class="form-control mb-2"
-                                value="{{old('descripcion')}}"
+                                value="{{$items->descripcion}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -66,7 +58,7 @@
                                 id="codigo"
                                 placeholder="Ingresa un código."
                                 class="form-control mb-2"
-                                value="{{old('codigo')}}"
+                                value="{{$items->codigo}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -77,7 +69,7 @@
                                 id="cantidad"
                                 placeholder="Cantidad del Item"
                                 class="form-control mb-2"
-                                value="{{old('cantidad')}}"
+                                value="{{$items->cantidad}}"
                                 />
                             </div>
                             <hr>

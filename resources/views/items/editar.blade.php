@@ -21,8 +21,9 @@
                         Nuevo Rol
                     </div>
                     <div class="card-body">
-                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('items.store')}}">
+                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('items.update', $items->id)}}">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="nombre">Nombre Item</label>
                                 <input
@@ -31,7 +32,7 @@
                                 id="nombre"
                                 placeholder="Nombre del Rol"
                                 class="form-control mb-2"
-                                value="{{old('nombre')}}"
+                                value="{{$items->nombre}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -55,7 +56,7 @@
                                 id="descripcion"
                                 placeholder="descripcion"
                                 class="form-control mb-2"
-                                value="{{old('descripcion')}}"
+                                value="{{$items->descripcion}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -66,7 +67,7 @@
                                 id="codigo"
                                 placeholder="Ingresa un código."
                                 class="form-control mb-2"
-                                value="{{old('codigo')}}"
+                                value="{{$items->codigo}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -77,7 +78,7 @@
                                 id="cantidad"
                                 placeholder="Cantidad del Item"
                                 class="form-control mb-2"
-                                value="{{old('cantidad')}}"
+                                value="{{$items->cantidad}}"
                                 />
                             </div>
                             <hr>

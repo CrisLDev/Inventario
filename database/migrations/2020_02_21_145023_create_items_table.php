@@ -15,12 +15,16 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('it_us_id');
+            $table->integer('us_id');
+            $table->integer('cu_id');
             $table->timestamps();
-            $table->string('it_nombre');
-            $table->string('it_categoria');
-            $table->text('it_descripcion');
-            $table->boolean('it_activo')->default('1');
+            $table->string('nombre');
+            $table->string('curso');
+            $table->string('paralelo');
+            $table->text('descripcion');
+            $table->text('codigo');
+            $table->integer('cantidad');
+            $table->boolean('activo')->default('1');
             $table->engine = 'InnoDB';
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';

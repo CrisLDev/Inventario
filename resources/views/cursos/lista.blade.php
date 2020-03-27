@@ -51,7 +51,7 @@
                     <span>Lista de Items</span>
                     <a class="btn btn-warning text-white btn-sm" href="{{ route('items.export_exl') }}"><i class="fas fa-file-excel"></i> Excel</a>
                     <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
-                    <a href="{{route('items.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
+                    <a id="crear" data-target="#editarModal" data-dismiss="modal" data-toggle="modal" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
                 </div>
 
                 <div class="card-body">
@@ -65,26 +65,18 @@
                             </tr>
                         </thead>
                         <tbody id="tbody">
-                            @foreach ($items as $item)
-                                <tr class="item{{$item->id}}tr">
-                                    <th scope="row"><div id="nid">{{$item->id}}</div></th>
-                                    <td><label for="" class="item{{$item->id}}">{{$item->nombre}}</label></td>
-                                    <td><label for="" class="item{{$item->id}}d">{{$item->descripcion}}</label></td>
-                                <td><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
-                                <a href="{{route('items.edit', $item->id)}}" data-id="{{$item->id}}" class="btn btn-warning text-white btn-sm verMas">Editar</a>
-                                <form action="{{route('items.destroy', $item->id)}}" method="POST" class="d-inline">
-                                  @method('DELETE')
-                                  @csrf
-                                  <button class="btn btn-danger btn-sm" type="submit">
-                                      Eliminar
-                                  </button>
-                              </form>
-                              </td>
+                            @foreach ($cursos as $curso)
+                                <tr class="item{{$curso->id}}tr">
+                                    <th scope="row"><div id="nid">{{$curso->id}}</div></th>
+                                <td><label for="" class="item{{$curso->id}}">{{$curso->curso}} {{$curso->paralelo}}</label></td>
+                                    <td><label for="" class="item{{$curso->id}}d">{{$curso->descripcion}}</label></td>
+                                <td><a data-toggle="modal" data-target="#verModal" data-id="{{$curso->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a></td>
+                                <td><a href="{{route('cursos.edit', $curso->id)}}" data-id="{{$curso->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{$items->links()}}
+                    {{$cursos->links()}}
                 </div>
             </div>
         </div>
@@ -97,6 +89,7 @@
     $(".verMas").click(function(){
         $('.cls').empty();
         $('.cls').removeClass().addClass('cls');
+        $("#idE").val();
         $('.modalE').show();
         cnic = $(this).attr('data-id');
         $.ajax({
@@ -105,13 +98,17 @@
             dataType: 'json',
             url: "items/ver",
             success: function(data){
-                $("#nombre").append(data.nombre);
-                $("#descripcion").append(data.descripcion);
-                $("#curso").append(data.curso);
+                $("#nombre").append(data.it_nombre);
+                $("#idE").val(data.id);
+                $("#nombreE").val(data.it_nombre);
+                $("#descripcion").append(data.it_descripcion);
+                $("#descripcionE").val(data.it_descripcion);
+                $("#categoria").append(data.it_categoria);
+                $("#categoriaE").val(data.it_categoria);
                 $('.cls').addClass('cls'+data.id);
             }
         });
     });
-});
+    });
     </script>
 @endsection
