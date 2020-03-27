@@ -2,18 +2,6 @@
 
 @section('content')
     <div class="container">
-        @if ( session('mensaje') )
-        <div class="alert alert-success">{{ session('mensaje') }}</div>
-        @endif
-        @if ($errors->any())
-      <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-      </div><br />
-        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

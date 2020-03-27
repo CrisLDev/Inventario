@@ -104,6 +104,20 @@
         </nav>
 
         <main class="py-4">
+            <div class="container mt-0 pt-0 mensajes">
+                @if ( session('mensaje') )
+                <div class="alert alert-success">{{ session('mensaje') }}</div>
+                @endif
+                @if ($errors->any())
+              <div class="alert alert-danger mb-0 mt-0">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+              </div><br />
+                @endif
+            </div>
             @yield('content')
         </main>
     </div>
@@ -111,6 +125,13 @@
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/scripts.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            $(".mensajes").fadeTo(2000, 500).slideUp(500, function() {
+            $(".mensajes").slideUp(500);
+            });
+        });
+    </script>
     @yield('scripts')
     
 </body>

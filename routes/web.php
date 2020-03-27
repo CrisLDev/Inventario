@@ -41,9 +41,9 @@ Route::middleware(['auth'])->group(function(){
 
     Route::delete( '/items/{item}', 'ItemController@destroy' )->name( 'items.destroy' )->middleware('can:items.eliminar');
 
-    Route::get( '/pdf', 'ItemController@export_pdf' )->name( 'items.export_pdf' );
+    Route::get( '/items/pdf', 'ItemController@export_pdf' )->name( 'items.export_pdf' );
 
-    Route::get( '/export', 'ItemController@export_exl' )->name( 'items.export_exl' );
+    Route::get( '/items/excel', 'ItemController@export_exl' )->name( 'items.export_exl' );
 
     //Rutas para Curso
     Route::get( '/cursos', 'CursoController@index' )->name( 'cursos.index' )->middleware('can:cursos.index');
