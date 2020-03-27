@@ -5,6 +5,15 @@
         @if ( session('mensaje') )
         <div class="alert alert-success">{{ session('mensaje') }}</div>
         @endif
+        @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div><br />
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -17,11 +26,12 @@
                             <div class="form-group">
                                 <label for="nombre">Curso</label>
                                 <input
-                                type="text"
+                                type="number"
                                 name="curso"
                                 id="curso"
                                 placeholder="Curso"
                                 class="form-control mb-2"
+                                value="{{old('curso')}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -32,6 +42,7 @@
                                 id="paralelo"
                                 placeholder="Paralelo"
                                 class="form-control mb-2"
+                                value="{{old('paralelo')}}"
                                 />
                             </div>
                             <div class="form-group">
@@ -42,6 +53,7 @@
                                 id="descripcion"
                                 placeholder="descripcion"
                                 class="form-control mb-2"
+                                value="{{old('descripcion')}}"
                                 />
                             </div>
                             <hr>

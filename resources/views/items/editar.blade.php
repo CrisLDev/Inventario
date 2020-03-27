@@ -50,14 +50,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="descripcion">Descripción del Item</label>
-                                <input
+                                <textarea
                                 type="text"
                                 name="descripcion"
                                 id="descripcion"
                                 placeholder="descripcion"
                                 class="form-control mb-2"
-                                value="{{$items->descripcion}}"
-                                />
+                                >{{$items->descripcion}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="codigo">Codigo del Item</label>
@@ -73,7 +72,7 @@
                             <div class="form-group">
                                 <label for="descripcion">Cantidad de items</label>
                                 <input
-                                type="text"
+                                type="number"
                                 name="cantidad"
                                 id="cantidad"
                                 placeholder="Cantidad del Item"

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Curso;
 
+use Validator;
+
+use Illuminate\Validation\Rule;
+
 class CursoController extends Controller
 {
    /**
@@ -25,7 +29,7 @@ class CursoController extends Controller
          */
         public function index()
         {
-            $cursos = Curso::paginate(5);
+            $cursos = Curso::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 8 );
             return view('cursos.lista', compact('cursos'));
         }
     
@@ -47,6 +51,16 @@ class CursoController extends Controller
          */
         public function store(Request $request)
         {
+            $todobien = Validator::make($request->all(),[
+                'curso' => ['digits_between:1,2','required',Rule::unique('cursos')->where(function ($query)use($request){
+                    return $query->where('activo', 1)->where('paralelo', $request->paralelo);
+                }),],
+                'paralelo' => 'required|max:1|min:1|alpha',
+                'descripcion' => 'required|max:255|min:10'
+            ]);
+            if($todobien->fails()){
+                return redirect()->back()->withInput()->withErrors($todobien->errors());
+            }else{
             $curso = new Curso();
             $curso->curso = $request->curso;
             $curso->paralelo = $request->paralelo;
@@ -54,6 +68,7 @@ class CursoController extends Controller
             $curso->us_id = auth()->user()->id;
             $curso->save();
             return back()->with('mensaje', 'Curso agregado con éxito.');
+            }
         }
 
     /**
@@ -64,7 +79,7 @@ class CursoController extends Controller
      */
     public function show($id)
     {
-        //
+        return abort(404);
     }
 
     /**
@@ -75,7 +90,8 @@ class CursoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $curso = Curso::findOrFail($id);
+        return view('cursos.editar', compact('curso'));
     }
 
     /**
@@ -87,7 +103,24 @@ class CursoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $todobien = Validator::make($request->all(),[
+            'curso' => ['digits_between:1,2','required',Rule::unique('cursos')->ignore($id)->where(function ($query)use($request){
+                return $query->where('activo', 1)->where('paralelo', $request->paralelo);
+            }),],
+            'paralelo' => 'required|max:1|min:1|alpha',
+            'descripcion' => 'required|max:255|min:10'
+        ]);
+        if($todobien->fails()){
+            return redirect()->back()->withInput()->withErrors($todobien->errors());
+        }else{
+        $curso = Curso::findOrFail($id);
+        $curso->curso = $request->curso;
+        $curso->paralelo = $request->paralelo;
+        $curso->descripcion = $request->descripcion;
+        $curso->us_id = auth()->user()->id;
+        $curso->save();
+        return back()->with('mensaje', 'Curso actualizado con éxito.');
+        }
     }
 
     /**
@@ -98,6 +131,19 @@ class CursoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Curso::findOrFail( $id );
+        $data->activo = 0;
+        $data->save();
+        return back()->with( 'mensaje', 'Curso Eliminado' );
+    }
+
+    public function ver( Request $request ) {
+        if ( $request->ajax() ) {
+
+            $curso = Curso::findOrFail( $request->cnic );
+
+            //return dd( $item->id );
+            return response()->json( $curso );
+        }
     }
 }

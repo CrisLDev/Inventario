@@ -39,7 +39,7 @@ class ItemController extends Controller {
 
     public function index() {
         $usuarioId = auth()->user()->id;
-        $items = Item::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 5 );
+        $items = Item::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 8 );
         return view( 'items.lista', compact( 'items', 'cursos' ) );
     }
 
@@ -63,12 +63,16 @@ class ItemController extends Controller {
 
     public function store( Request $request ) {
         $todobien = Validator::make($request->all(),[
-            'nombre' => Rule::unique('items')->where(function ($query){
+            'nombre' => ['required','string','max:20','min:4',Rule::unique('items')->where(function ($query){
                 return $query->where('activo', 1);
-            }),
+            }),],
+            'curso' => 'required','alpha_num','max:3','min:2',
+            'descripcion' => 'required|max:255|min:10',
+            'codigo' => 'required|max:20|min:3|alpha_num',
+            'cantidad' => 'required|digits_between:1,6'
         ]);
         if($todobien->fails()){
-            return redirect()->back()->withErrors($todobien->errors());
+            return redirect()->back()->withInput()->withErrors($todobien->errors());
         }else{
         $id = $request->curso;
         $cursos = Curso::select('curso','paralelo')->where('id', $id)->get();
@@ -96,11 +100,7 @@ class ItemController extends Controller {
     */
 
     public function show( $id ) {
-        $post = Post::findOrFail( $id );
-
-        $comentarios = PComentario::join( 'users', 'p_comentarios.pcom_us_id', '=', 'users.id' )->get();
-
-        return view( 'posts.post', compact( 'post', 'comentarios' ) );
+        return abort(404);
     }
 
     /**
@@ -126,12 +126,16 @@ class ItemController extends Controller {
 
     public function update( Request $request, $id ) {
         $todobien = Validator::make($request->all(),[
-            'nombre' => Rule::unique('items')->where(function ($query){
+            'nombre' => ['required','string','max:20','min:4',Rule::unique('items')->ignore($id)->where(function ($query){
                 return $query->where('activo', 1);
-            }),
+            })],
+            'curso' => 'required','alpha_num','max:3','min:2',
+            'descripcion' => 'required|max:255|min:10',
+            'codigo' => 'required|max:20|min:3|alpha_num',
+            'cantidad' => 'required|digits_between:1,6'
         ]);
         if($todobien->fails()){
-            return redirect()->back()->withErrors($todobien->errors());
+            return redirect()->back()->withInput()->withErrors($todobien->errors());
         }else{
         $data = Item::findOrFail($id);
         $id = $request->curso;
@@ -167,7 +171,7 @@ class ItemController extends Controller {
 
     public function export_pdf() {
         // Fetch all customers from database
-        $data = Item::where( 'it_activo', '>', '0' )->orderBy( 'id', 'desc' )->get();
+        $data = Item::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->get();
         // Send data to the view using loadView function of PDF facade
         $pdf = PDF::loadView( 'items.pdfi', ['items' => $data] )->setPaper( 'a4', 'landscape' );
         // If you want to store the generated pdf to the server then you can use the store function

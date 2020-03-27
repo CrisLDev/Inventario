@@ -11,8 +11,17 @@
                 </div>
                 <div class="card-body">     
                   @if ( session('mensaje') )
-                    <div class="alert alert-success">{{ session('mensaje') }}</div>
-                  @endif
+        <div class="alert alert-success">{{ session('mensaje') }}</div>
+        @endif
+        @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div><br />
+        @endif
                   <form method="POST" onsubmit="disable()" id="form-prevent-multiple-submits" action="/categorias">
                     @csrf
                     <input

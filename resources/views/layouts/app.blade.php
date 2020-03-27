@@ -24,10 +24,6 @@
     
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
-
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
 
 </head>
@@ -61,6 +57,9 @@
                             @endcan
                             <li class="nav-item">
                                 <a class="nav-link" href="/cursos"><i class="fab fa-wpforms"></i> Cursos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/users"><i class="fab fa-wpforms"></i> Usuarios</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/contactanos"><i class="fas fa-id-card"></i> Contactanos</a>
@@ -111,9 +110,6 @@
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/jquery.dataTables.min.js')}}" defer></script>
-    <script src="{{asset('js/dataTables.bootstrap4.min.js')}}" defer></script>
-    <script src="{{asset('js/buttons.bootstrap4.min.js')}}" defer></script>
     <script src="{{asset('js/scripts.js')}}"></script>
     @yield('scripts')
     

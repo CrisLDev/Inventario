@@ -1,20 +1,36 @@
-<table class="table" id="tablaI">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Fecha Creación</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Descripcion</th>
-        </tr>
-    </thead>
-    <tbody id="tbody">
-        @foreach ($items as $item)
-            <tr class="item{{$item->id}}tr">
-                <th scope="row"><div id="nid">{{$item->id}}</div></th>
-                <td><label for="" class="item{{$item->id}}">{{$item->it_nombre}}</label></td>
-                <td><label for="" class="item{{$item->id}}d">{{$item->it_descripcion}}</label></td>
-            <td><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>  
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Curso y Paralelo</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">codigo</th>
+                <th scope="col">cantidad</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody id="tbody">
+            @foreach ($items as $item)
+                <tr>
+                    <th scope="row">{{$item->id}}</th>
+                    <td><label>{{$item->nombre}}</label></td>
+                    <td><label>{{$item->curso}} {{$item->paralelo}}</label></td>
+                    <td><label>{{$item->descripcion}}</label></td>
+                    <td><label>{{$item->codigo}}</label></td>
+                    <td><label>{{$item->cantidad}}</label></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</body>
+</html>

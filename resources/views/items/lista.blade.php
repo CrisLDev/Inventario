@@ -17,18 +17,32 @@
             <label for="" id="nombre" class="cls"></label>
           </div>
           <div>
+            <label for="" class="font-weight-bold">Curso:</label>
+              <label for="" id="curso" class="cls"></label>
+          </div>
+          <div>
             <label for="" class="font-weight-bold">Descripcion:</label>
               <label for="" id="descripcion" class="cls"></label>
           </div>
           <div>
-            <label for="" class="font-weight-bold">Curso:</label>
-              <label for="" id="categoria" class="cls"></label>
+            <label for="" class="font-weight-bold">Código:</label>
+              <label for="" id="codigo" class="cls"></label>
+          </div>
+          <div>
+            <label for="" class="font-weight-bold">cantidad:</label>
+              <label for="" id="cantidad" class="cls"></label>
           </div>
         </div>
         <div class="modal-footer d-block">
           <div class="d-flex justify-content-between">
-            <a data-target="#editarModal" data-dismiss="modal" class="btn btn-warning text-white" id="editar" data-toggle="modal">Editar</a>
-            <a data-target="#editarModal" data-dismiss="modal" class="btn btn-danger text-white" id="eliminar" data-toggle="modal">Eliminar</a>
+            <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
+            <form action="" method="POST" class="d-inline">
+              @method('DELETE')
+              @csrf
+              <button class="btn btn-danger" type="submit">
+                  Eliminar
+              </button>
+          </form>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -55,36 +69,30 @@
                 </div>
 
                 <div class="card-body">
-                    <table class="table" id="tablaI">
+                    <div class="table-responsive">
+                      <table class="table table-striped" id="tablaI">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Fecha Creación</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Descripcion</th>
+                                <th scope="col" class="text-truncate">#</th>
+                                <th scope="col" class="text-truncate">Nombre</th>
+                                <th scope="col" class="text-truncate">Descripción</th>
+                                <th scope="col" class="text-truncate">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
                             @foreach ($items as $item)
                                 <tr class="item{{$item->id}}tr">
                                     <th scope="row"><div id="nid">{{$item->id}}</div></th>
-                                    <td><label for="" class="item{{$item->id}}">{{$item->nombre}}</label></td>
-                                    <td><label for="" class="item{{$item->id}}d">{{$item->descripcion}}</label></td>
-                                <td><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
-                                <a href="{{route('items.edit', $item->id)}}" data-id="{{$item->id}}" class="btn btn-warning text-white btn-sm verMas">Editar</a>
-                                <form action="{{route('items.destroy', $item->id)}}" method="POST" class="d-inline">
-                                  @method('DELETE')
-                                  @csrf
-                                  <button class="btn btn-danger btn-sm" type="submit">
-                                      Eliminar
-                                  </button>
-                              </form>
+                                    <td class="text-truncate"><label>{{$item->nombre}}</label></td>
+                                    <td class="text-truncate"><label>{{$item->descripcion}}</label></td>
+                                <td class="text-truncate text-center"><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
                               </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                     {{$items->links()}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,9 +114,13 @@
             url: "items/ver",
             success: function(data){
                 $("#nombre").append(data.nombre);
+                $("#curso").append(data.curso + " " + data.paralelo);
+                $("#codigo").append(data.codigo);
+                $("#cantidad").append(data.cantidad);
                 $("#descripcion").append(data.descripcion);
-                $("#curso").append(data.curso);
                 $('.cls').addClass('cls'+data.id);
+                $('#editar').attr('href',window.location.href+"/"+data.id+'/edit');
+                $('.d-inline').attr('action', window.location.href + "/" +data.id);
             }
         });
     });

@@ -18,43 +18,32 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Editar Curso
+                        Editar Usuario
                     </div>
                     <div class="card-body">
-                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('cursos.update', $curso->id)}}">
+                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('users.update', $user->id)}}">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="nombre">Curso</label>
+                                <label for="nombre">Nombre de Usuario</label>
                                 <input
-                                type="number"
-                                name="curso"
-                                id="curso"
-                                placeholder="Curso"
+                                type="text"
+                                name="name"
+                                id="nombre"
+                                placeholder="Nombre"
                                 class="form-control mb-2"
-                                value="{{$curso->curso}}"
+                                value="{{$user->name}}"
                                 />
                             </div>
                             <div class="form-group">
-                                <label for="nombre">Paralelo</label>
+                                <label for="nombre">Email de Usuario</label>
                                 <input
                                 type="text"
-                                name="paralelo"
-                                id="paralelo"
-                                placeholder="Nombre del Rol"
+                                name="email"
+                                id="email"
+                                placeholder="Email"
                                 class="form-control mb-2"
-                                value="{{$curso->paralelo}}"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <input
-                                type="text"
-                                name="descripcion"
-                                id="descripcion"
-                                placeholder="descripcion"
-                                class="form-control mb-2"
-                                value="{{$curso->descripcion}}"
+                                value="{{$user->email}}"
                                 />
                             </div>
                             <hr>

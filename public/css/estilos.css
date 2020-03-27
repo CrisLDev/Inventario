@@ -1,3 +1,7 @@
 .spinner-border{
     display: none;
 }
+
+.table{
+    table-layout: fixed;
+}

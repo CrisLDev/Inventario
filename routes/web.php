@@ -11,14 +11,17 @@
 |
 */
 
-Route::get( '/', 'WelcomeController@welcome' );
+Route::redirect( '/', '/login');
+
+Route::fallback(function(){
+    return abort(404);
+});
 
 Auth::routes();
 
 /*Fin rutas para Items*/
 
 Route::get( '/home', 'HomeController@index' )->name( 'home' );
-
 
 Route::middleware(['auth'])->group(function(){
 
@@ -42,29 +45,44 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get( '/export', 'ItemController@export_exl' )->name( 'items.export_exl' );
 
+    //Rutas para Curso
+    Route::get( '/cursos', 'CursoController@index' )->name( 'cursos.index' )->middleware('can:cursos.index');
+
+    Route::get( '/cursos/ver', 'CursoController@ver' )->name( 'cursos.ver' )->middleware('can:items.index');
+
+    Route::get( '/cursos/create', 'CursoController@create' )->name( 'cursos.create' )->middleware('can:cursos.crear');
+
+    Route::post( '/cursos/store', 'CursoController@store' )->name( 'cursos.store' )->middleware('can:cursos.crear');
+
+    Route::get( '/cursos/{id}/edit', 'CursoController@edit' )->name( 'cursos.edit' )->middleware('can:cursos.editar');
+
+    Route::put( '/cursos/{curso}', 'CursoController@update' )->name( 'cursos.update' )->middleware('can:cursos.editar');
+
+    Route::delete( '/cursos/{curso}', 'CursoController@destroy' )->name( 'cursos.destroy' )->middleware('can:cursos.eliminar');
+
+    //Rutas para Usuario
+    Route::get( '/users', 'UserController@index' )->name( 'users.index' )->middleware('can:user.index');
+
+    Route::get( '/users/ver', 'UserController@ver' )->name( 'users.ver' )->middleware('can:users.index');
+
+    Route::get( '/users/create', 'UserController@create' )->name( 'users.create' )->middleware('can:users.crear');
+
+    Route::post( '/users/store', 'UserController@store' )->name( 'users.store' )->middleware('can:users.crear');
+
+    Route::get( '/users/{user}/edit', 'UserController@edit' )->name( 'users.edit' )->middleware('can:users.editar');
+
+    Route::put( '/users/{user}', 'UserController@update' )->name( 'users.update' )->middleware('can:users.editar');
+
+    Route::delete( '/users/{user}', 'UserController@destroy' )->name( 'users.destroy' )->middleware('can:users.eliminar');
+
+
+
     //Rutas para Rol
     Route::get( '/roles', 'RolController@index' )->name( 'roles.index' )->middleware('can:roles.index');
-
-    Route::get( '/roles/create', 'RolController@create' )->name( 'roles.create' )->middleware('can:roles.crear');
-
-    Route::post( '/roles/store', 'RolController@store' )->name( 'roles.store' )->middleware('can:roles.crear');
 
     Route::get( '/roles/{role}/edit', 'RolController@edit' )->name( 'roles.edit' )->middleware('can:roles.editar');
 
     Route::put( '/roles/{role}', 'RolController@update' )->name( 'roles.update' )->middleware('can:roles.editar');
 
     Route::delete( '/roles/{role}', 'RolController@destroy' )->name( 'roles.destroy' )->middleware('can:roles.eliminar');
-
-    //Rutas para Curso
-    Route::get( '/cursos', 'CursoController@index' )->name( 'cursos.index' )->middleware('can:cursos.index');
-
-    Route::get( '/cursos/create', 'CursoController@create' )->name( 'cursos.create' )->middleware('can:cursos.crear');
-
-    Route::post( '/cursos/store', 'CursoController@store' )->name( 'cursos.store' )->middleware('can:cursos.crear');
-
-    Route::get( '/cursos/{role}/edit', 'CursoController@edit' )->name( 'cursos.edit' )->middleware('can:cursos.editar');
-
-    Route::put( '/cursos/{curso}', 'CursoController@update' )->name( 'cursos.update' )->middleware('can:cursos.editar');
-
-    Route::delete( '/cursos/{role}', 'CursoController@destroy' )->name( 'cursos.destroy' )->middleware('can:cursos.eliminar');
 });

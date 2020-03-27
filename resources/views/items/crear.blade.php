@@ -18,7 +18,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Nuevo Rol
+                        Nuevo Item.
                     </div>
                     <div class="card-body">
                         <form id="form-prevent-multiple-submits" method="POST" action="{{route('items.store')}}">
@@ -29,7 +29,7 @@
                                 type="text"
                                 name="nombre"
                                 id="nombre"
-                                placeholder="Nombre del Rol"
+                                placeholder="Nombre del Item"
                                 class="form-control mb-2"
                                 value="{{old('nombre')}}"
                                 />
@@ -49,22 +49,21 @@
                             </div>
                             <div class="form-group">
                                 <label for="descripcion">Descripción del Item</label>
-                                <input
+                                <textarea
                                 type="text"
                                 name="descripcion"
                                 id="descripcion"
-                                placeholder="descripcion"
+                                placeholder="Descripcion"
                                 class="form-control mb-2"
-                                value="{{old('descripcion')}}"
-                                />
+                                >{{old('descripcion')}}</textarea>
                             </div>
                             <div class="form-group">
-                                <label for="codigo">Codigo del Item</label>
+                                <label for="codigo">Codigo del Item</label><br>
                                 <input
                                 type="text"
                                 name="codigo"
                                 id="codigo"
-                                placeholder="Ingresa un código."
+                                placeholder="Ingresa un código sin espacios."
                                 class="form-control mb-2"
                                 value="{{old('codigo')}}"
                                 />
@@ -72,7 +71,7 @@
                             <div class="form-group">
                                 <label for="descripcion">Cantidad de items</label>
                                 <input
-                                type="text"
+                                type="number"
                                 name="cantidad"
                                 id="cantidad"
                                 placeholder="Cantidad del Item"

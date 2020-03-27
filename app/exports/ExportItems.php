@@ -12,6 +12,6 @@ class ExportItems implements FromCollection
     */
     public function collection()
     {
-        return Item::where('it_activo', '>', '0')->orderBy('id', 'desc')->get();
+        return Item::where('activo', '>', '0')->orderBy('id', 'desc')->get();
     }
 }
