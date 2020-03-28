@@ -4,17 +4,32 @@
 <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div>
-                            <h5><div class="circle-left"></div> Información de inicio de sesión</h5>
-                            <div>
-                                <label class="font-weight-bold">Usuario:</label> <label> {{ Auth::user()->name }}</label>
+                <div class="row">
+                    <div class="col-xl-4 col-md-12">
+                        @if ($perfil)
+                            <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <img class="img-thumbnail imgperfil" src="{{$perfil->imgurl}}" alt="imagendeperfil">
+                                </div>
                             </div>
-                            <div>
-                                <label class="font-weight-bold">E-mail:</label> <label> {{ Auth::user()->email }}</label>
+                        @else
+                            
+                        @endif
+                    </div>
+                    <div class="col-xl-8 col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div>
+                                    <h5><div class="circle-left"></div> Información de inicio de sesión</h5>
+                                    <div>
+                                        <label class="font-weight-bold">Usuario:</label> <label> {{ Auth::user()->name }}</label>
+                                    </div>
+                                    <div>
+                                        <label class="font-weight-bold">E-mail:</label> <label> {{ Auth::user()->email }}</label>
+                                    </div>
+                                </div>   
                             </div>
-                        </div>   
+                        </div>
                     </div>
                 </div>
                 <div class="card mb-4">
@@ -46,6 +61,11 @@
                                     <div class="col-md-6">
                                         <div>
                                             <label class="font-weight-bold">N#_Teléfono:</label> <label> {{ $perfil->ntelefono }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <a class="btn btn-warning btn-sm" href="{{route('perfil.edit', Auth::user()->id)}}">Editar</a>
                                         </div>
                                     </div>
                                 </div>

@@ -82,7 +82,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::post( '/perfil/store', 'PerfilController@store' )->name( 'perfil.store' )->middleware('tieneperfil');;
 
-    Route::get( '/perfil/{perfi}/ediet', 'PerfilController@edit' )->name( 'perfil.edit' );
+    Route::get( '/perfil/{perfi}/edit', 'PerfilController@edit' )->name( 'perfil.edit' );
 
     Route::put( '/perfil/{perfi}', 'PerfilController@update' )->name( 'perfil.update' );
 

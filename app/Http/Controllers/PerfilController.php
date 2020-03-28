@@ -8,6 +8,8 @@ use App\Perfil;
 
 use Validator;
 
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Validation\Rule;
 
 use Caffeinated\Shinobi\Models\Role;
@@ -107,9 +109,9 @@ class PerfilController extends Controller
          */
         public function edit($id)
         {   
-            $roles = Role::get();
+            $perfil = Perfil::where('us_id', $id)->first();
             $user = User::findOrFail($id);
-            return view('users.editar', compact('user', 'roles'));
+            return view('perfiles.editar', compact('user', 'perfil'));
         }
     
         /**
@@ -121,35 +123,39 @@ class PerfilController extends Controller
          */
         public function update(Request $request, $id)
         {
-            $count = count($request->get('roles'));
-            if($count >= 2){
-                return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
-            }else{
             $todobien = Validator::make($request->all(),[
-                'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
-                    return $query->where('activo', 1);
-                })],
-                'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
-                    return $query->where('activo', 1);
-                })],
+                'nombres' => ['required','string','max:20','min:4',Rule::unique('perfils')->ignore($id)->where(function ($query)use($request){
+                    return $query->where('activo', 1)->where('apellidos', $request->apellidos);
+                }),],
+                'apellidos' => 'required','string','max:20','min:4',
+                'imgurl' => 'mimes:jpg,jpeg,bmp,png|required',
+                'direccion' => 'required','alpha','max:40','min:4',
+                'edad' => 'required|digits_between:1,2',
+                'ntelefono' => 'required|max:20|min:3|digits_between:1,10',
             ]);
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{
-            //Actualizamos usuario
-            $user = User::findOrFail($id);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->save();
-            //Actualizamos roles
-            if($request->get('roles')){
-            $user->roles()->sync($request->get('roles'));
-            }else{
-                $user->roles()->sync($request->get('roles'));
+            $data = Perfil::where('us_id', $id)->first();
+            $imantigua = $data->imgurl;
+            if(Storage::disk('public')->path($imantigua)){
+               $nombre = class_basename($imantigua);
+                Storage::disk('public')->delete('userImage/'.$nombre);
             }
-            return back()->with('mensaje', 'Usuario actualizado con éxito.');
+            $saveTo = 'public/userImage';
+            $path = $request->file('imgurl')->store($saveTo);
+            $filename = substr($path, strlen($saveTo) + 1);
+            $data->nombres = $request->nombres;
+            $data->apellidos = $request->apellidos;
+            $data->edad = $request->edad;
+            $data->direccion = $request->direccion;
+            $data->ntelefono = $request->ntelefono;
+            $data->imgurl = '/storage/userImage/'.$filename;
+            $data->us_id = auth()->user()->id;
+            //$item->it_activo = '0';
+            $data->save();
+            return redirect('/perfil')->with('mensaje', 'Perfil actualizado con éxito.');
         }
-    }
         }
     
         /**

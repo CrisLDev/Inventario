@@ -89,7 +89,7 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown uuu">
+                            <li class="nav-item dropdown">
                                 
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="fas fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>
@@ -137,9 +137,8 @@
             @yield('content')
         </main>
     </div>
-    <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/jquery.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap.min.js')}}" defer></script>
     <script src="{{asset('js/scripts.js')}}"></script>
     <script>
         $(document).ready(function(){
