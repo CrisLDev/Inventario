@@ -90,6 +90,10 @@ class UserController extends Controller
          */
         public function update(Request $request, $id)
         {
+            $count = count($request->get('roles'));
+            if($count >= 2){
+                return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
+            }else{
             $todobien = Validator::make($request->all(),[
                 'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
                     return $query->where('activo', 1);
@@ -114,6 +118,7 @@ class UserController extends Controller
             }
             return back()->with('mensaje', 'Usuario actualizado con éxito.');
         }
+    }
         }
     
         /**

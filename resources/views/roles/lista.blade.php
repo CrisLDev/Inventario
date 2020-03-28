@@ -27,7 +27,10 @@
         </div>
         <div class="modal-footer d-block">
           <div class="d-flex justify-content-between">
-            <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
+            @can('roles.editar')
+              <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
+            @endcan
+            @can('roles.eliminar')
             <form action="" method="POST" class="d-inline">
               @method('DELETE')
               @csrf
@@ -35,6 +38,7 @@
                   Eliminar
               </button>
           </form>
+            @endcan
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -55,12 +59,14 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
+                    @can('roles.crear')
                     <a href="{{route('roles.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
+                    @endcan
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                      <table class="table" id="tablaI">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-hover-cursor">
                         <thead>
                             <tr>
                                 <th scope="col" class="text-truncate">#</th>

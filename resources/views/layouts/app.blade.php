@@ -117,6 +117,9 @@
                 @if ( session('mensaje') )
                 <div class="alert alert-success">{{ session('mensaje') }}</div>
                 @endif
+                @if ( session('erroresc') )
+                <div class="alert alert-danger">{{ session('erroresc') }}</div>
+                @endif
                 @if ($errors->any())
               <div class="alert alert-danger mb-0 mt-0">
                 <ul>

@@ -39,7 +39,7 @@
                                 <ul class="list-unstyled">
                                     @foreach ($roles as $role)
                                         <label>
-                                            <input type="checkbox" value="{{$role->id}}" name="roles[]" {{ $user->id = $role->user_id ? 'checked' : '' }}>
+                                            <input type="checkbox" value="{{$role->id}}" name="roles[]" @if($role->users->contains($user->id)) checked=checked @endif>
                                             <label>{{$role->name}}</label>
                                             <em>({{$role->description ?: 'N/A'}})</em>
                                         </label><br>

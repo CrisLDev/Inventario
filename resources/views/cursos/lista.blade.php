@@ -23,7 +23,10 @@
         </div>
         <div class="modal-footer d-block">
           <div class="d-flex justify-content-between botones">
-            <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
+            @can('cursos.editar')
+              <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
+            @endcan
+            @can('cursos.eliminar')
             <form action="" method="POST" class="d-inline">
               @method('DELETE')
               @csrf
@@ -31,6 +34,7 @@
                   Eliminar
               </button>
           </form>
+            @endcan
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -53,12 +57,14 @@
                     <span>Lista de Items</span>
                     <a class="btn btn-warning text-white btn-sm" href="{{ route('items.export_exl') }}"><i class="fas fa-file-excel"></i> Excel</a>
                     <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
+                    @can('cursos.crear')
                     <a id="crear" href="{{route('cursos.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
+                    @endcan
                 </div>
 
                 <div class="card-body">
                     <div class="table-responsive">
-                      <table class="table table-hover table-hover-cursor" id="tablaI">
+                      <table class="table table-hover table-hover-cursor">
                         <thead>
                             <tr>
                                 <th scope="col" class="text-truncate">#</th>

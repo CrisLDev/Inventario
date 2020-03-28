@@ -44,23 +44,24 @@
                                 class="form-control mb-2"
                                 >{{$role->descripcion}}</textarea>
                             </div>
+                            <h5>Permiso Especial</h5>
                             <div class="form-group">
-                                <input type="radio" name="special" id="specialE" {{ $role->special == 'all-access' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="exampleRadios1">
+                                <ul class="list-unstyled  d-flex justify-content-between" id="radiob">
+                                <label>
+                                <input type="radio" name="special" id="special" value="all-access"   @if($role->special == 'all-access') checked=checked @endif>
                                     Acceso Total
                                 </label>
-                            </div>
-                            <div class="form-group">
-                                <input type="radio" name="no-access" id="specialE" {{ $role->special == 'no-access' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="exampleRadios1">
+                                <label>
+                                <input type="radio" name="special" id="special" value="no-access"  @if($role->special == 'no-access') checked=checked @endif>
                                     Sin acceso
                                 </label>
+                                <label><a class="btn btn-success btn-sm text-white uncheckb">Desmarcar</a></label>
+                                </ul>
                             </div>
                             <hr>
                             <div class="form-group">
                                 <ul class="list-unstyled">
                                 @foreach ($permissions as $permission)
-                                {{$role}}
                                     <label>
                                         <input name="permissions[]" type="checkbox" value="{{$permission->id}}"  @if($role->permissions->contains($permission->id)) checked=checked @endif>
                                         <em>{{$permission->description}}</em>
@@ -80,4 +81,13 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function(){
+        $('#radiob').on('click', '.uncheckb', function(){
+            $('input[type="radio"]').prop('checked', false); 
+        });
+    });
+</script>
 @endsection

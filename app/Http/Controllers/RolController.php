@@ -30,7 +30,7 @@ class RolController extends Controller
          */
         public function index()
         {
-            $roles = Role::paginate(5);
+            $roles = Role::orderBy( 'id', 'desc' )->paginate( 8 );
             return view('roles.lista', compact('roles'));
         }
     
@@ -53,26 +53,31 @@ class RolController extends Controller
          */
         public function store(Request $request)
         {
-            $todobien = Validator::make($request->all(),[
-                'name' => 'required|alpha|max:15|min:4|unique:roles',
-                'slug' => 'required','alpha','max:3','min:2',
-                'description' => 'max:255'
-            ]);
-            if($todobien->fails()){
-                return redirect()->back()->withInput()->withErrors($todobien->errors());
+            if(($request->get('special'))&&($request->get('permissions'))){
+                return redirect()->back()->with('erroresc', '¡Haz seleccionado campos imcompatibles!')->withInput();
             }else{
-            $role = new Role();
-            $role->name = $request->name;
-            $role->slug = $request->slug;
-            $role->description = $request->description;
-            $role->save();
-            if($request->get('permissions')){
-                $role->permissions()->sync($request->get('permissions'));
-            }else{
-                $role->permissions()->sync($request->get('permissions')); 
+                $todobien = Validator::make($request->all(),[
+                    'name' => 'required|alpha|max:15|min:4|unique:roles',
+                    'slug' => 'required','alpha','max:3','min:2',
+                    'description' => 'max:255'
+                ]);
+                if($todobien->fails()){
+                    return redirect()->back()->withInput()->withErrors($todobien->errors());
+                }else{
+                $role = new Role();
+                $role->name = $request->name;
+                $role->slug = $request->slug;
+                $role->special = $request->get('special');
+                $role->description = $request->description;
+                $role->save();
+                if($request->get('permissions')){
+                    $role->permissions()->sync($request->get('permissions'));
+                }else{
+                    $role->permissions()->sync($request->get('permissions')); 
+                }
+                return back()->with('mensaje', 'Rol agregado con éxito.');
             }
-            return back()->with('mensaje', 'Rol agregado con éxito.');
-        }
+            }
         }
     
         /**
@@ -98,7 +103,6 @@ class RolController extends Controller
          */
         public function edit($id)
         {
-            return $permissions = auth()->user()->permissions;
             $permissions = Permission::get();
             $role = Role::findOrFail($id);
             return view('roles.editar', compact('role', 'permissions'));
@@ -113,6 +117,9 @@ class RolController extends Controller
          */
         public function update(Request $request, $id)
         {
+            if(($request->get('special'))&&($request->get('permissions'))){
+                return redirect()->back()->with('erroresc', '¡Haz seleccionado campos imcompatibles!')->withInput();
+            }else{
             $todobien = Validator::make($request->all(),[
                 'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
                 'slug' => 'required','alpha','max:3','min:2',
@@ -124,6 +131,7 @@ class RolController extends Controller
             $role = Role::findOrFail($id);
             $role->name = $request->name;
             $role->slug = $request->slug;
+            $role->special = $request->get('special');
             $role->description = $request->description;
             $role->save();
             if($request->get('permissions')){
@@ -133,6 +141,7 @@ class RolController extends Controller
             }
             return back()->with('mensaje', 'Rol agregado con éxito.');
         }
+    }
         }
     
         /**

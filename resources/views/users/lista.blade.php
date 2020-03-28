@@ -23,7 +23,10 @@
         </div>
         <div class="modal-footer d-block">
           <div class="d-flex justify-content-between">
-            <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
+            @can('users.editar')
+              <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
+            @endcan
+            @can('users.eliminar')
             <form action="" method="POST" class="d-inline">
               @method('DELETE')
               @csrf
@@ -31,6 +34,7 @@
                   Eliminar
               </button>
           </form>
+            @endcan
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -56,8 +60,8 @@
                 </div>
 
                 <div class="card-body">
-                   <div class="table-responsive">
-                    <table class="table table-striped">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-hover-cursor">
                       <thead>
                           <tr>
                               <th scope="col" class="text-truncate">#</th>
