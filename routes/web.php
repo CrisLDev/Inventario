@@ -61,7 +61,7 @@ Route::middleware(['auth'])->group(function(){
     Route::delete( '/cursos/{curso}', 'CursoController@destroy' )->name( 'cursos.destroy' )->middleware('can:cursos.eliminar');
 
     //Rutas para Usuario
-    Route::get( '/users', 'UserController@index' )->name( 'users.index' )->middleware('can:user.index');
+    Route::get( '/users', 'UserController@index' )->name( 'users.index' )->middleware('can:users.index');
 
     Route::get( '/users/ver', 'UserController@ver' )->name( 'users.ver' )->middleware('can:users.index');
 
@@ -79,6 +79,12 @@ Route::middleware(['auth'])->group(function(){
 
     //Rutas para Rol
     Route::get( '/roles', 'RolController@index' )->name( 'roles.index' )->middleware('can:roles.index');
+
+    Route::get( '/roles/ver', 'RolController@ver' )->name( 'roles.ver' )->middleware('can:roles.index');
+
+    Route::get( '/roles/create', 'RolController@create' )->name( 'roles.create' )->middleware('can:roles.crear');
+
+    Route::post( '/roles/store', 'RolController@store' )->name( 'roles.store' )->middleware('can:roles.crear');
 
     Route::get( '/roles/{role}/edit', 'RolController@edit' )->name( 'roles.edit' )->middleware('can:roles.editar');
 

@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Nuevo Rol
+                        Editar Item
                     </div>
                     <div class="card-body">
                         <form id="form-prevent-multiple-submits" method="POST" action="{{route('items.update', $items->id)}}">

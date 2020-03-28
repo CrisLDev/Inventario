@@ -21,11 +21,6 @@ class PermissionsTableSeeder extends Seeder
             'description' => 'Lista y navega todos los usuarios del sistema',
         ]);
         Permission::create([
-            'name' => 'Ver detalle de usuario',
-            'slug' => 'users.ver',
-            'description' => 'Ver en detalle cada usuario del sistema',
-        ]);
-        Permission::create([
             'name' => 'Edición de usuario',
             'slug' => 'users.editar',
             'description' => 'Editar cualquier dato de un usuario del sistema',
@@ -41,11 +36,6 @@ class PermissionsTableSeeder extends Seeder
             'name' => 'Navegar items',
             'slug' => 'items.index',
             'description' => 'Lista y navega todos los items del sistema',
-        ]);
-        Permission::create([
-            'name' => 'Ver detalle de item',
-            'slug' => 'items.ver',
-            'description' => 'Ver en detalle cada item del sistema',
         ]);
         Permission::create([
             'name' => 'Creación de item',
@@ -65,29 +55,47 @@ class PermissionsTableSeeder extends Seeder
 
         //Roles
         Permission::create([
-            'name' => 'Navegar roles',
+            'name' => 'Navegar Roles',
             'slug' => 'roles.index',
             'description' => 'Lista y navega todos los roles del sistema',
         ]);
         Permission::create([
-            'name' => 'Ver detalle de roles',
-            'slug' => 'roles.ver',
-            'description' => 'Ver en detalle cada roles del sistema',
-        ]);
-        Permission::create([
-            'name' => 'Edición de roles',
+            'name' => 'Edición de Roles',
             'slug' => 'roles.crear',
             'description' => 'Crear dato de un roles en el sistema',
         ]);
         Permission::create([
-            'name' => 'Edición de roles',
+            'name' => 'Edición de Roles',
             'slug' => 'roles.editar',
             'description' => 'Editar cualquier dato de un rol del sistema',
         ]);
         Permission::create([
-            'name' => 'Eliminar rol',
+            'name' => 'Eliminar Rol',
             'slug' => 'roles.eliminar',
             'description' => 'Eliminar cualquier roles del sistema',
+        ]);
+
+        // Permisos de items  
+        Permission::create([
+            'name' => 'Navegar Cursos',
+            'slug' => 'cursos.index',
+            'description' => 'Lista y navega todos los items del sistema',
+        ]);
+
+        Permission::create([
+            'name' => 'Creación de Curso',
+            'slug' => 'cursos.crear',
+            'description' => 'Crear cualquier curso en el sistema',
+        ]);
+        Permission::create([
+            'name' => 'Edición de Curso',
+            'slug' => 'cursos.editar',
+            'description' => 'Editar cualquier curso del sistema',
+        ]);
+        Permission::create([
+            'name' => 'Eliminar Curso',
+            'slug' => 'cursos.eliminar',
+            'description' => 'Eliminar cualquier curso del sistema',
         ]);
     }
 }

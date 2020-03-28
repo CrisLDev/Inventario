@@ -55,12 +55,21 @@
                                 <a class="nav-link" href="/items"><i class="fas fa-sitemap"></i> Items</a>
                             </li> 
                             @endcan
-                            <li class="nav-item">
-                                <a class="nav-link" href="/cursos"><i class="fab fa-wpforms"></i> Cursos</a>
-                            </li>
+                            @can('cursos.index')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/cursos"><i class="fab fa-wpforms"></i> Cursos</a>
+                                </li>
+                            @endcan
+                            @can('users.index')
                             <li class="nav-item">
                                 <a class="nav-link" href="/users"><i class="fab fa-wpforms"></i> Usuarios</a>
                             </li>
+                            @endcan
+                            @can('roles.index')
+                            <li class="nav-item">
+                                <a class="nav-link" href="/roles"><i class="fab fa-wpforms"></i> Roles</a>
+                            </li>
+                            @endcan
                             <li class="nav-item">
                                 <a class="nav-link" href="/contactanos"><i class="fas fa-id-card"></i> Contactanos</a>
                             </li>

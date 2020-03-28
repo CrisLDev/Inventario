@@ -8,6 +8,8 @@ use Validator;
 
 use Illuminate\Validation\Rule;
 
+use Caffeinated\Shinobi\Models\Role;
+
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -74,8 +76,9 @@ class UserController extends Controller
          */
         public function edit($id)
         {   
+            $roles = Role::get();
             $user = User::findOrFail($id);
-            return view('users.editar', compact('user'));
+            return view('users.editar', compact('user', 'roles'));
         }
     
         /**
@@ -98,11 +101,18 @@ class UserController extends Controller
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{
+            //Actualizamos usuario
             $user = User::findOrFail($id);
             $user->name = $request->name;
             $user->email = $request->email;
             $user->save();
-            return back()->with('mensaje', 'Usuario editado con éxito.');
+            //Actualizamos roles
+            if($request->get('roles')){
+            $user->roles()->sync($request->get('roles'));
+            }else{
+                $user->roles()->sync($request->get('roles'));
+            }
+            return back()->with('mensaje', 'Usuario actualizado con éxito.');
         }
         }
     

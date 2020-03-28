@@ -36,6 +36,18 @@
                             </div>
                             <hr>
                             <div class="form-group">
+                                <ul class="list-unstyled">
+                                    @foreach ($roles as $role)
+                                        <label>
+                                            <input type="checkbox" value="{{$role->id}}" name="roles[]" {{ $user->id = $role->user_id ? 'checked' : '' }}>
+                                            <label>{{$role->name}}</label>
+                                            <em>({{$role->description ?: 'N/A'}})</em>
+                                        </label><br>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <hr>
+                            <div class="form-group">
                                 <button class="btn btn-primary btn-block" id="crear-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
                                     <span id="btex">Publicar</span></button>

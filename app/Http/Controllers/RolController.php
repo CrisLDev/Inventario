@@ -8,6 +8,8 @@ use Caffeinated\Shinobi\Models\Permission;
 
 use Illuminate\Http\Request;
 
+use Validator;
+
 class RolController extends Controller
 {
 
@@ -29,7 +31,7 @@ class RolController extends Controller
         public function index()
         {
             $roles = Role::paginate(5);
-            return view('roles.rol', compact('roles'));
+            return view('roles.lista', compact('roles'));
         }
     
         /**
@@ -51,12 +53,26 @@ class RolController extends Controller
          */
         public function store(Request $request)
         {
-    
-            $role -> Role::create($request->all());
-
-        $role->permissions()->sync($request->get('permisos'));
-
-        return back()->with('mensaje', 'Role creado con éxito.');
+            $todobien = Validator::make($request->all(),[
+                'name' => 'required|alpha|max:15|min:4|unique:roles',
+                'slug' => 'required','alpha','max:3','min:2',
+                'description' => 'max:255'
+            ]);
+            if($todobien->fails()){
+                return redirect()->back()->withInput()->withErrors($todobien->errors());
+            }else{
+            $role = new Role();
+            $role->name = $request->name;
+            $role->slug = $request->slug;
+            $role->description = $request->description;
+            $role->save();
+            if($request->get('permissions')){
+                $role->permissions()->sync($request->get('permissions'));
+            }else{
+                $role->permissions()->sync($request->get('permissions')); 
+            }
+            return back()->with('mensaje', 'Rol agregado con éxito.');
+        }
         }
     
         /**
@@ -82,7 +98,10 @@ class RolController extends Controller
          */
         public function edit($id)
         {
-            //
+            return $permissions = auth()->user()->permissions;
+            $permissions = Permission::get();
+            $role = Role::findOrFail($id);
+            return view('roles.editar', compact('role', 'permissions'));
         }
     
         /**
@@ -94,11 +113,26 @@ class RolController extends Controller
          */
         public function update(Request $request, $id)
         {
-            $role->update($request->all());
-
-            $role->permissions()->sync($request->get('permisos'));
-
-            return back()->with('mensaje', 'Role editado con éxito.');
+            $todobien = Validator::make($request->all(),[
+                'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
+                'slug' => 'required','alpha','max:3','min:2',
+                'description' => 'max:255'
+            ]);
+            if($todobien->fails()){
+                return redirect()->back()->withInput()->withErrors($todobien->errors());
+            }else{
+            $role = Role::findOrFail($id);
+            $role->name = $request->name;
+            $role->slug = $request->slug;
+            $role->description = $request->description;
+            $role->save();
+            if($request->get('permissions')){
+                $role->permissions()->sync($request->get('permissions'));
+            }else{
+                $role->permissions()->sync($request->get('permissions')); 
+            }
+            return back()->with('mensaje', 'Rol agregado con éxito.');
+        }
         }
     
         /**
@@ -110,6 +144,16 @@ class RolController extends Controller
         public function destroy($id)
         {
             //
+        }
+
+        public function ver( Request $request ) {
+            if ( $request->ajax() ) {
+    
+                $role = Role::findOrFail( $request->cnic );
+    
+                //return dd( $item->id );
+                return response()->json( $role );
+            }
         }
 
 }

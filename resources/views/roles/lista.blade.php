@@ -13,12 +13,16 @@
         </div>
         <div class="modal-body">
           <div>
-              <label for="" class="font-weight-bold">Nombre:</label>
-            <label for="" id="nombre" class="cls"></label>
+              <label class="font-weight-bold">Nombre:</label>
+            <label id="nombre" class="cls"></label>
           </div>
           <div>
-            <label for="" class="font-weight-bold">Email:</label>
-              <label for="" id="email" class="cls"></label>
+            <label class="font-weight-bold">Acrónimo:</label>
+              <label id="acronimo" class="cls"></label>
+          </div>
+          <div>
+            <label class="font-weight-bold">Descripción:</label>
+              <label id="descripcion" class="cls"></label>
           </div>
         </div>
         <div class="modal-footer d-block">
@@ -51,35 +55,33 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
-                    <a class="btn btn-warning text-white btn-sm" href="{{ route('items.export_exl') }}"><i class="fas fa-file-excel"></i> Excel</a>
-                    <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
+                    <a href="{{route('roles.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
                 </div>
 
                 <div class="card-body">
-                   <div class="table-responsive">
-                    <table class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th scope="col" class="text-truncate">#</th>
-                              <th scope="col" class="text-truncate">Nombre</th>
-                              <th scope="col" class="text-truncate">Descripción</th>
-                              <th scope="col" class="text-truncate">Acciones</th>
-                          </tr>
-                      </thead>
-                      <tbody id="tbody">
-                          @foreach ($users as $user)
-                              <tr>
-                                  <th scope="row"><div id="nid">{{$user->id}}</div></th>
-                                  <td class="text-truncate"><label>{{$user->name}}</label></td>
-                                  <td class="text-truncate"><label>{{$user->email}}</label></td>
-                              <td class="text-truncate text-center"><a data-toggle="modal" data-target="#verModal" data-id="{{$user->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
-                            </td>
-                              </tr>
-                          @endforeach
-                      </tbody>
-                  </table>
-                  {{$users->links()}}
-                   </div>
+                    <div class="table-responsive">
+                      <table class="table" id="tablaI">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-truncate">#</th>
+                                <th scope="col" class="text-truncate">Nombre</th>
+                                <th scope="col" class="text-truncate">Acrónimo</th>
+                                <th scope="col" class="text-truncate">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach ($roles as $rol)
+                                <tr >
+                                    <th class="text-truncate" scope="row">{{$rol->id}}</th>
+                                    <td class="text-truncate"><label>{{$rol->name}}</label></td>
+                                    <td class="text-truncate"><label>{{$rol->slug}}</label></td>
+                                <td class="text-truncate text-center"><a data-toggle="modal" data-target="#verModal" data-id="{{$rol->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{$roles->links()}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,10 +100,11 @@
             type: "GET",
             data: {'cnic':cnic},
             dataType: 'json',
-            url: "users/ver",
+            url: "roles/ver",
             success: function(data){
                 $("#nombre").append(data.name);
-                $("#email").append(data.email);
+                $("#descripcion").append(data.description);
+                $("#acronimo").append(data.slug);
                 $('.cls').addClass('cls'+data.id);
                 $('#editar').attr('href',window.location.href+"/"+data.id+'/edit');
                 $('.d-inline').attr('action', window.location.href + "/" +data.id);
