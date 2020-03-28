@@ -75,7 +75,18 @@ Route::middleware(['auth'])->group(function(){
 
     Route::delete( '/users/{user}', 'UserController@destroy' )->name( 'users.destroy' )->middleware('can:users.eliminar');
 
+    //Rutas Perfiles
+    Route::get( '/perfil', 'PerfilController@index' )->name( 'perfil.index' );
 
+    Route::get( '/perfil/create', 'PerfilController@create' )->name( 'perfil.create' )->middleware('tieneperfil');
+
+    Route::post( '/perfil/store', 'PerfilController@store' )->name( 'perfil.store' )->middleware('tieneperfil');;
+
+    Route::get( '/perfil/{perfi}/ediet', 'PerfilController@edit' )->name( 'perfil.edit' );
+
+    Route::put( '/perfil/{perfi}', 'PerfilController@update' )->name( 'perfil.update' );
+
+    Route::delete( '/perfil/{perfi}', 'PerfilController@destroy' )->name( 'perfil.destroy' );
 
     //Rutas para Rol
     Route::get( '/roles', 'RolController@index' )->name( 'roles.index' )->middleware('can:roles.index');

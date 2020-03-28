@@ -90,35 +90,63 @@ class UserController extends Controller
          */
         public function update(Request $request, $id)
         {
-            $count = count($request->get('roles'));
-            if($count >= 2){
-                return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
-            }else{
-            $todobien = Validator::make($request->all(),[
-                'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
-                    return $query->where('activo', 1);
-                })],
-                'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
-                    return $query->where('activo', 1);
-                })],
-            ]);
-            if($todobien->fails()){
-                return redirect()->back()->withInput()->withErrors($todobien->errors());
-            }else{
-            //Actualizamos usuario
-            $user = User::findOrFail($id);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->save();
-            //Actualizamos roles
             if($request->get('roles')){
-            $user->roles()->sync($request->get('roles'));
-            }else{
+                $count = count($request->get('roles'));
+                if($count >= 2){
+                    return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
+                }else{
+                $todobien = Validator::make($request->all(),[
+                    'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                        return $query->where('activo', 1);
+                    })],
+                    'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
+                        return $query->where('activo', 1);
+                    })],
+                ]);
+                if($todobien->fails()){
+                    return redirect()->back()->withInput()->withErrors($todobien->errors());
+                }else{
+                //Actualizamos usuario
+                $user = User::findOrFail($id);
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->save();
+                //Actualizamos roles
+                if($request->get('roles')){
                 $user->roles()->sync($request->get('roles'));
+                }else{
+                    $user->roles()->sync($request->get('roles'));
+                }
+                return back()->with('mensaje', 'Usuario actualizado con éxito.');
             }
-            return back()->with('mensaje', 'Usuario actualizado con éxito.');
         }
-    }
+            }else{
+                $todobien = Validator::make($request->all(),[
+                    'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                        return $query->where('activo', 1);
+                    })],
+                    'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
+                        return $query->where('activo', 1);
+                    })],
+                ]);
+                if($todobien->fails()){
+                    return redirect()->back()->withInput()->withErrors($todobien->errors());
+                }else{
+                //Actualizamos usuario
+                $user = User::findOrFail($id);
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->save();
+                //Actualizamos roles
+                if($request->get('roles')){
+                $user->roles()->sync($request->get('roles'));
+                }else{
+                    $user->roles()->sync($request->get('roles'));
+                }
+                return back()->with('mensaje', 'Usuario actualizado con éxito.');
+            }
+            }
+            
         }
     
         /**

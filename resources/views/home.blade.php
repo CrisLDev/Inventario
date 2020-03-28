@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="card text-white text-center bg-secondary mb-3" style="max-width: 15rem;">
+                                <div class="card text-center bg-secondary mb-3" style="max-width: 15rem;">
                                     <div class="card-header">Items Activos</div>
                                     <div class="card-body">
                                       <h2 class="card-title mb-0 mt-0">{{$items_activos}}</h2>

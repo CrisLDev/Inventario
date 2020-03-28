@@ -12,7 +12,7 @@
                         <form id="form-prevent-multiple-submits" method="POST" action="{{route('roles.store')}}">
                             @csrf
                             <div class="form-group">
-                                <label for="nombreE">Nombre del Rol</label>
+                                <label>Nombre del Rol</label>
                                 <input
                                 type="text"
                                 name="name"
@@ -47,16 +47,17 @@
                             <hr>
                             <h5>Permiso Especial</h5>
                             <div class="form-group">
-                                <input type="radio" name="special" value="all-access">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Acceso Total
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <input type="radio" name="special" value="no-access">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Sin acceso
-                                </label>
+                                <ul class="list-unstyled  d-flex justify-content-between" id="radiob">
+                                    <label>
+                                    <input type="radio" name="special" value="all-access">
+                                        Acceso Total
+                                    </label>
+                                    <label>
+                                    <input type="radio" name="special" value="no-access">
+                                        Sin acceso
+                                    </label>
+                                    <label><a class="btn btn-success btn-sm text-white uncheckb">Desmarcar</a></label>
+                                    </ul>
                             </div>
                             <hr>
                             <div class="form-group">
@@ -80,4 +81,13 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+<script>
+    $(document).ready(function(){
+        $('#radiob').on('click', '.uncheckb', function(){
+            $('input[type="radio"]').prop('checked', false); 
+        });
+    });
+</script>
 @endsection

@@ -5,3 +5,12 @@
 .table{
     table-layout: fixed;
 }
+
+.circle_left {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #f47c3c;
+    border-radius: 50%;
+    margin-right: 5px;
+}
