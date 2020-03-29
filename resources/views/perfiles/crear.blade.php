@@ -81,14 +81,14 @@
                             <div class="input-group mb-3">
                                 <div class="custom-file">
                                   <input type="file" name="imgurl" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                  <label class="custom-file-label" for="inputGroupFile01">Elegir archivo</label>
                                 </div>
                               </div>
                               <hr>
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block" id="crear-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
-                                    <span id="btex">Publicar</span></button>
+                                    <span id="btex">Crear</span></button>
                             </div>
                         </form>
                     </div>

@@ -102,7 +102,7 @@ class UserController extends Controller
                     'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
                         return $query->where('activo', 1);
                     })],
-                    'password' => ['string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                    'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
                 ]);
                 if($todobien->fails()){
                     return redirect()->back()->withInput()->withErrors($todobien->errors());

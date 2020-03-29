@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Editar
+                        Editar Usuario
                     </div>
                     <div class="card-body">
                         <form id="form-prevent-multiple-submits" method="POST" enctype="multipart/form-data" action="{{route('perfil.update', $user->id)}}">
@@ -140,9 +140,9 @@
                               </div>
                               <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block" id="crear-prevent-multiple-submits" type="submit">
+                                <button class="btn btn-warning btn-block" id="crear-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
-                                    <span id="btex">Publicar</span></button>
+                                    <span id="btex">Editar</span></button>
                             </div>
                         </form>
                     </div>
