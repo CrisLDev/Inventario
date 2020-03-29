@@ -64,6 +64,8 @@ class Kernel extends HttpKernel
         'role' => \Caffeinated\Shinobi\Middleware\UserHasRole::class,
         'has.permission' => \Caffeinated\Shinobi\Middleware\UserHasPermission::class,
         'tieneperfil' => \App\Http\Middleware\PerfilMiddleware::class,
+        'notieneperfil' => \App\Http\Middleware\NoPerfilMiddleware::class,
+        'eliminado' => \App\Http\Middleware\EstaInactivoMiddleware::class,
     ];
 
     /**

@@ -21,9 +21,10 @@ Auth::routes();
 
 /*Fin rutas para Items*/
 
-Route::get( '/home', 'HomeController@index' )->name( 'home' );
+Route::middleware(['auth', 'eliminado'])->group(function(){
 
-Route::middleware(['auth'])->group(function(){
+    Route::get( '/home', 'HomeController@index' )->name( 'home' );
+
 
     /*Rutas para Items*/
 
@@ -82,11 +83,11 @@ Route::middleware(['auth'])->group(function(){
 
     Route::post( '/perfil/store', 'PerfilController@store' )->name( 'perfil.store' )->middleware('tieneperfil');;
 
-    Route::get( '/perfil/{perfi}/edit', 'PerfilController@edit' )->name( 'perfil.edit' );
+    Route::get( '/perfil/{perfi}/edit', 'PerfilController@edit' )->name( 'perfil.edit' )->middleware('notieneperfil');
 
-    Route::put( '/perfil/{perfi}', 'PerfilController@update' )->name( 'perfil.update' );
+    Route::put( '/perfil/{perfi}', 'PerfilController@update' )->name( 'perfil.update' )->middleware('notieneperfil');;
 
-    Route::delete( '/perfil/{perfi}', 'PerfilController@destroy' )->name( 'perfil.destroy' );
+    Route::delete( '/perfil/{perfi}', 'PerfilController@destroy' )->name( 'perfil.destroy' )->middleware('notieneperfil');;
 
     //Rutas para Rol
     Route::get( '/roles', 'RolController@index' )->name( 'roles.index' )->middleware('can:roles.index');

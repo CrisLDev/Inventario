@@ -13,7 +13,11 @@
                                 </div>
                             </div>
                         @else
-                            
+                            <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <img class="img-thumbnail imgperfil" src="imgs/no-image.jpg" alt="imagendeperfil">
+                                </div>
+                            </div>
                         @endif
                     </div>
                     <div class="col-xl-8 col-md-12">

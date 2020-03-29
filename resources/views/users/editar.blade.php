@@ -12,27 +12,57 @@
                         <form id="form-prevent-multiple-submits" method="POST" action="{{route('users.update', $user->id)}}">
                             @csrf
                             @method('PUT')
-                            <div class="form-group">
-                                <label for="nombre">Nombre de Usuario</label>
-                                <input
-                                type="text"
-                                name="name"
-                                id="nombre"
-                                placeholder="Nombre"
-                                class="form-control mb-2"
-                                value="{{$user->name}}"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">Email de Usuario</label>
-                                <input
-                                type="text"
-                                name="email"
-                                id="email"
-                                placeholder="Email"
-                                class="form-control mb-2"
-                                value="{{$user->email}}"
-                                />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre de Usuario</label>
+                                        <input
+                                        type="text"
+                                        name="name"
+                                        id="nombre"
+                                        placeholder="Nombre"
+                                        class="form-control mb-2"
+                                        value="{{$user->name}}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombre">Email de Usuario</label>
+                                        <input
+                                        type="text"
+                                        name="email"
+                                        id="email"
+                                        placeholder="Email"
+                                        class="form-control mb-2"
+                                        value="{{$user->email}}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Contraseña:</label>
+                                            <input
+                                            type="password"
+                                            name="password"
+                                            id="password"
+                                            placeholder="Ingresa tus contraseña"
+                                            class="form-control mb-2"
+                                            />
+                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Contraseña:</label>
+                                            <input
+                                            type="password"
+                                            name="password_confirmation"
+                                            id="password"
+                                            placeholder="Ingresa tus contraseña"
+                                            class="form-control mb-2"
+                                            />
+                                        </div>
+                                </div>
                             </div>
                             <hr>
                             <div class="form-group">

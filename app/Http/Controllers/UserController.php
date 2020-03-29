@@ -102,6 +102,7 @@ class UserController extends Controller
                     'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
                         return $query->where('activo', 1);
                     })],
+                    'password' => ['string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
                 ]);
                 if($todobien->fails()){
                     return redirect()->back()->withInput()->withErrors($todobien->errors());
@@ -110,6 +111,9 @@ class UserController extends Controller
                 $user = User::findOrFail($id);
                 $user->name = $request->name;
                 $user->email = $request->email;
+                if($request->password){
+                    $user->password = $password = bcrypt($request->password);
+                }
                 $user->save();
                 //Actualizamos roles
                 if($request->get('roles')){
@@ -128,12 +132,16 @@ class UserController extends Controller
                     'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
                         return $query->where('activo', 1);
                     })],
+                    'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
                 ]);
                 if($todobien->fails()){
                     return redirect()->back()->withInput()->withErrors($todobien->errors());
                 }else{
                 //Actualizamos usuario
                 $user = User::findOrFail($id);
+                if($request->password){
+                    $user->password = $password = bcrypt($request->password);
+                }
                 $user->name = $request->name;
                 $user->email = $request->email;
                 $user->save();

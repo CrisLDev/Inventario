@@ -65,7 +65,7 @@ class PerfilController extends Controller
                     return $query->where('activo', 1)->where('apellidos', $request->apellidos);
                 }),],
                 'apellidos' => 'required','string','max:20','min:4',
-                'imgurl' => 'mimes:jpg,jpeg,bmp,png|required',
+                'imgurl' => 'mimes:jpg,jpeg,bmp,png',
                 'direccion' => 'required','alpha','max:40','min:4',
                 'edad' => 'required|digits_between:1,2',
                 'ntelefono' => 'required|max:20|min:3|digits_between:1,10',
@@ -73,16 +73,22 @@ class PerfilController extends Controller
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{
-            $saveTo = 'public/userImage';
-            $path = $request->file('imgurl')->store($saveTo);
-            $filename = substr($path, strlen($saveTo) + 1);
+            if($request->imgurl){
+                $saveTo = 'public/userImage';
+                $path = $request->file('imgurl')->store($saveTo);
+                $filename = substr($path, strlen($saveTo) + 1);
+            }
             $data = new Perfil();
             $data->nombres = $request->nombres;
             $data->apellidos = $request->apellidos;
             $data->edad = $request->edad;
             $data->direccion = $request->direccion;
             $data->ntelefono = $request->ntelefono;
-            $data->imgurl = '/storage/userImage/'.$filename;
+            if($request->imgurl){
+                $data->imgurl = '/storage/userImage/'.$filename;
+            }else{
+                $data->imgurl = 'imgs/no-image.jpg';
+            }
             $data->us_id = auth()->user()->id;
             //$item->it_activo = '0';
             $data->save();
@@ -128,29 +134,53 @@ class PerfilController extends Controller
                     return $query->where('activo', 1)->where('apellidos', $request->apellidos);
                 }),],
                 'apellidos' => 'required','string','max:20','min:4',
-                'imgurl' => 'mimes:jpg,jpeg,bmp,png|required',
+                'imgurl' => 'mimes:jpg,jpeg,bmp,png',
                 'direccion' => 'required','alpha','max:40','min:4',
                 'edad' => 'required|digits_between:1,2',
-                'ntelefono' => 'required|max:20|min:3|digits_between:1,10',
+                'ntelefono' => 'required|max:20|min:3|digits_between:0,10',
+                'name' => ['required', 'string', 'max:255', 'min:6', Rule::unique('users')->ignore($id)->where(function ($query)use($request){
+                    return $query->where('activo', 1)->where('email', $request->email);
+                }),],
+                'email' => ['required', 'email:rfc,dns', 'max:255', Rule::unique('users')->ignore($id)->where(function ($query)use($request){
+                    return $query->where('activo', 1)->where('name', $request->name);
+                }),],
+                'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
             ]);
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{
-            $data = Perfil::where('us_id', $id)->first();
-            $imantigua = $data->imgurl;
-            if(Storage::disk('public')->path($imantigua)){
-               $nombre = class_basename($imantigua);
-                Storage::disk('public')->delete('userImage/'.$nombre);
+            $user = User::findOrFail($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            if($request->password){
+                $user->password = $password = bcrypt($request->password);
             }
-            $saveTo = 'public/userImage';
-            $path = $request->file('imgurl')->store($saveTo);
-            $filename = substr($path, strlen($saveTo) + 1);
+            $user->save();
+            $data = Perfil::where('us_id', $id)->first();
+            if(!$request->get('antigua')){
+            if($request->imgurl){
+                $imantigua = $data->imgurl;
+                if(Storage::disk('public')->path($imantigua)){
+                   $nombre = class_basename($imantigua);
+                    Storage::disk('public')->delete('userImage/'.$nombre);
+                }
+                $saveTo = 'public/userImage';
+                $path = $request->file('imgurl')->store($saveTo);
+                $filename = substr($path, strlen($saveTo) + 1);
+            }
+        }
             $data->nombres = $request->nombres;
             $data->apellidos = $request->apellidos;
             $data->edad = $request->edad;
             $data->direccion = $request->direccion;
             $data->ntelefono = $request->ntelefono;
-            $data->imgurl = '/storage/userImage/'.$filename;
+            if(!$request->get('antigua')){
+                if($request->imgurl){
+                    $data->imgurl = '/storage/userImage/'.$filename;
+                }else{
+                    $data->imgurl = 'imgs/no-image.jpg';
+                }
+            }
             $data->us_id = auth()->user()->id;
             //$item->it_activo = '0';
             $data->save();

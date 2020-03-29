@@ -6,13 +6,63 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Crear perfil
+                        Editar
                     </div>
                     <div class="card-body">
                         <form id="form-prevent-multiple-submits" method="POST" enctype="multipart/form-data" action="{{route('perfil.update', $user->id)}}">
                             @method('PUT')
                             @csrf
                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Usuario:</label>
+                                        <input
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        placeholder="Ingresa tus usuario"
+                                        class="form-control mb-2"
+                                        value="{{$user->name}}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email:</label>
+                                        <input
+                                        type="text"
+                                        name="email"
+                                        id="email"
+                                        placeholder="Ingresa tu email"
+                                        class="form-control mb-2"
+                                        value="{{$user->email}}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Contraseña:</label>
+                                        <input
+                                        type="password"
+                                        name="password"
+                                        id="password"
+                                        placeholder="Ingresa tus contraseña"
+                                        class="form-control mb-2"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Confirmar contraseña:</label>
+                                        <input
+                                        type="password"
+                                        name="password_confirmation"
+                                        id="password"
+                                        placeholder="Ingresa tus contraseña"
+                                        class="form-control mb-2"
+                                        />
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nombres:</label>
@@ -82,8 +132,11 @@
                             <div class="input-group mb-3">
                                 <div class="custom-file">
                                   <input type="file" name="imgurl" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                  <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
                                 </div>
+                              </div>
+                              <div class="alert alert-danger pt-1 pb-1" role="alert">
+                                <label class="mb-0"><input type="checkbox" name="antigua" id="antigua"><em>(Utilizar foto anterior.)</em></label>
                               </div>
                               <hr>
                             <div class="form-group">
