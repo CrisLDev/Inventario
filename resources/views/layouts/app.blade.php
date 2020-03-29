@@ -136,7 +136,6 @@
         </main>
     </div>
     <script src="{{asset('js/jquery.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap.min.js')}}" defer></script>
     <script src="{{asset('js/scripts.js')}}"></script>
     <script>
         $(document).ready(function(){

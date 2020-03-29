@@ -116,6 +116,9 @@ class PerfilController extends Controller
         public function edit($id)
         {   
             $perfil = Perfil::where('us_id', $id)->first();
+            if(!$perfil){
+                return redirect('/perfil')->with('erroresc', '¡Este no es tu perfil!');
+            }
             $user = User::findOrFail($id);
             return view('perfiles.editar', compact('user', 'perfil'));
         }
