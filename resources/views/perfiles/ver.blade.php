@@ -70,6 +70,13 @@
                                     <div class="col-md-6">
                                         <div>
                                             <a class="btn btn-warning btn-sm" href="{{route('perfil.edit', Auth::user()->id)}}">Editar</a>
+                                            <form action="{{route('perfil.destroy', $perfil->id)}}" method="POST" class="d-inline">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="btn btn-danger btn-sm" type="submit">
+                                                    Eliminar
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

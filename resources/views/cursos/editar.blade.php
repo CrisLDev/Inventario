@@ -47,9 +47,9 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block" id="crear-prevent-multiple-submits" type="submit">
+                                <button class="btn btn-warning btn-block" id="crear-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
-                                    <span id="btex">Publicar</span></button>
+                                    <span id="btex">Editar</span></button>
                             </div>
                         </form>
                     </div>

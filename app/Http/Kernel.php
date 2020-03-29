@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'tieneperfil' => \App\Http\Middleware\PerfilMiddleware::class,
         'notieneperfil' => \App\Http\Middleware\NoPerfilMiddleware::class,
         'eliminado' => \App\Http\Middleware\EstaInactivoMiddleware::class,
+        'isadmin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 
     /**

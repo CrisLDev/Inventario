@@ -4,9 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-use \App\Perfil;
-
-class PerfilMiddleware
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,15 +15,10 @@ class PerfilMiddleware
      */
     public function handle($request, Closure $next)
     {
-
-        $id = auth()->user()->id;
-
-        $perfil = Perfil::where('us_id', $id)->where('activo', '>', '0')->first();
-
-        if ($perfil) {
-            return redirect('/perfil')->with('erroresc', '¡Ya haz creado un perfil!');
+        $rol = $roles = auth()->user()->roles;
+        if($rol[0]->id != '1'){
+            return abort(404);
         }
-
         return $next($request);
     }
 }

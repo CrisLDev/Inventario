@@ -88,7 +88,7 @@
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block" id="crear-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
-                                    <span id="btex">Crear</span></button>
+                                    <span id="btex">Guardar</span></button>
                             </div>
                         </form>
                     </div>

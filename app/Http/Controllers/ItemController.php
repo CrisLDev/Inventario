@@ -111,7 +111,10 @@ class ItemController extends Controller {
     */
 
     public function edit( $id ) {
-        $items = Item::findOrFail($id);;
+        $items = Item::where('id', $id)->where('activo', '>', '0')->first();
+        if(!$items){
+            return abort(404);
+        }
         $cursos = Curso::get();
         return view('items.editar', compact('items','cursos'));
     }
@@ -137,7 +140,10 @@ class ItemController extends Controller {
         if($todobien->fails()){
             return redirect()->back()->withInput()->withErrors($todobien->errors());
         }else{
-        $data = Item::findOrFail($id);
+        $data = Item::where('id', $id)->where('activo', '>', '0')->first();
+        if(!$data){
+            return abort(404);
+        }
         $id = $request->curso;
         $cursos = Curso::select('curso','paralelo')->where('id', $id)->get();
         $cursosaguardar = $cursos[0]->curso." ".$cursos[0]->paralelo;
@@ -163,7 +169,10 @@ class ItemController extends Controller {
     */
 
     public function destroy( $id ) {
-        $data = Item::findOrFail( $id );
+        $data = Item::where('id', $id)->where('activo', '>', '0')->first();
+        if(!$data){
+            return abort(404);
+        }
         $data->activo = 0;
         $data->save();
         return back()->with( 'mensaje', 'Item Eliminado' );
@@ -180,6 +189,20 @@ class ItemController extends Controller {
         // Finally, you can download the file using download function
         $now = new \DateTime();
         return $pdf->download( 'iitems_'.$now->format( 'd-m-Y' ).'_.pdf' );
+    }
+
+    public function export_pdf_hoy() {
+        // Fetch all customers from database
+        $now = new \DateTime();
+        $fecha = $now->format( 'Y-m-d' );
+        $data = Item::whereDate('created_at', $fecha )->orderBy( 'id', 'desc' )->get();
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView( 'items.pdfi', ['items' => $data] );
+        // If you want to store the generated pdf to the server then you can use the store function
+        /*$pdf->save( storage_path().'_filename.pdf' );
+        */
+        // Finally, you can download the file using download function
+        return $pdf->download( 'iitems_'.$now->format( 'd-m-Y' ).'_hoy_.pdf' );
     }
 
     public function export_exl() {

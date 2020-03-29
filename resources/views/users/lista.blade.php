@@ -55,8 +55,6 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
-                    <a class="btn btn-warning text-white btn-sm" href="{{ route('items.export_exl') }}"><i class="fas fa-file-excel"></i> Excel</a>
-                    <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
                 </div>
 
                 <div class="card-body">

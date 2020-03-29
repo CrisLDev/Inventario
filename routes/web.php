@@ -42,14 +42,16 @@ Route::middleware(['auth', 'eliminado'])->group(function(){
 
     Route::delete( '/items/{item}', 'ItemController@destroy' )->name( 'items.destroy' )->middleware('can:items.eliminar');
 
-    Route::get( '/items/pdf', 'ItemController@export_pdf' )->name( 'items.export_pdf' );
+    Route::get( '/items/pdf/hoy', 'ItemController@export_pdf_hoy' )->name( 'items.export_pdf_hoy' )->middleware('can:items.index');
 
-    Route::get( '/items/excel', 'ItemController@export_exl' )->name( 'items.export_exl' );
+    Route::get( '/items/pdf', 'ItemController@export_pdf' )->name( 'items.export_pdf' )->middleware('can:items.index');
+
+    Route::get( '/items/excel', 'ItemController@export_exl' )->name( 'items.export_exl' )->middleware('can:items.index');
 
     //Rutas para Curso
     Route::get( '/cursos', 'CursoController@index' )->name( 'cursos.index' )->middleware('can:cursos.index');
 
-    Route::get( '/cursos/ver', 'CursoController@ver' )->name( 'cursos.ver' )->middleware('can:items.index');
+    Route::get( '/cursos/ver', 'CursoController@ver' )->name( 'cursos.ver' )->middleware('can:cursos.index');
 
     Route::get( '/cursos/create', 'CursoController@create' )->name( 'cursos.create' )->middleware('can:cursos.crear');
 
@@ -103,4 +105,7 @@ Route::middleware(['auth', 'eliminado'])->group(function(){
     Route::put( '/roles/{role}', 'RolController@update' )->name( 'roles.update' )->middleware('can:roles.editar');
 
     Route::delete( '/roles/{role}', 'RolController@destroy' )->name( 'roles.destroy' )->middleware('can:roles.eliminar');
+
+    //Rutas Admin
+    Route::get( '/admin', 'AdminController@index' )->name( 'admin.index' )->middleware('isadmin');;
 });

@@ -10,7 +10,7 @@ use Validator;
 
 use Illuminate\Validation\Rule;
 
-class CursoController extends Controller
+class AdminController extends Controller
 {
    /**
          * Create a new controller instance.
@@ -29,8 +29,7 @@ class CursoController extends Controller
          */
         public function index()
         {
-            $cursos = Curso::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 8 );
-            return view('cursos.lista', compact('cursos'));
+            return view('admin.index');
         }
     
         /**
@@ -90,10 +89,7 @@ class CursoController extends Controller
      */
     public function edit($id)
     {
-        $curso = Curso::where('id', $id)->where('activo', '>', '0')->first();
-        if(!$curso){
-            return abort(404);
-        }
+        $curso = Curso::findOrFail($id);
         return view('cursos.editar', compact('curso'));
     }
 
@@ -116,10 +112,7 @@ class CursoController extends Controller
         if($todobien->fails()){
             return redirect()->back()->withInput()->withErrors($todobien->errors());
         }else{
-        $curso = Curso::where('id', $id)->where('activo', '>', '0')->first();
-        if(!$curso){
-            return abort(404);  
-        }
+        $curso = Curso::findOrFail($id);
         $curso->curso = $request->curso;
         $curso->paralelo = $request->paralelo;
         $curso->descripcion = $request->descripcion;

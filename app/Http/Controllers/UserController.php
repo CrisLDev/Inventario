@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\User;
 
+use App\Perfil;
+
 use Validator;
 
 use Illuminate\Validation\Rule;
+
+use Illuminate\Support\Facades\Storage;
 
 use Caffeinated\Shinobi\Models\Role;
 
@@ -165,7 +169,20 @@ class UserController extends Controller
          */
         public function destroy($id)
         {
-            $user = User::findOrFail($id);
+            $user = User::where('id',$id)->where('activo', '>', '0')->first();
+            $perfil= Perfil::where('us_id',$id)->where('activo', '>', '0')->first();
+            if($perfil){
+                if($perfil->imgurl){
+                    $imantigua = $perfil->imgurl;
+                    if(Storage::disk('public')->path($imantigua)){
+                       $nombre = class_basename($imantigua);
+                        Storage::disk('public')->delete('userImage/'.$nombre);
+                    }
+                }
+                $perfil->imgurl = 'imgs/no-image.jpg';
+                $perfil->activo = 0;
+                $perfil->save();
+            }
             $user->activo = 0;
             $user->save();
             return back()->with('mensaje', 'Usuario editado con éxito.');

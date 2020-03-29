@@ -37,7 +37,7 @@ class PerfilController extends Controller
         public function index()
         {
             $id = auth()->user()->id;
-            $perfil = Perfil::where('us_id', $id)->first();
+            $perfil = Perfil::where('us_id', $id)->where('activo', '>','0')->first();
             $roles = auth()->user()->roles;
             return view('perfiles.ver', compact('perfil', 'roles'));
         }
@@ -115,11 +115,12 @@ class PerfilController extends Controller
          */
         public function edit($id)
         {   
-            $perfil = Perfil::where('us_id', $id)->first();
+            $uid = auth()->user()->id;
+            $perfil = Perfil::where('us_id', $uid)->where('activo', '>', '0')->first();
             if(!$perfil){
-                return redirect('/perfil')->with('erroresc', '¡Este no es tu perfil!');
+                return redirect('/perfil')->with('erroresc', '¡Este no es tu perfil o ha sido eliminado!');
             }
-            $user = User::findOrFail($id);
+            $user = User::where('id', $uid)->first();
             return view('perfiles.editar', compact('user', 'perfil'));
         }
     
@@ -152,14 +153,18 @@ class PerfilController extends Controller
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{
-            $user = User::findOrFail($id);
+            $uid = auth()->user()->id;
+            $user = User::where('id', $uid)->first();
             $user->name = $request->name;
             $user->email = $request->email;
             if($request->password){
                 $user->password = $password = bcrypt($request->password);
             }
             $user->save();
-            $data = Perfil::where('us_id', $id)->first();
+            $data = Perfil::where('us_id', $uid)->first();
+            if(!$data){
+                return redirect('/perfil')->with('erroresc', '¡Este no es tu perfil!');
+            }
             if(!$request->get('antigua')){
             if($request->imgurl){
                 $imantigua = $data->imgurl;
@@ -199,10 +204,14 @@ class PerfilController extends Controller
          */
         public function destroy($id)
         {
-            $user = User::findOrFail($id);
-            $user->activo = 0;
-            $user->save();
-            return back()->with('mensaje', 'Usuario editado con éxito.');
+            $uid = auth()->user()->id;
+            $data = Perfil::where('us_id', $uid)->where('activo','>','0')->first();
+            if(!$data){
+                return redirect('/perfil')->with('erroresc', '¡Este no es tu perfil!');
+            }
+            $data->activo = 0;
+            $data->save();
+            return back()->with('mensaje', 'Perfil eliminado con éxito.');
         }
 
         public function ver( Request $request ) {

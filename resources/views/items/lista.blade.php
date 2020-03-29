@@ -67,11 +67,14 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
-                    <a class="btn btn-warning text-white btn-sm" href="{{ route('items.export_exl') }}"><i class="fas fa-file-excel"></i> Excel</a>
-                    <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
-                    @can('items.crear')
-                    <a href="{{route('items.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
-                    @endcan
+                    <div>
+                      <a class="btn btn-warning text-white btn-sm" href="{{ route('items.export_exl') }}"><i class="fas fa-file-excel"></i> Excel</a>
+                      <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
+                      <a class="btn btn-info btn-sm" href="{{ route('items.export_pdf_hoy') }}"><i class="fas fa-file-pdf"></i> Items de hoy</a>
+                      @can('items.crear')
+                      <a href="{{route('items.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
+                      @endcan
+                    </div>
                 </div>
 
                 <div class="card-body">
