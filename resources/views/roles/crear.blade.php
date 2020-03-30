@@ -45,6 +45,7 @@
                                 />
                             </div>
                             <hr>
+                            @can('isadmin')
                             <h5>Permiso Especial</h5>
                             <div class="form-group">
                                 <ul class="list-unstyled  d-flex justify-content-between" id="radiob">
@@ -60,6 +61,7 @@
                                     </ul>
                             </div>
                             <hr>
+                            @endcan
                             <div class="form-group">
                                 <ul class="list-unstyled">
                                     @foreach ($permissions as $permission)
