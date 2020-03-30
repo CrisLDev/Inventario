@@ -65,7 +65,7 @@ class PerfilController extends Controller
                     return $query->where('activo', 1)->where('apellidos', $request->apellidos);
                 }),],
                 'apellidos' => 'required','string','max:20','min:4',
-                'imgurl' => 'mimes:jpg,jpeg,bmp,png',
+                'imgurl' => 'mimes:jpg,jpeg,bmp,png|file|size:1024',
                 'direccion' => 'required','alpha','max:40','min:4',
                 'edad' => 'required|digits_between:1,2',
                 'ntelefono' => 'required|max:20|min:3|digits_between:1,10',
@@ -138,7 +138,7 @@ class PerfilController extends Controller
                     return $query->where('activo', 1)->where('apellidos', $request->apellidos);
                 }),],
                 'apellidos' => 'required','string','max:20','min:4',
-                'imgurl' => 'mimes:jpg,jpeg,bmp,png',
+                'imgurl' => 'mimes:jpg,jpeg,bmp,png|file|size:1024',
                 'direccion' => 'required','alpha','max:40','min:4',
                 'edad' => 'required|digits_between:1,2',
                 'ntelefono' => 'required|max:20|min:3|digits_between:0,10',

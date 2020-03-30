@@ -106,7 +106,7 @@ return [
     'same' => 'The :attribute and :other must match.',
     'size' => [
         'numeric' => 'The :attribute must be :size.',
-        'file' => 'The :attribute must be :size kilobytes.',
+        'file' => 'La imagen del campo :attribute no debe tener más de :size kilobytes = 1MB.',
         'string' => 'The :attribute must be :size characters.',
         'array' => 'The :attribute must contain :size items.',
     ],
