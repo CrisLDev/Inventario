@@ -100,7 +100,7 @@ class UserController extends Controller
                     return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
                 }else{
                 $todobien = Validator::make($request->all(),[
-                    'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                    'name' => ['required','string','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
                         return $query->where('activo', 1);
                     })],
                     'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
