@@ -14,9 +14,9 @@ return [
     */
 
     'reset' => '¡Tu contraseña ha sido restaurada!',
-    'sent' => '¡Hemos enviado un link a tu e-mail con tu contraseña reseteada!',
+    'sent' => '¡Hemos enviado un link a tu e-mail con tu nueva contraseña!',
     'throttled' => 'Espera un momento antes de volver a intentar.',
-    'token' => 'El token para resetear tu contraseña es invalido.',
+    'token' => 'El token para cambiar tu contraseña es invalido.',
     'user' => "No hemos podido encontrar un usuario con ese E-mail.",
 
 ];
