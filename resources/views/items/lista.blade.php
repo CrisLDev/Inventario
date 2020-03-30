@@ -84,6 +84,7 @@
                             <tr>
                                 <th scope="col" class="text-truncate">#</th>
                                 <th scope="col" class="text-truncate">Nombre</th>
+                                <th scope="col" class="text-truncate">Curso</th>
                                 <th scope="col" class="text-truncate">Descripción</th>
                                 <th scope="col" class="text-truncate">Acciones</th>
                             </tr>
@@ -93,6 +94,7 @@
                                 <tr class="item{{$item->id}}tr">
                                     <th scope="row"><div id="nid">{{$item->id}}</div></th>
                                     <td class="text-truncate"><label>{{$item->nombre}}</label></td>
+                                    <td class="text-truncate"><label>{{$item->curso}}</label></td>
                                     <td class="text-truncate"><label>{{$item->descripcion}}</label></td>
                                 <td class="text-truncate text-center"><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
                               </td>
