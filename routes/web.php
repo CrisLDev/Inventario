@@ -19,9 +19,11 @@ Route::fallback(function(){
 
 Auth::routes();
 
+Auth::routes(['verify' => true]);
+
 /*Fin rutas para Items*/
 
-Route::middleware(['auth', 'eliminado'])->group(function(){
+Route::middleware(['auth', 'eliminado','verified'])->group(function(){
 
     Route::get( '/home', 'HomeController@index' )->name( 'home' );
 

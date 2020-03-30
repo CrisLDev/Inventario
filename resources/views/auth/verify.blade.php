@@ -14,11 +14,11 @@
                         </div>
                     @endif
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
+                    {{ __('Antes de continuar, por favor verifica tu email.') }}
+                    {{ __('Si no reciviste un email de confirmación.') }},
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('Click aquí para solicitar un nuevo email de confirmación.') }}</button>.
                     </form>
                 </div>
             </div>
