@@ -27,7 +27,7 @@
               <a href="" class="btn btn-warning text-white" id="editar">Editar</a>
             @endcan
             @can('users.eliminar')
-            <form action="" method="POST" class="d-inline">
+            <form action="{{route('users.eliminar')}}" method="POST" class="d-inline">
               @method('DELETE')
               @csrf
               <button class="btn btn-danger" type="submit">
