@@ -16,7 +16,11 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         $rol = $roles = auth()->user()->roles;
-        if($rol[0]->id != '1'){
+        if(count($rol) > 0){
+            if(($rol[0]->id != '1')){
+                return abort(404);
+            }
+        }else{
             return abort(404);
         }
         return $next($request);

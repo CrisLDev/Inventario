@@ -95,6 +95,10 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
+                                    @can('isadmin')
+                                    <a class="dropdown-item" href="/admin">Administración</a>
+                                    @endcan
+                                    
                                     <a class="dropdown-item" href="/perfil">Perfil</a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
