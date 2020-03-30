@@ -103,7 +103,7 @@
         $('.modalE').show();
         cnic = $(this).attr('data-id');
         $.ajax({
-            type: "´post",
+            type: "post",
             data: {'_token': $('input[name=_token]').val(),'cnic':cnic},
             url: "/roles/ver",
             success: function(data){
