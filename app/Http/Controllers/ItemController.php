@@ -211,12 +211,10 @@ class ItemController extends Controller {
     }
 
     public function ver( Request $request ) {
-        if ( $request->ajax() ) {
 
-            $item = Item::findOrFail( $request->cnic );
+            $item = Item::find( $request->cnic );
 
             //return dd( $item->id );
             return response()->json( $item );
-        }
     }
 }

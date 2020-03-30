@@ -103,10 +103,9 @@
         $('.modalE').show();
         cnic = $(this).attr('data-id');
         $.ajax({
-            type: "GET",
-            data: {'cnic':cnic},
-            dataType: 'json',
-            url: "roles/ver",
+            type: "´post",
+            data: {'_token': $('input[name=_token]').val(),'cnic':cnic},
+            url: "/roles/ver",
             success: function(data){
                 $("#nombre").append(data.name);
                 $("#descripcion").append(data.description);

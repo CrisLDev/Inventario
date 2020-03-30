@@ -189,13 +189,11 @@ class UserController extends Controller
         }
 
         public function ver( Request $request ) {
-            if ( $request->ajax() ) {
     
-                $user = User::findOrFail( $request->cnic );
+                $user = User::find( $request->cnic );
     
                 //return dd( $item->id );
                 return response()->json( $user );
-            }
         }
 
 }

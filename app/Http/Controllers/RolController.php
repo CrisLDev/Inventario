@@ -156,13 +156,11 @@ class RolController extends Controller
         }
 
         public function ver( Request $request ) {
-            if ( $request->ajax() ) {
     
-                $role = Role::findOrFail( $request->cnic );
+                $role = Role::find( $request->cnic );
     
                 //return dd( $item->id );
                 return response()->json( $role );
-            }
         }
 
 }

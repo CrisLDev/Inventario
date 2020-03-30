@@ -144,12 +144,10 @@ class CursoController extends Controller
     }
 
     public function ver( Request $request ) {
-        if ( $request->ajax() ) {
 
-            $curso = Curso::findOrFail( $request->cnic );
+            $data = Curso::find( $request->cnic );
 
             //return dd( $item->id );
-            return response()->json( $curso );
-        }
+            return response()->json( $data );
     }
 }

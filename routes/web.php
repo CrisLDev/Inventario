@@ -32,7 +32,7 @@ Route::middleware(['auth', 'eliminado'])->group(function(){
 
     Route::get( '/items/create', 'ItemController@create' )->name( 'items.create' )->middleware('can:items.crear');
 
-    Route::get( '/items/ver', 'ItemController@ver' )->name( 'items.ver' )->middleware('can:items.index');
+    Route::post( '/items/ver', 'ItemController@ver' )->name( 'items.ver' )->middleware('can:items.index');
 
     Route::post( '/items/store', 'ItemController@store' )->name( 'items.store' )->middleware('can:items.crear');
 
@@ -51,7 +51,7 @@ Route::middleware(['auth', 'eliminado'])->group(function(){
     //Rutas para Curso
     Route::get( '/cursos', 'CursoController@index' )->name( 'cursos.index' )->middleware('can:cursos.index');
 
-    Route::get( '/cursos/ver', 'CursoController@ver' )->name( 'cursos.ver' )->middleware('can:cursos.index');
+    Route::post( '/cursos/ver', 'CursoController@ver' )->name( 'cursos.ver' )->middleware('can:cursos.index');
 
     Route::get( '/cursos/create', 'CursoController@create' )->name( 'cursos.create' )->middleware('can:cursos.crear');
 
@@ -66,7 +66,7 @@ Route::middleware(['auth', 'eliminado'])->group(function(){
     //Rutas para Usuario
     Route::get( '/users', 'UserController@index' )->name( 'users.index' )->middleware('can:users.index');
 
-    Route::get( '/users/ver', 'UserController@ver' )->name( 'users.ver' )->middleware('can:users.index');
+    Route::post( '/users/ver', 'UserController@ver' )->name( 'users.ver' )->middleware('can:users.index');
 
     Route::get( '/users/create', 'UserController@create' )->name( 'users.create' )->middleware('can:users.crear');
 
@@ -94,7 +94,7 @@ Route::middleware(['auth', 'eliminado'])->group(function(){
     //Rutas para Rol
     Route::get( '/roles', 'RolController@index' )->name( 'roles.index' )->middleware('can:roles.index');
 
-    Route::get( '/roles/ver', 'RolController@ver' )->name( 'roles.ver' )->middleware('can:roles.index');
+    Route::post( '/roles/ver', 'RolController@ver' )->name( 'roles.ver' )->middleware('can:roles.index');
 
     Route::get( '/roles/create', 'RolController@create' )->name( 'roles.create' )->middleware('can:roles.crear');
 
