@@ -41,6 +41,7 @@
                 <div class="card-header">Acciones</div>
 
                 <div class="card-body">
+
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-4">

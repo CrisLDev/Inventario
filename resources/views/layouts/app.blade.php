@@ -120,6 +120,11 @@
 
         <main class="py-4">
             <div class="container mt-0 pt-0 mensajes">
+                @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
+                @endif
                 @if ( session('mensaje') )
                 <div class="alert alert-success">{{ session('mensaje') }}</div>
                 @endif
