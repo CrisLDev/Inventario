@@ -103,9 +103,7 @@ class UserController extends Controller
                     'name' => ['required','string','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
                         return $query->where('activo', 1);
                     })],
-                    'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
-                        return $query->where('activo', 1);
-                    })],
+                    'email' => ['required','email:rfc,dns','max:40','min:10','unique:users'],
                     'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
                 ]);
                 if($todobien->fails()){
