@@ -160,9 +160,9 @@ class RolController extends Controller
             $data = Role::where('id', $id)->first();
             if(!$data){
                 return abort(404);
+            }else{
+                $data->delete();
             }
-            $data->activo = 0;
-            $data->save();
             return back()->with( 'mensaje', 'Rol Eliminado' );
         }
 
