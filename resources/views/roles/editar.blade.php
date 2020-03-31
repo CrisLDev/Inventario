@@ -42,7 +42,7 @@
                                 id="descripcion"
                                 placeholder="Descripcion"
                                 class="form-control mb-2"
-                                >{{$role->descripcion}}</textarea>
+                                >{{$role->description}}</textarea>
                             </div>
                             @can('isadmin')
                             <h5>Permiso Especial</h5>

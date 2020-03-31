@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive-xl">
                       <table class="table table-hover table-hover-cursor">
                         <thead>
                             <tr>
@@ -76,7 +76,7 @@
                                 <tr>
                                     <th scope="row">{{$curso->id}}</th>
                                 <td><label>{{$curso->curso}} {{$curso->paralelo}}</label></td>
-                                    <td class="text-truncate"><label>{{$curso->descripcion}}</label></td>
+                                    <td class="text-truncate" style="max-width:15px;><label>{{$curso->descripcion}}</label></td>
                                 <td class="text-truncate text-center"><a data-toggle="modal" data-target="#verModal" data-id="{{$curso->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
                               </td>
                                 </tr>

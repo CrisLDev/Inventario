@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="card-body">
-                  <div class="table-responsive-sm">
+                  <div class="table-responsive-xl">
                     <table class="table table-hover table-hover-cursor">
                         <thead>
                             <tr>
@@ -99,7 +99,7 @@
                                     <th scope="row"><div id="nid">{{$item->id}}</div></th>
                                     <td class="text-truncate"><label>{{$item->nombre}}</label></td>
                                     <td class="text-truncate"><label>{{$item->curso}} {{$item->paralelo}}</label></td>
-                                    <td class="text-truncate"><label>{{$item->descripcion}}</label></td>
+                                    <td class="text-truncate" style="max-width:15px;"><label>{{$item->descripcion}}</label></td>
                                 <td class="text-truncate text-center"><a data-toggle="modal" data-target="#verModal" data-id="{{$item->id}}" class="btn btn-primary text-white btn-sm verMas">Ver Más</a>
                               </td>
                                 </tr>
