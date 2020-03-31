@@ -171,14 +171,13 @@
     </div>
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/scripts.js')}}"></script>
+    @yield('scripts')
     <script>
         $(document).ready(function(){
             $(".mensajes").fadeTo(2000, 500).slideUp(500, function() {
             $(".mensajes").slideUp(500);
             });
         });
-    </script>
-    @yield('scripts')
-    
+    </script>   
 </body>
 </html>

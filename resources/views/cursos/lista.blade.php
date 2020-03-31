@@ -13,12 +13,16 @@
         </div>
         <div class="modal-body">
           <div>
-              <label for="" class="font-weight-bold">Curso:</label>
-            <label for="" id="curso" class="cls"></label>
+              <label class="font-weight-bold">Curso:</label>
+            <label id="curso" class="cls"></label>
           </div>
           <div>
-            <label for="" class="font-weight-bold">Descripcion:</label>
-              <label for="" id="descripcion" class="cls"></label>
+            <label class="font-weight-bold">Descripcion:</label>
+              <label id="descripcion" class="cls"></label>
+          </div>
+          <div>
+            <label class="font-weight-bold">Fecha de creación:</label>
+              <label id="creacion" class="cls"></label>
           </div>
         </div>
         <div class="modal-footer d-block">
@@ -115,26 +119,5 @@
 </div>
 @endsection
 @section('scripts')
-<script>
-    $(document).ready(function() {
-    $(".verMas").click(function(){
-        $('.cls').empty();
-        $('.cls').removeClass().addClass('cls');
-        $('.modalE').show();
-        cnic = $(this).attr('data-id');
-        $.ajax({
-            type: "post",
-            data: {'_token': $('input[name=_token]').val(),'cnic':cnic},
-            url: "/cursos/ver",
-            success: function(data){
-                $("#curso").append(data.curso+" "+data.paralelo);
-                $("#descripcion").append(data.descripcion);
-                $('.cls').addClass('cls'+data.id);
-                $('#editar').attr('href',window.location.href+"/"+data.id+'/edit');
-                $('.d-inline').attr('action', window.location.href + "/" +data.id);
-            }
-        });
-    });
-    });
-    </script>
+<script src="{{ asset('js/inventario1.js') }}"></script>
 @endsection

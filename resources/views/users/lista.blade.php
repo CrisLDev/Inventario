@@ -20,6 +20,10 @@
             <label for="" class="font-weight-bold">Email:</label>
               <label for="" id="email" class="cls"></label>
           </div>
+          <div>
+            <label class="font-weight-bold">Fecha de creación:</label>
+              <label id="creacion" class="cls"></label>
+          </div>
         </div>
         <div class="modal-footer d-block">
           <div class="d-flex justify-content-between">
@@ -106,26 +110,5 @@
 </div>
 @endsection
 @section('scripts')
-<script>
-    $(document).ready(function() {
-    $(".verMas").click(function(){
-        $('.cls').empty();
-        $('.cls').removeClass().addClass('cls');
-        $('.modalE').show();
-        cnic = $(this).attr('data-id');
-        $.ajax({
-            type: "post",
-            data: {'_token': $('input[name=_token]').val(),'cnic':cnic},
-            url: "/users/ver",
-            success: function(data){
-                $("#nombre").append(data.name);
-                $("#email").append(data.email);
-                $('.cls').addClass('cls'+data.id);
-                $('#editar').attr('href',window.location.href+"/"+data.id+'/edit');
-                $('.d-inline').attr('action', window.location.href + "/" +data.id);
-            }
-        });
-    });
-});
-    </script>
+<script src="{{ asset('js/inventario3.js') }}"></script>
 @endsection
