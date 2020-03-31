@@ -157,14 +157,13 @@ class RolController extends Controller
          */
         public function destroy($id)
         {
-            $uid = auth()->user()->cnic;
-            $data = Role::where('id', $uid)->where('activo','>','0')->first();
+            $data = Rol::where('id', $id)->where('activo', '>', '0')->first();
             if(!$data){
-                return redirect('/roles')->with('erroresc', '¡Rol no existe!');
+                return abort(404);
             }
             $data->activo = 0;
             $data->save();
-            return back()->with('mensaje', 'Rol eliminado con éxito.');
+            return back()->with( 'mensaje', 'Rol Eliminado' );
         }
 
         public function ver( Request $request ) {
