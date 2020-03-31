@@ -26,8 +26,30 @@
 
 </head>
 <body>
+    <noscript>
+        <div class="hXktEP32 d-flex align-items-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="card ml-3 mr-3">
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-md-4 col-sm-3">
+                                    <img class="javascript" src="/imgs/js-square-brands.svg" alt="javascript">
+                                </div>
+                                <div class="col-md-8 col-sm-8 pt-2">
+                                    <label>Tienes javascript desactivado.</label>
+                                    <label>Mira esté tutorial para saber como activarlo.</label>
+                                    <a target="_blank" href="https://www.enable-javascript.com/es/">Javascript!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </noscript>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm ">
+        <nav class="navbar navbar-expand-md fixed-top navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -55,25 +77,25 @@
                             @endcan
                             @can('cursos.index')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/cursos"><i class="fab fa-wpforms"></i> Cursos</a>
+                                    <a class="nav-link" href="/cursos"><i class="fas fa-person-booth"></i> Cursos</a>
                                 </li>
                             @endcan
                             @can('users.index')
                             <li class="nav-item">
-                                <a class="nav-link" href="/users"><i class="fab fa-wpforms"></i> Usuarios</a>
+                                <a class="nav-link" href="/users"><i class="fas fa-users-cog"></i> Usuarios</a>
                             </li>
                             @endcan
                             @can('roles.index')
                             <li class="nav-item">
-                                <a class="nav-link" href="/roles"><i class="fab fa-wpforms"></i> Roles</a>
+                                <a class="nav-link" href="/roles"><i class="fas fa-user-tie"></i> Roles</a>
                             </li>
                             @endcan
                             <li class="nav-item">
-                                <a class="nav-link" href="/perfiles/todo"><i class="fab fa-wpforms"></i> Perfiles</a>
+                                <a class="nav-link" href="/perfiles/todo"><i class="fas fa-id-badge"></i> Perfiles</a>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a class="nav-link" href="/contactanos"><i class="fas fa-id-card"></i> Contactanos</a>
-                            </li>
+                            </li>-->
                         @endguest
                     </ul>
 
@@ -99,10 +121,10 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
                                     @can('isadmin')
-                                    <a class="dropdown-item" href="/admin">Administración</a>
+                                    <a class="dropdown-item" href="/admin"><i class="fas fa-user-shield"></i> Administración</a>
                                     @endcan
                                     
-                                    <a class="dropdown-item" href="/perfil">Perfil</a>
+                                    <a class="dropdown-item" href="/perfil"><i class="fas fa-sliders-h"></i> Perfil</a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -121,7 +143,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4" style="margin-top:6em;">
             <div class="container mt-0 pt-0 mensajes">
                 @if (session('status'))
                 <div class="alert alert-success" role="alert">

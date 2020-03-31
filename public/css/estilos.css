@@ -17,6 +17,23 @@
     margin-bottom: 0;
 }
 
+.javascript{
+    max-width: 60px;
+}
+
+.hXktEP32 {
+    bottom: 0px;
+    left: 0px;
+    opacity: 1;
+    pointer-events: initial;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    z-index: 2000;
+    background: rgba(9, 30, 66, 0.54);
+    transition: opacity 220ms ease 0s;
+}
+
 @media (max-width: 575.98px) { 
     .mbc-3{
         margin-bottom: 15px!important;
