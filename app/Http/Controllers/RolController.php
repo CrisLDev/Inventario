@@ -56,7 +56,8 @@ class RolController extends Controller
             if(($request->get('special'))&&($request->get('permissions'))){
                 return redirect()->back()->with('erroresc', '¡Haz seleccionado campos imcompatibles!')->withInput();
             }else{
-                $mucho = $request->get('permissions');
+                $cantidad = $request->get('permissions');
+                $mucho = count($cantidad);
                 if($mucho >= 15){
                     return redirect()->back()->with('erroresc', '¡Crea un usuario administrador!')->withInput();
                 }else{
