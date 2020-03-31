@@ -157,7 +157,7 @@ class RolController extends Controller
          */
         public function destroy($id)
         {
-            $data = Rol::where('id', $id)->where('activo', '>', '0')->first();
+            $data = Role::where('id', $id)->where('activo', '>', '0')->first();
             if(!$data){
                 return abort(404);
             }
