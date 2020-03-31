@@ -64,7 +64,7 @@ class RolController extends Controller
                     $todobien = Validator::make($request->all(),[
                         'name' => 'required|alpha|max:15|min:4|unique:roles',
                         'slug' => 'required','alpha','max:3','min:2',
-                        'description' => 'max:255'
+                        'description' => 'max:255|required'
                     ]);
                     if($todobien->fails()){
                         return redirect()->back()->withInput()->withErrors($todobien->errors());
@@ -129,7 +129,7 @@ class RolController extends Controller
             $todobien = Validator::make($request->all(),[
                 'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
                 'slug' => 'required','alpha','max:3','min:2',
-                'description' => 'max:255'
+                'description' => 'max:255|required'
             ]);
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
