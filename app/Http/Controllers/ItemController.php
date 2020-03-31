@@ -37,9 +37,18 @@ class ItemController extends Controller {
     * @return \Illuminate\Http\Response
     */
 
-    public function index() {
+    public function index(Request $request) {
+
+        $nombre = $request->get('nombre');
+        $curso = $request->get('curso'); 
+        $descripcion = $request->get('descripcion');
+
         $usuarioId = auth()->user()->id;
-        $items = Item::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 8 );
+        $items = Item::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )
+        ->nombre($nombre)
+        ->curso($curso)
+        ->descripcion($descripcion)
+        ->paginate( 8 );
         return view( 'items.lista', compact( 'items', 'cursos' ) );
     }
 

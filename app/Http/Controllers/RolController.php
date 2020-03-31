@@ -28,9 +28,17 @@ class RolController extends Controller
          *
          * @return \Illuminate\Http\Response
          */
-        public function index()
+        public function index(Request $request)
         {
-            $roles = Role::orderBy( 'id', 'desc' )->paginate( 8 );
+
+            $nombre = $request->get('nombre'); 
+            $urla = $request->get('urla'); 
+            $descripcion = $request->get('descripcion');
+            $roles = Role::orderBy( 'id', 'desc' )
+            ->name($nombre)
+            ->slug($urla)
+            ->description($descripcion)
+            ->paginate( 8 );
             return view('roles.lista', compact('roles'));
         }
     

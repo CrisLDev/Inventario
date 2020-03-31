@@ -34,9 +34,14 @@ class UserController extends Controller
          *
          * @return \Illuminate\Http\Response
          */
-        public function index()
+        public function index(Request $request)
         {
-            $users = User::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 8 );
+            $nombre = $request->get('nombre'); 
+            $email = $request->get('email');
+            $users = User::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )
+            ->name($nombre)
+            ->email($email)
+            ->paginate( 8 );
             return view('users.lista', compact('users'));
         }
     

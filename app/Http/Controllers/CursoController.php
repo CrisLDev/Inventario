@@ -27,9 +27,14 @@ class CursoController extends Controller
          *
          * @return \Illuminate\Http\Response
          */
-        public function index()
+        public function index(Request $request)
         {
-            $cursos = Curso::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )->paginate( 8 );
+            $curso = $request->get('curso'); 
+            $descripcion = $request->get('descripcion');
+            $cursos = Curso::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )
+            ->curso($curso)
+            ->descripcion($descripcion)
+            ->paginate( 8 );
             return view('cursos.lista', compact('cursos'));
         }
     

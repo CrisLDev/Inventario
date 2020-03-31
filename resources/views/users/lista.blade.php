@@ -43,20 +43,37 @@
   </div>
 
 <div class="container">
-    <div class="alert alert-success collapse" id="success-alert">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong>Success! </strong> Product have added to your wishlist.
-      </div>
-      <div class="alert alert-danger collapse hidden" id="danger-alert">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-      </div>
     <div class="row justify-content-center">
+      <div class="col-md-8 mb-3">
+        <div class="card">
+          <div class="card-body pb-0">
+            <form action="" method="get">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" placeholder="Nombre" name="nombre" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input type="text" placeholder="Email" name="email" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-default btn-block">Buscar</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Lista de Items</span>
                 </div>
-
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="table table-hover table-hover-cursor">
