@@ -68,7 +68,7 @@
                                 <a class="nav-link" href="/roles"><i class="fab fa-wpforms"></i> Roles</a>
                             </li>
                             @endcan
-                            @can('notieneperfil')
+                            @can('tieneperfil')
                             <li class="nav-item">
                                 <a class="nav-link" href="/perfiles/todo"><i class="fab fa-wpforms"></i> Perfiles</a>
                             </li>
