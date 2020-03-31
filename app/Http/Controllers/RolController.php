@@ -66,6 +66,12 @@ class RolController extends Controller
                         'slug' => 'required','alpha','max:3','min:2',
                         'description' => 'max:255|required'
                     ]);
+                    $attributeNames = array(
+                        'name' => 'nombre',
+                        'slug' => 'acrónimo',
+                        'description' => 'descripcion'     
+                     );
+                     $todobien->setAttributeNames($attributeNames);
                     if($todobien->fails()){
                         return redirect()->back()->withInput()->withErrors($todobien->errors());
                     }else{
@@ -131,6 +137,12 @@ class RolController extends Controller
                 'slug' => 'required','alpha','max:3','min:2',
                 'description' => 'max:255|required'
             ]);
+            $attributeNames = array(
+                'name' => 'nombre',
+                'slug' => 'acrónimo',
+                'description' => 'descripcion'     
+             );
+             $todobien->setAttributeNames($attributeNames);
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{

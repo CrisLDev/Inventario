@@ -70,6 +70,13 @@ class PerfilController extends Controller
                 'edad' => 'required|digits_between:1,2',
                 'ntelefono' => 'required|max:20|min:3|digits_between:1,10',
             ]);
+            $attributeNames = array(
+                'nombres' => 'nombres',
+                'apellidos' => 'apellidos',
+                'imgurl' => 'imgen',
+                'ntelefono' => 'telefono',   
+             );
+             $todobien->setAttributeNames($attributeNames);
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{
@@ -150,6 +157,15 @@ class PerfilController extends Controller
                 }),],
                 'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
             ]);
+            $attributeNames = array(
+                'nombres' => 'nombres',
+                'apellidos' => 'apellidos',
+                'imgurl' => 'imgen',
+                'ntelefono' => 'telefono',
+                'name' => 'nombre',
+                'password' => 'contraseña'     
+             );
+            $todobien->setAttributeNames($attributeNames);
             if($todobien->fails()){
                 return redirect()->back()->withInput()->withErrors($todobien->errors());
             }else{

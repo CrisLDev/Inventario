@@ -108,6 +108,11 @@ class UserController extends Controller
                     })],
                     'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
                 ]);
+                $attributeNames = array(
+                    'name' => 'nombre',
+                    'password' => 'contraseña'     
+                 );
+                 $todobien->setAttributeNames($attributeNames);
                 if($todobien->fails()){
                     return redirect()->back()->withInput()->withErrors($todobien->errors());
                 }else{
@@ -138,6 +143,11 @@ class UserController extends Controller
                     })],
                     'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
                 ]);
+                $attributeNames = array(
+                    'name' => 'nombre',
+                    'password' => 'contraseña'     
+                 );
+                 $todobien->setAttributeNames($attributeNames);
                 if($todobien->fails()){
                     return redirect()->back()->withInput()->withErrors($todobien->errors());
                 }else{
