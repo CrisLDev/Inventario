@@ -58,9 +58,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Lista de Items</span>
+                    <span>Lista de Roles</span>
                     @can('roles.crear')
-                    <a href="{{route('roles.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Item</a>
+                    <a href="{{route('roles.create')}}" class="btn btn-primary btn-sm text-white">Nuevo rol</a>
                     @endcan
                 </div>
 
