@@ -182,7 +182,7 @@ class RolController extends Controller
                         return redirect()->back()->with('erroresc', '¡Para todos los permisos crea un usuario administrador!')->withInput();
                     }else{
                         $todobien = Validator::make($request->all(),[
-                            'name' => 'required|alpha|max:15|min:4|unique:roles,name'.$id,
+                            'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
                             'slug' => 'required','alpha','max:3','min:2',
                             'description' => 'max:255|required'
                         ]);
@@ -211,7 +211,7 @@ class RolController extends Controller
                     }
                 }else{
                     $todobien = Validator::make($request->all(),[
-                        'name' => 'required|alpha|max:15|min:4|unique:roles,name'.$id,
+                        'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
                         'slug' => 'required','alpha','max:3','min:2',
                         'description' => 'max:255|required'
                     ]);
