@@ -240,4 +240,11 @@ class PerfilController extends Controller
             }
         }
 
+        public function allUser()
+        {
+            $perfiles = Perfil::where('activo', '>','0')->paginate(5);
+            $roles = auth()->user()->roles;
+            return view('perfiles.todos', compact('perfiles', 'roles'));
+        }
+
 }

@@ -9,7 +9,7 @@
                         Nuevo Rol
                     </div>
                     <div class="card-body">
-                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('roles.store')}}">
+                        <form onsubmit="disable()" method="POST" action="{{route('roles.store')}}">
                             @csrf
                             <div class="form-group">
                                 <label>Nombre del Rol</label>
@@ -73,7 +73,7 @@
                             </ul>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block" id="crear-prevent-multiple-submits" type="submit">
+                                <button class="btn btn-primary btn-block" id="button-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
                                     <span id="btex">Guardar</span></button>
                             </div>

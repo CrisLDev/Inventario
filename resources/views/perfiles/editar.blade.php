@@ -9,7 +9,7 @@
                         Editar Usuario
                     </div>
                     <div class="card-body">
-                        <form id="form-prevent-multiple-submits" method="POST" enctype="multipart/form-data" action="{{route('perfil.update', $user->id)}}">
+                        <form onsubmit="disable()" method="POST" enctype="multipart/form-data" action="{{route('perfil.update', $user->id)}}">
                             @method('PUT')
                             @csrf
                             <div class="row">
@@ -140,7 +140,7 @@
                               </div>
                               <hr>
                             <div class="form-group">
-                                <button class="btn btn-warning btn-block" id="crear-prevent-multiple-submits" type="submit">
+                                <button class="btn btn-warning btn-block" id="button-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
                                     <span id="btex">Editar</span></button>
                             </div>

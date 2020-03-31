@@ -9,7 +9,7 @@
                         Editar Curso
                     </div>
                     <div class="card-body">
-                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('cursos.update', $curso->id)}}">
+                        <form onsubmit="disable()" method="POST" action="{{route('cursos.update', $curso->id)}}">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
@@ -47,7 +47,7 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-warning btn-block" id="crear-prevent-multiple-submits" type="submit">
+                                <button class="btn btn-warning btn-block" type="submit" id="button-prevent-multiple-submits">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
                                     <span id="btex">Editar</span></button>
                             </div>

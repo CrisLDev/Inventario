@@ -83,6 +83,8 @@ Route::middleware(['auth', 'eliminado','verified'])->group(function(){
     //Rutas Perfiles
     Route::get( '/perfil', 'PerfilController@index' )->name( 'perfil.index' );
 
+    Route::get( '/perfiles/todo', 'PerfilController@allUser' )->name( 'perfil.allUser' )->middleware('notieneperfil');;
+
     Route::get( '/perfil/create', 'PerfilController@create' )->name( 'perfil.create' )->middleware('tieneperfil');
 
     Route::post( '/perfil/store', 'PerfilController@store' )->name( 'perfil.store' )->middleware('tieneperfil');;

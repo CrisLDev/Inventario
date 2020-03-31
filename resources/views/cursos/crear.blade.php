@@ -9,7 +9,7 @@
                         Nuevo Curso
                     </div>
                     <div class="card-body">
-                        <form id="form-prevent-multiple-submits" method="POST" action="{{route('cursos.store')}}">
+                        <form onsubmit="disable()" method="POST" action="{{route('cursos.store')}}">
                             @csrf
                             <div class="form-group">
                                 <label for="nombre">Curso</label>
@@ -46,7 +46,7 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block" id="crear-prevent-multiple-submits" type="submit">
+                                <button class="btn btn-primary btn-block" id="button-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
                                     <span id="btex">Guardar</span></button>
                             </div>

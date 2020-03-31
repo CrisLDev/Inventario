@@ -11,7 +11,7 @@
 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!--FontAwesome-->
-    <!--<script src="https://kit.fontawesome.com/62c480e0b6.js" crossorigin="anonymous"></script>-->
+    <script src="https://kit.fontawesome.com/62c480e0b6.js" crossorigin="anonymous"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -66,6 +66,11 @@
                             @can('roles.index')
                             <li class="nav-item">
                                 <a class="nav-link" href="/roles"><i class="fab fa-wpforms"></i> Roles</a>
+                            </li>
+                            @endcan
+                            @can('notieneperfil')
+                            <li class="nav-item">
+                                <a class="nav-link" href="/perfiles/todo"><i class="fab fa-wpforms"></i> Perfiles</a>
                             </li>
                             @endcan
                             <li class="nav-item">
