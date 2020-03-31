@@ -68,9 +68,16 @@
                             <div class="form-group">
                                 <ul class="list-unstyled">
                                     @foreach ($roles as $role)
+                                    @if ('isadmin')
                                     <label>
-                                        @if ($loop->first)
+                                        <input type="checkbox" value="{{$role->id}}" name="roles[]" @if($role->users->contains($user->id)) checked=checked @endif>
+                                        <label>{{$role->name}}</label>
+                                        <em>({{$role->description ?: 'N/A'}})</em>
+                                    </label><br>
+                                    @else
+                                    @if ($loop->first)
                                         @can('isadmin')
+                                        <label>
                                             <input type="checkbox" value="{{$role->id}}" name="roles[]" @if($role->users->contains($user->id)) checked=checked @endif>
                                             <label>{{$role->name}}</label>
                                             <em>({{$role->description ?: 'N/A'}})</em>
@@ -82,6 +89,8 @@
                                         <em>({{$role->description ?: 'N/A'}})</em>
                                     </label><br>
                                         @endif
+                                        
+                                    @endif
                                     @endforeach
                                 </ul>
                             </div>
