@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Crear perfil
+                        <h3 class="mb-0">Crear Perfil</h3>
                     </div>
                     <div class="card-body">
                         <form onsubmit="disable()" method="POST" enctype="multipart/form-data" action="{{route('perfil.store')}}">

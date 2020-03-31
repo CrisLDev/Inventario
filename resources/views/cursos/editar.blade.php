@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Editar Curso
+                        <h3 class="mb-0">Editar Curso</h3>
                     </div>
                     <div class="card-body">
                         <form onsubmit="disable()" method="POST" action="{{route('cursos.update', $curso->id)}}">

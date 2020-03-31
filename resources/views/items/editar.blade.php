@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Editar Item
+                        <h3 class="mb-0">Editar Item</h3>
                     </div>
                     <div class="card-body">
                         <form onsubmit="disable()" method="POST" action="{{route('items.update', $items->id)}}">
@@ -70,9 +70,9 @@
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-block" id="button-prevent-multiple-submits" type="submit">
+                                <button class="btn btn-warning btn-block" id="button-prevent-multiple-submits" type="submit">
                                     <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true"></span>    
-                                    <span id="btex">Publicar</span></button>
+                                    <span id="btex">Editar</span></button>
                             </div>
                         </form>
                     </div>

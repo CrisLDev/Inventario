@@ -81,7 +81,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Lista de Roles</span>
+                  <h3 class="mb-0">Lista de Roles</h3>
                     @can('roles.crear')
                     <a href="{{route('roles.create')}}" class="btn btn-primary btn-sm text-white">Nuevo rol</a>
                     @endcan

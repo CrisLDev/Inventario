@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Nuevo Rol
+                        <h3 class="mb-0">Nuevo Rol</h3>
                     </div>
                     <div class="card-body">
                         <form onsubmit="disable()" method="POST" action="{{route('roles.store')}}">

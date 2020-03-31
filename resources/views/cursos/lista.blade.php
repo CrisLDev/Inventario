@@ -77,7 +77,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Lista de Items</span>
+                  <h3 class="mb-0">Lista de Cursos</h3>
                     @can('cursos.crear')
                     <a id="crear" href="{{route('cursos.create')}}" class="btn btn-primary btn-sm text-white">Nuevo Curso</a>
                     @endcan

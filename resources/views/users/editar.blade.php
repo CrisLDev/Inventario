@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Editar Usuario
+                        <h3 class="mb-0">Editar Usuario</h3>
                     </div>
                     <div class="card-body">
                         <form onsubmit="disable()" method="POST" action="{{route('users.update', $user->id)}}">

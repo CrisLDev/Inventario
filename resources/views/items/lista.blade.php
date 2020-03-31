@@ -94,7 +94,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Lista de Items</span>
+                    <h3 class="mb-0">Lista de Items</h3>
                     <div class="text-center">
                       <div class="mb-1">
                       <a class="btn btn-success btn-sm" href="{{ route('items.export_pdf') }}"><i class="fas fa-file-pdf"></i> PDF</a>
