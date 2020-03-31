@@ -41,12 +41,14 @@ class ItemController extends Controller {
 
         $nombre = $request->get('nombre');
         $curso = $request->get('curso'); 
+        $paralelo = $request->get('paralelo'); 
         $descripcion = $request->get('descripcion');
 
         $usuarioId = auth()->user()->id;
         $items = Item::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )
         ->nombre($nombre)
         ->curso($curso)
+        ->paralelo($paralelo)
         ->descripcion($descripcion)
         ->paginate( 8 );
         return view( 'items.lista', compact( 'items', 'cursos' ) );

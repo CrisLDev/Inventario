@@ -49,12 +49,17 @@
           <div class="card-body pb-0">
             <form action="" method="get">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group">
                     <input type="text" placeholder="Curso o Paralelo" name="curso" class="form-control">
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <input type="text" placeholder="Paralelo o Curso" name="paralelo" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-4">
                   <div class="form-group">
                     <input type="text" placeholder="Descripción" name="descripcion" class="form-control">
                   </div>

@@ -30,10 +30,12 @@ class CursoController extends Controller
         public function index(Request $request)
         {
             $curso = $request->get('curso'); 
+            $paralelo = $request->get('paralelo'); 
             $descripcion = $request->get('descripcion');
             $cursos = Curso::where( 'activo', '>', '0' )->orderBy( 'id', 'desc' )
             ->curso($curso)
             ->descripcion($descripcion)
+            ->paralelo($paralelo)
             ->paginate( 8 );
             return view('cursos.lista', compact('cursos'));
         }

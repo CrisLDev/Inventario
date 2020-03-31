@@ -11,6 +11,10 @@ class Curso extends Model
         if($curso)return $query->where('curso', 'LIKE', "%$curso%")->orWhere('paralelo', 'LIKE', "%$curso%");
     }
 
+    public function scopeParalelo($query, $curso){
+        if($curso)return $query->where('curso', 'LIKE', "%$curso%")->orWhere('paralelo', 'LIKE', "%$curso%");
+    }
+
     public function scopeDescripcion($query, $descripcion){
         if($descripcion)return $query->where('descripcion', 'LIKE', "%$descripcion%");
     }
