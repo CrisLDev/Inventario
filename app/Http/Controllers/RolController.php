@@ -56,27 +56,32 @@ class RolController extends Controller
             if(($request->get('special'))&&($request->get('permissions'))){
                 return redirect()->back()->with('erroresc', '¡Haz seleccionado campos imcompatibles!')->withInput();
             }else{
-                $todobien = Validator::make($request->all(),[
-                    'name' => 'required|alpha|max:15|min:4|unique:roles',
-                    'slug' => 'required','alpha','max:3','min:2',
-                    'description' => 'max:255'
-                ]);
-                if($todobien->fails()){
-                    return redirect()->back()->withInput()->withErrors($todobien->errors());
+                $mucho = $request->get('permissions');
+                if($mucho >= 15){
+                    return redirect()->back()->with('erroresc', '¡Crea un usuario administrador!')->withInput();
                 }else{
-                $role = new Role();
-                $role->name = $request->name;
-                $role->slug = $request->slug;
-                $role->special = $request->get('special');
-                $role->description = $request->description;
-                $role->save();
-                if($request->get('permissions')){
-                    $role->permissions()->sync($request->get('permissions'));
-                }else{
-                    $role->permissions()->sync($request->get('permissions')); 
+                    $todobien = Validator::make($request->all(),[
+                        'name' => 'required|alpha|max:15|min:4|unique:roles',
+                        'slug' => 'required','alpha','max:3','min:2',
+                        'description' => 'max:255'
+                    ]);
+                    if($todobien->fails()){
+                        return redirect()->back()->withInput()->withErrors($todobien->errors());
+                    }else{
+                    $role = new Role();
+                    $role->name = $request->name;
+                    $role->slug = $request->slug;
+                    $role->special = $request->get('special');
+                    $role->description = $request->description;
+                    $role->save();
+                    if($request->get('permissions')){
+                        $role->permissions()->sync($request->get('permissions'));
+                    }else{
+                        $role->permissions()->sync($request->get('permissions')); 
+                    }
+                    return back()->with('mensaje', 'Rol agregado con éxito.');
                 }
-                return back()->with('mensaje', 'Rol agregado con éxito.');
-            }
+                }
             }
         }
     
