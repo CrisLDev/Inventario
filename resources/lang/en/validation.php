@@ -78,7 +78,7 @@ return [
     ],
     'max' => [
         'numeric' => 'The :attribute may not be greater than :max.',
-        'file' => 'The :attribute may not be greater than :max kilobytes.',
+        'file' => 'La imagen del campo :attribute no debe tener más de :max kilobytes.',
         'string' => 'El campo :attribute no debe contener más de :max caracteres.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
@@ -106,7 +106,7 @@ return [
     'same' => 'The :attribute and :other must match.',
     'size' => [
         'numeric' => 'The :attribute must be :size.',
-        'file' => 'La imagen del campo :attribute no debe tener más de :size kilobytes = 1MB.',
+        'file' => 'La imagen del campo :attribute no debe tener más de :size kilobytes',
         'string' => 'The :attribute must be :size characters.',
         'array' => 'The :attribute must contain :size items.',
     ],

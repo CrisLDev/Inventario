@@ -128,13 +128,16 @@
                                         />
                                     </div>
                                 </div>
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                      <input type="file" name="imgurl" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                      <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
+                                    </div>
+                                  </div>
+                                  <label class="font-weight-bold">El tamaño de la imagen no debe ser mayor a 1 MB.</label>
                             </div>
-                            <div class="input-group mb-3">
-                                <div class="custom-file">
-                                  <input type="file" name="imgurl" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                  <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
-                                </div>
-                              </div>
+                            </div>
                               <div class="alert alert-danger pt-1 pb-1" role="alert">
                                 <label class="mb-0"><input type="checkbox" name="antigua" id="antigua"><em>(Utilizar foto anterior.)</em></label>
                               </div>
