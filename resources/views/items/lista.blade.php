@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="card-body">
-                  <div class="table-responsive-lg">
+                  <div class="table-responsive-sm">
                     <table class="table table-hover table-hover-cursor">
                         <thead>
                             <tr>
