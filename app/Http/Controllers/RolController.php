@@ -57,6 +57,7 @@ class RolController extends Controller
                 return redirect()->back()->with('erroresc', '¡Haz seleccionado campos imcompatibles!')->withInput();
             }else{
                 $cantidad = $request->get('permissions');
+                if($cantidad || ($request->get('special'))){
                 $mucho = count($cantidad);
                 if($mucho >= 15){
                     return redirect()->back()->with('erroresc', '¡Crea un usuario administrador!')->withInput();
@@ -89,6 +90,9 @@ class RolController extends Controller
                     return back()->with('mensaje', 'Rol agregado con éxito.');
                 }
                 }
+            }else{
+                return redirect()->back()->with('erroresc', '¡Seleciona algún permiso o acceso!')->withInput();
+            }
             }
         }
     
