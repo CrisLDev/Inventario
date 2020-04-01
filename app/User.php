@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Caffeinated\Shinobi\Models\Role;
 use Caffeinated\Shinobi\Models\Permission;
 
-class User extends Authenticatable 
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use HasRolesAndPermissions;
