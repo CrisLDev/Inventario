@@ -157,9 +157,21 @@ class RolController extends Controller
          */
         public function edit($id)
         {
-            $permissions = Permission::get();
-            $role = Role::findOrFail($id);
-            return view('roles.editar', compact('role', 'permissions'));
+            $roles = auth()->user()->roles;
+            if($id === '1'){
+                $result = collect($roles)->contains('name','Admin');
+                if($result){
+                $permissions = Permission::get();
+                $role = Role::findOrFail($id);
+                return view('roles.editar', compact('role', 'permissions'));
+                }else{
+                    return redirect()->back()->with('erroresc', '¡No tienes permisos en este rol!');
+                }
+            }else{
+                $permissions = Permission::get();
+                $role = Role::findOrFail($id);
+                return view('roles.editar', compact('role', 'permissions'));    
+            }
         }
     
         /**

@@ -101,7 +101,7 @@ class UserController extends Controller
         {
             if($request->get('roles')){
                 $count = count($request->get('roles'));
-                if($count >= 2){
+                if($count >= 15){
                     return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
                 }else{
                 $todobien = Validator::make($request->all(),[
