@@ -74,9 +74,7 @@ class ItemController extends Controller {
 
     public function store( Request $request ) {
         $todobien = Validator::make($request->all(),[
-            'nombre' => ['required','string','max:20','min:4',Rule::unique('items')->where(function ($query){
-                return $query->where('activo', 1);
-            }),],
+            'nombre' => 'required','string','max:20','min:4',
             'curso' => 'required','alpha_num','max:3','min:2',
             'descripcion' => 'required|max:255|min:10',
             'codigo' => 'required|max:20|min:3|alpha_num',
@@ -84,9 +82,15 @@ class ItemController extends Controller {
         ]);
         if($todobien->fails()){
             return redirect()->back()->withInput()->withErrors($todobien->errors());
-        }else{
+        }else{    
         $id = $request->curso;
         $cursos = Curso::select('curso','paralelo')->where('id', $id)->get();
+        $curso = $cursos[0]->curso;
+        $paralelo = $cursos[0]->paralelo;
+        $yaexiste = Item::where('nombre', $request->nombre)->where('curso', $curso)->where('paralelo',$paralelo)->where('activo', '1')->get();
+        if(!$yaexiste->isEmpty()){
+            return redirect()->back()->with('erroresc', 'Ya haz creado este item!')->withInput();
+        }
         $cursosaguardar = $cursos[0]->curso." ".$cursos[0]->paralelo;
         $data = new Item();
         $data->nombre = $request->nombre;
@@ -140,9 +144,9 @@ class ItemController extends Controller {
 
     public function update( Request $request, $id ) {
         $todobien = Validator::make($request->all(),[
-            'nombre' => ['required','string','max:20','min:4',Rule::unique('items')->ignore($id)->where(function ($query){
+            'nombre' => ['required',Rule::unique('items')->ignore($id)->where(function ($query){
                 return $query->where('activo', 1);
-            })],
+            }),'string','max:20','min:4'],
             'curso' => 'required','alpha_num','max:3','min:2',
             'descripcion' => 'required|max:255|min:10',
             'codigo' => 'required|max:20|min:3|alpha_num',

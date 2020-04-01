@@ -37,7 +37,7 @@ class PerfilController extends Controller
         public function index()
         {
             $id = auth()->user()->id;
-            $perfil = Perfil::where('us_id', $id)->where('activo', '>','0')->first();
+            $perfil = Perfil::where('us_id', $id)->where('activo','>','0')->first();
             $roles = auth()->user()->roles;
             return view('perfiles.ver', compact('perfil', 'roles'));
         }
@@ -61,10 +61,10 @@ class PerfilController extends Controller
         public function store(Request $request)
         {
             $todobien = Validator::make($request->all(),[
-                'nombres' => ['required','string','max:20','min:4',Rule::unique('perfils')->where(function ($query)use($request){
-                    return $query->where('activo', 1)->where('apellidos', $request->apellidos);
-                }),],
-                'apellidos' => 'required','string','max:20','min:4',
+                'nombres' => ['required',Rule::unique('perfils')->where(function ($query)use($request){
+                    return $query->where('activo', 1);
+                }),'string','max:20','min:4'],
+                'apellidos' => 'required','string','max:20','min:4','unique:perfils',
                 'imgurl' => 'mimes:jpg,jpeg,bmp,png|max:1024',
                 'direccion' => 'required','alpha','max:40','min:4',
                 'edad' => 'required|digits_between:1,2',
@@ -141,9 +141,9 @@ class PerfilController extends Controller
         public function update(Request $request, $id)
         {
             $todobien = Validator::make($request->all(),[
-                'nombres' => ['required','string','max:20','min:4',Rule::unique('perfils')->ignore($id)->where(function ($query)use($request){
-                    return $query->where('activo', 1)->where('apellidos', $request->apellidos);
-                }),],
+                'nombres' => ['required',Rule::unique('perfils')->ignore($id, 'us_id')->where(function ($query)use($request){
+                    return $query->where('activo', 1)->where('apellidos',$request->apellidos);
+                }),'string','max:20','min:4'],
                 'apellidos' => 'required','string','max:20','min:4',
                 'imgurl' => 'mimes:jpg,jpeg,bmp,png|max:1024',
                 'direccion' => 'required','alpha','max:40','min:4',
@@ -152,9 +152,7 @@ class PerfilController extends Controller
                 'name' => ['required', 'string', 'max:255', 'min:6', Rule::unique('users')->ignore($id)->where(function ($query)use($request){
                     return $query->where('activo', 1)->where('email', $request->email);
                 }),],
-                'email' => ['required', 'email:rfc,dns', 'max:255', Rule::unique('users')->ignore($id)->where(function ($query)use($request){
-                    return $query->where('activo', 1)->where('name', $request->name);
-                }),],
+                'email' => ['required', 'unique:users,email,'.$id, 'email:rfc,dns', 'max:255'],
                 'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
             ]);
             $attributeNames = array(
@@ -177,13 +175,13 @@ class PerfilController extends Controller
                 $user->password = $password = bcrypt($request->password);
             }
             $user->save();
-            $data = Perfil::where('us_id', $uid)->first();
-            if(!$data){
+            $perfil = Perfil::where('us_id', $uid)->where('activo','1')->first();
+            if(!$perfil){
                 return redirect('/perfil')->with('erroresc', '¡Este no es tu perfil!');
             }
             if(!$request->get('antigua')){
             if($request->imgurl){
-                $imantigua = $data->imgurl;
+                $imantigua = $perfil->imgurl;
                 if(Storage::disk('public')->path($imantigua)){
                    $nombre = class_basename($imantigua);
                     Storage::disk('public')->delete('userImage/'.$nombre);
@@ -193,21 +191,21 @@ class PerfilController extends Controller
                 $filename = substr($path, strlen($saveTo) + 1);
             }
         }
-            $data->nombres = $request->nombres;
-            $data->apellidos = $request->apellidos;
-            $data->edad = $request->edad;
-            $data->direccion = $request->direccion;
-            $data->ntelefono = $request->ntelefono;
+            $perfil->nombres = $request->nombres;
+            $perfil->apellidos = $request->apellidos;
+            $perfil->edad = $request->edad;
+            $perfil->direccion = $request->direccion;
+            $perfil->ntelefono = $request->ntelefono;
             if(!$request->get('antigua')){
                 if($request->imgurl){
-                    $data->imgurl = '/storage/userImage/'.$filename;
+                    $perfil->imgurl = '/storage/userImage/'.$filename;
                 }else{
-                    $data->imgurl = '/imgs/no-image.jpg';
+                    $perfil->imgurl = '/imgs/no-image.jpg';
                 }
             }
-            $data->us_id = auth()->user()->id;
+            $perfil->us_id = auth()->user()->id;
             //$item->it_activo = '0';
-            $data->save();
+            $perfil->save();
             return redirect('/perfil')->with('mensaje', 'Perfil actualizado con éxito.');
         }
         }
@@ -243,8 +241,7 @@ class PerfilController extends Controller
         public function allUser()
         {
             $perfiles = Perfil::where('activo', '>','0')->paginate(5);
-            $roles = auth()->user()->roles;
-            return view('perfiles.todos', compact('perfiles', 'roles'));
+            return view('perfiles.todos', compact('perfiles'));
         }
 
 }

@@ -32,7 +32,7 @@
                                         
                                     @endif
                                   @foreach ($cursos as $curso)
-                                    <option value="{{$curso->id}}">{{$curso->curso}} {{$curso->paralelo}}</option>
+                                    <option value="{{$curso->id}}" {{ $items->cu_id == $curso->id ? 'selected' : '' }}>{{$curso->curso}} {{$curso->paralelo}}</option>
                                   @endforeach
                                   </select>
                             </div>

@@ -42,11 +42,6 @@
                                                     <label class="font-weight-bold">N#_Teléfono:</label> <label> {{ $perfil->ntelefono }}</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                @if (count($roles) > 0)
-                                                        <label class="font-weight-bold">Rol:</label> <label>{{$roles[0]->name}}</label>
-                                                @endif
-                                            </div>
                                         </div>
                                     </div>
                             </div>
