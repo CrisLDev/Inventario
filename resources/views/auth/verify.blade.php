@@ -8,12 +8,6 @@
                 <div class="card-header">{{ __('Verifica tu dirección e-mail.') }}</div>
 
                 <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('Un nuevo link de verificación ha sido enviado a tu e-mail.') }}
-                        </div>
-                    @endif
-
                     {{ __('Antes de continuar, por favor verifica tu email.') }}
                     {{ __('Si no reciviste un email de confirmación.') }},
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">

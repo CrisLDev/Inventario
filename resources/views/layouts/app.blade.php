@@ -145,6 +145,11 @@
 
         <main class="py-4" style="margin-top:6em;">
             <div class="container mt-0 pt-0 mensajes">
+                @if (session('resent'))
+                        <div class="alert alert-success" role="alert">
+                            {{ __('Un nuevo link de verificación ha sido enviado a tu e-mail.') }}
+                        </div>
+                @endif
                 @if (session('status'))
                 <div class="alert alert-success" role="alert">
                     {{ session('status') }}
