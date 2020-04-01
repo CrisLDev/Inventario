@@ -8,7 +8,7 @@
                 <div class="row d-flex justify-content-center align-items-center">
                     <div class="col-xl-2 col-md-3 col-sm-4 mbc-3">
                             <div class="text-center">
-                                <img class="img-thumbnail imgperfil" src="/{{$perfil->imgurl}}" alt="imagen">
+                                <img class="img-thumbnail imgperfil" src="{{$perfil->imgurl}}" alt="imagen">
                             </div>
                         </div>
                     <div class="col-xl-8 col-md-8 col-sm-5">

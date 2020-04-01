@@ -94,7 +94,7 @@ class PerfilController extends Controller
             if($request->imgurl){
                 $data->imgurl = '/storage/userImage/'.$filename;
             }else{
-                $data->imgurl = 'imgs/no-image.jpg';
+                $data->imgurl = '/imgs/no-image.jpg';
             }
             $data->us_id = auth()->user()->id;
             //$item->it_activo = '0';
@@ -202,7 +202,7 @@ class PerfilController extends Controller
                 if($request->imgurl){
                     $data->imgurl = '/storage/userImage/'.$filename;
                 }else{
-                    $data->imgurl = 'imgs/no-image.jpg';
+                    $data->imgurl = '/imgs/no-image.jpg';
                 }
             }
             $data->us_id = auth()->user()->id;
