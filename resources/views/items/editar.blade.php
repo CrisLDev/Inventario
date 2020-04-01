@@ -27,7 +27,7 @@
                                 <label for="curso">Curso del Item</label>
                                 <select class="form-control mb-2" name="curso" id="curso">
                                     @if (count($cursos) === 0){
-                                      <option value="wdd">No hay categorias.</option>
+                                      <option value="wdd">No hay cursos</option>
                                     }
                                         
                                     @endif
