@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 
 use Caffeinated\Shinobi\Models\Role;
 
+use App\User;
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -25,6 +27,14 @@ class UsersTableSeeder extends Seeder
         DB::table('role_user')->insert([
             'role_id' => '1',
             'user_id' => '1',
+        ]);
+
+        $password = bcrypt('159753Cristian');
+        User::create([
+            'name' => 'Cris2000',
+            'email' => 'leonardomoreirapazmio@gmail.com',
+            'password' => $password,
+            'activo' => '1'
         ]);
     }
 }
