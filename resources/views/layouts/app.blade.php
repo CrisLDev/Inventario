@@ -63,9 +63,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @guest
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a class="nav-link" href="/contactanos"><i class="fas fa-id-card"></i> Contactanos</a>
-                            </li>
+                            </li>-->
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="/home"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
