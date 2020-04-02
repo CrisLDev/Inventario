@@ -49,8 +49,8 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
     @else
         <div class="row justify-content-center">
