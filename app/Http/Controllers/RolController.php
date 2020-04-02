@@ -455,6 +455,8 @@ class RolController extends Controller
                         if(!$data){
                             return abort(404);
                         }else{
+                            $ida = $data->id;
+                            $roleee = DB::table('role_user')->where('role_id', $ida)->delete();
                             $data->delete();
                         }
                         return back()->with( 'mensaje', 'Rol Eliminado' );
@@ -466,6 +468,8 @@ class RolController extends Controller
             if(!$data){
                 return abort(404);
             }else{
+                $ida = $data->id;
+                $roleee = DB::table('role_user')->where('role_id', $ida)->delete();
                 $data->delete();
             }
             return back()->with( 'mensaje', 'Rol Eliminado' );

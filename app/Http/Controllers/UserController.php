@@ -127,10 +127,12 @@ class UserController extends Controller
         {   
             $usuariorol = DB::table('role_user')->where('user_id', $id)->first();
             $aarrayy = $request->get('roles');
-            $hola = $result = collect($aarrayy)->contains("1");
             if($request->get('roles')){
-            $hola2 = count($request->get('roles'));
-            if($hola){
+            $arra1 = $aarrayy[0];
+            $usuarioroles = Role::where('id', $arra1)->first();
+            $hola = $usuarioroles->name;
+            if($hola == 'Admin'){
+                $hola2 = count($request->get('roles'));
                 if($hola2 > 1){
                     return redirect()->back()->with('erroresc', '¡Muchos campos seleccionados!')->withInput();
                 }else{
