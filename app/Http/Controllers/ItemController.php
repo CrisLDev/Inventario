@@ -61,7 +61,7 @@ class ItemController extends Controller {
     */
 
     public function create() {
-        $cursos = Curso::get();
+        $cursos = Curso::where('activo', '>', '0')->get();
         return view( 'items.crear', compact('cursos'));
     }
 
@@ -130,7 +130,7 @@ class ItemController extends Controller {
         if(!$items){
             return abort(404);
         }
-        $cursos = Curso::get();
+        $cursos = Curso::where('activo', '>', '0')->get();
         return view('items.editar', compact('items','cursos'));
     }
 
