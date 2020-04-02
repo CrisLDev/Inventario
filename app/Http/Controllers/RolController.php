@@ -443,13 +443,33 @@ class RolController extends Controller
          */
         public function destroy($id)
         {
-            $data = Role::where('id', $id)->first();
+
+            $permissions = Permission::get();
+            $role = Role::where('id', $id)->first();
+            $nombrerol = $role->name;
+            if($nombrerol == 'Admin'){
+                $roles = auth()->user()->roles;
+                $result = collect($roles)->contains('name','Admin');
+                if($result){
+                    $data = Role::where('id', $id)->first();
+                        if(!$data){
+                            return abort(404);
+                        }else{
+                            $data->delete();
+                        }
+                        return back()->with( 'mensaje', 'Rol Eliminado' );
+                }else{
+                    return redirect()->back()->with('erroresc', '¡No tienes permisos!')->withInput();
+                }
+            }else{
+                $data = Role::where('id', $id)->first();
             if(!$data){
                 return abort(404);
             }else{
                 $data->delete();
             }
             return back()->with( 'mensaje', 'Rol Eliminado' );
+            }   
         }
 
         public function ver( Request $request ) {

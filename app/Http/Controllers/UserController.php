@@ -345,7 +345,38 @@ class UserController extends Controller
          */
         public function destroy($id)
         {
-            $user = User::where('id',$id)->where('activo', '>', '0')->first();
+
+            $usuariorol = DB::table('role_user')->where('user_id', $id)->first();
+            if($usuariorol){
+                $usuarioId = $usuariorol->{'role_id'};
+                $usuarioroles = Role::where('id', $usuarioId)->first();
+                $userAdmin = $usuarioroles->name;
+                $roles = auth()->user()->roles;
+                $result = collect($roles)->contains('name','Admin');
+                if($userAdmin == 'Admin'){
+                    if($result){
+                        $user = User::where('id',$id)->where('activo', '>', '0')->first();
+                            $perfil= Perfil::where('us_id',$id)->where('activo', '>', '0')->first();
+                            if($perfil){
+                                if($perfil->imgurl){
+                                    $imantigua = $perfil->imgurl;
+                                    if(Storage::disk('public')->path($imantigua)){
+                                    $nombre = class_basename($imantigua);
+                                        Storage::disk('public')->delete('userImage/'.$nombre);
+                                    }
+                                }
+                                $perfil->imgurl = 'imgs/no-image.jpg';
+                                $perfil->activo = 0;
+                                $perfil->save();
+                            }
+                            $user->activo = 0;
+                            $user->save();
+                            return back()->with('mensaje', 'Usuario eliminado con éxito.');
+                    }else{
+                        return redirect()->back()->with('erroresc', '¡No tienes permiso!')->withInput();
+                    }
+                }else{
+                    $user = User::where('id',$id)->where('activo', '>', '0')->first();
             $perfil= Perfil::where('us_id',$id)->where('activo', '>', '0')->first();
             if($perfil){
                 if($perfil->imgurl){
@@ -362,6 +393,27 @@ class UserController extends Controller
             $user->activo = 0;
             $user->save();
             return back()->with('mensaje', 'Usuario editado con éxito.');
+                }
+
+            }else{
+                $user = User::where('id',$id)->where('activo', '>', '0')->first();
+            $perfil= Perfil::where('us_id',$id)->where('activo', '>', '0')->first();
+            if($perfil){
+                if($perfil->imgurl){
+                    $imantigua = $perfil->imgurl;
+                    if(Storage::disk('public')->path($imantigua)){
+                       $nombre = class_basename($imantigua);
+                        Storage::disk('public')->delete('userImage/'.$nombre);
+                    }
+                }
+                $perfil->imgurl = 'imgs/no-image.jpg';
+                $perfil->activo = 0;
+                $perfil->save();
+            }
+            $user->activo = 0;
+            $user->save();
+            return back()->with('mensaje', 'Usuario editado con éxito.');
+            }
         }
 
         public function ver( Request $request ) {
