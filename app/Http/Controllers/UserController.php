@@ -12,6 +12,8 @@ use Illuminate\Validation\Rule;
 
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\DB;
+
 use Caffeinated\Shinobi\Models\Role;
 
 use Illuminate\Http\Request;
@@ -84,10 +86,26 @@ class UserController extends Controller
          * @return \Illuminate\Http\Response
          */
         public function edit($id)
-        {   
-            $roles = Role::get();
-            $user = User::findOrFail($id);
-            return view('users.editar', compact('user', 'roles'));
+        {    
+            $usuariorol = DB::table('role_user')->where('user_id', $id)->first();
+            $usuarioId = $usuariorol->{'role_id'};
+            $usuarioroles = Role::where('id', $usuarioId)->first();
+            $usuariorolu = $usuarioroles->name;
+            if($usuariorolu == 'Admin'){
+                $roles = auth()->user()->roles;
+                $result = collect($roles)->contains('name','Admin');
+                if($result){
+                    $user = User::findOrFail($id);
+                    $roles = Role::get();
+                    return view('users.editar', compact('user', 'roles'));
+                }else{
+                    return redirect()->back()->with('erroresc', '¡No tienes permisos!')->withInput();
+                }
+            }else{
+                $user = User::findOrFail($id);
+                $roles = Role::get();
+                return view('users.editar', compact('user', 'roles'));
+            }
         }
     
         /**
@@ -99,81 +117,338 @@ class UserController extends Controller
          */
         public function update(Request $request, $id)
         {
-            if($request->get('roles')){
-                $count = count($request->get('roles'));
-                if($count >= 15){
-                    return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
-                }else{
-                $todobien = Validator::make($request->all(),[
-                    'name' => ['required','string','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
-                        return $query->where('activo', 1);
-                    })],
-                    'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query)use($id){
-                        return $query->where('id', $id);
-                    })],
-                    'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
-                ]);
-                $attributeNames = array(
-                    'name' => 'nombre',
-                    'password' => 'contraseña'     
-                 );
-                 $todobien->setAttributeNames($attributeNames);
-                if($todobien->fails()){
-                    return redirect()->back()->withInput()->withErrors($todobien->errors());
-                }else{
-                //Actualizamos usuario
-                $user = User::findOrFail($id);
-                $user->name = $request->name;
-                $user->email = $request->email;
-                if($request->password){
-                    $user->password = $password = bcrypt($request->password);
+            $aarrayy = $request->get('roles');
+            $hola = $result = collect($aarrayy)->contains("1");
+            $hola2 = count($request->get('roles'));
+            if($hola){
+                if($hola2 < 2){
+                    $usuariorol = DB::table('role_user')->where('user_id', $id)->first();
+            $usuarioId = $usuariorol->{'role_id'};
+            $usuarioroles = Role::where('id', $usuarioId)->first();
+            $usuariorolu = $usuarioroles->name;
+            if($usuariorolu == 'Admin'){
+                $roles = auth()->user()->roles;
+                $result = collect($roles)->contains('name','Admin');
+                if($result){
+                    if($request->get('roles')){
+                        $count = count($request->get('roles'));
+                        if($count > 4){
+                            return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
+                        }else{
+                        $todobien = Validator::make($request->all(),[
+                            'name' => ['required','string','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                                return $query->where('activo', 1);
+                            })],
+                            'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query)use($id){
+                                return $query->where('id', $id);
+                            })],
+                            'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                        ]);
+                        $attributeNames = array(
+                            'name' => 'nombre',
+                            'password' => 'contraseña'     
+                         );
+                         $todobien->setAttributeNames($attributeNames);
+                        if($todobien->fails()){
+                            return redirect()->back()->withInput()->withErrors($todobien->errors());
+                        }else{
+                        //Actualizamos usuario
+                        $user = User::findOrFail($id);
+                        $user->name = $request->name;
+                        $user->email = $request->email;
+                        if($request->password){
+                            $user->password = $password = bcrypt($request->password);
+                        }
+                        $user->save();
+                        //Actualizamos roles
+                        if($request->get('roles')){
+                        $user->roles()->sync($request->get('roles'));
+                        }else{
+                            $user->roles()->sync($request->get('roles'));
+                        }
+                        return back()->with('mensaje', 'Usuario actualizado con éxito.');
+                    }
                 }
-                $user->save();
-                //Actualizamos roles
+                    }else{
+                        $todobien = Validator::make($request->all(),[
+                            'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                                return $query->where('activo', 1);
+                            })],
+                            'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
+                                return $query->where('activo', 1);
+                            })],
+                            'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                        ]);
+                        $attributeNames = array(
+                            'name' => 'nombre',
+                            'password' => 'contraseña'     
+                         );
+                         $todobien->setAttributeNames($attributeNames);
+                        if($todobien->fails()){
+                            return redirect()->back()->withInput()->withErrors($todobien->errors());
+                        }else{
+                        //Actualizamos usuario
+                        $user = User::findOrFail($id);
+                        if($request->password){
+                            $user->password = $password = bcrypt($request->password);
+                        }
+                        $user->name = $request->name;
+                        $user->email = $request->email;
+                        $user->save();
+                        //Actualizamos roles
+                        if($request->get('roles')){
+                        $user->roles()->sync($request->get('roles'));
+                        }else{
+                            $user->roles()->sync($request->get('roles'));
+                        }
+                        return back()->with('mensaje', 'Usuario actualizado con éxito.');
+                    }
+                    }
+                }else{
+                    return redirect()->back()->with('erroresc', '¡No tienes permisos!')->withInput();
+                }
+            }else{
                 if($request->get('roles')){
-                $user->roles()->sync($request->get('roles'));
-                }else{
+                    $count = count($request->get('roles'));
+                    if($count >= 4){
+                        return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
+                    }else{
+                    $todobien = Validator::make($request->all(),[
+                        'name' => ['required','string','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                            return $query->where('activo', 1);
+                        })],
+                        'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query)use($id){
+                            return $query->where('id', $id);
+                        })],
+                        'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                    ]);
+                    $attributeNames = array(
+                        'name' => 'nombre',
+                        'password' => 'contraseña'     
+                     );
+                     $todobien->setAttributeNames($attributeNames);
+                    if($todobien->fails()){
+                        return redirect()->back()->withInput()->withErrors($todobien->errors());
+                    }else{
+                    //Actualizamos usuario
+                    $user = User::findOrFail($id);
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    if($request->password){
+                        $user->password = $password = bcrypt($request->password);
+                    }
+                    $user->save();
+                    //Actualizamos roles
+                    if($request->get('roles')){
                     $user->roles()->sync($request->get('roles'));
+                    }else{
+                        $user->roles()->sync($request->get('roles'));
+                    }
+                    return back()->with('mensaje', 'Usuario actualizado con éxito.');
                 }
-                return back()->with('mensaje', 'Usuario actualizado con éxito.');
+            }
+                }else{
+                    $todobien = Validator::make($request->all(),[
+                        'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                            return $query->where('activo', 1);
+                        })],
+                        'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
+                            return $query->where('activo', 1);
+                        })],
+                        'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                    ]);
+                    $attributeNames = array(
+                        'name' => 'nombre',
+                        'password' => 'contraseña'     
+                     );
+                     $todobien->setAttributeNames($attributeNames);
+                    if($todobien->fails()){
+                        return redirect()->back()->withInput()->withErrors($todobien->errors());
+                    }else{
+                    //Actualizamos usuario
+                    $user = User::findOrFail($id);
+                    if($request->password){
+                        $user->password = $password = bcrypt($request->password);
+                    }
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    $user->save();
+                    //Actualizamos roles
+                    if($request->get('roles')){
+                    $user->roles()->sync($request->get('roles'));
+                    }else{
+                        $user->roles()->sync($request->get('roles'));
+                    }
+                    return back()->with('mensaje', 'Usuario actualizado con éxito.');
+                }
+                }
+            }
+                }else{
+                    return back()->with('erroresc', 'Solo puedes seleccionar admin como único o los demás por separado.');
+                }
+            }else{
+            $usuariorol = DB::table('role_user')->where('user_id', $id)->first();
+            $usuarioId = $usuariorol->{'role_id'};
+            $usuarioroles = Role::where('id', $usuarioId)->first();
+            $usuariorolu = $usuarioroles->name;
+            if($usuariorolu == 'Admin'){
+                $roles = auth()->user()->roles;
+                $result = collect($roles)->contains('name','Admin');
+                if($result){
+                    if($request->get('roles')){
+                        $count = count($request->get('roles'));
+                        if($count > 4){
+                            return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
+                        }else{
+                        $todobien = Validator::make($request->all(),[
+                            'name' => ['required','string','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                                return $query->where('activo', 1);
+                            })],
+                            'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query)use($id){
+                                return $query->where('id', $id);
+                            })],
+                            'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                        ]);
+                        $attributeNames = array(
+                            'name' => 'nombre',
+                            'password' => 'contraseña'     
+                         );
+                         $todobien->setAttributeNames($attributeNames);
+                        if($todobien->fails()){
+                            return redirect()->back()->withInput()->withErrors($todobien->errors());
+                        }else{
+                        //Actualizamos usuario
+                        $user = User::findOrFail($id);
+                        $user->name = $request->name;
+                        $user->email = $request->email;
+                        if($request->password){
+                            $user->password = $password = bcrypt($request->password);
+                        }
+                        $user->save();
+                        //Actualizamos roles
+                        if($request->get('roles')){
+                        $user->roles()->sync($request->get('roles'));
+                        }else{
+                            $user->roles()->sync($request->get('roles'));
+                        }
+                        return back()->with('mensaje', 'Usuario actualizado con éxito.');
+                    }
+                }
+                    }else{
+                        $todobien = Validator::make($request->all(),[
+                            'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                                return $query->where('activo', 1);
+                            })],
+                            'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
+                                return $query->where('activo', 1);
+                            })],
+                            'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                        ]);
+                        $attributeNames = array(
+                            'name' => 'nombre',
+                            'password' => 'contraseña'     
+                         );
+                         $todobien->setAttributeNames($attributeNames);
+                        if($todobien->fails()){
+                            return redirect()->back()->withInput()->withErrors($todobien->errors());
+                        }else{
+                        //Actualizamos usuario
+                        $user = User::findOrFail($id);
+                        if($request->password){
+                            $user->password = $password = bcrypt($request->password);
+                        }
+                        $user->name = $request->name;
+                        $user->email = $request->email;
+                        $user->save();
+                        //Actualizamos roles
+                        if($request->get('roles')){
+                        $user->roles()->sync($request->get('roles'));
+                        }else{
+                            $user->roles()->sync($request->get('roles'));
+                        }
+                        return back()->with('mensaje', 'Usuario actualizado con éxito.');
+                    }
+                    }
+                }else{
+                    return redirect()->back()->with('erroresc', '¡No tienes permisos!')->withInput();
+                }
+            }else{
+                if($request->get('roles')){
+                    $count = count($request->get('roles'));
+                    if($count > 4){
+                        return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
+                    }else{
+                    $todobien = Validator::make($request->all(),[
+                        'name' => ['required','string','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                            return $query->where('activo', 1);
+                        })],
+                        'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query)use($id){
+                            return $query->where('id', $id);
+                        })],
+                        'password' => ['nullable', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                    ]);
+                    $attributeNames = array(
+                        'name' => 'nombre',
+                        'password' => 'contraseña'     
+                     );
+                     $todobien->setAttributeNames($attributeNames);
+                    if($todobien->fails()){
+                        return redirect()->back()->withInput()->withErrors($todobien->errors());
+                    }else{
+                    //Actualizamos usuario
+                    $user = User::findOrFail($id);
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    if($request->password){
+                        $user->password = $password = bcrypt($request->password);
+                    }
+                    $user->save();
+                    //Actualizamos roles
+                    if($request->get('roles')){
+                    $user->roles()->sync($request->get('roles'));
+                    }else{
+                        $user->roles()->sync($request->get('roles'));
+                    }
+                    return back()->with('mensaje', 'Usuario actualizado con éxito.');
+                }
+            }
+                }else{
+                    $todobien = Validator::make($request->all(),[
+                        'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
+                            return $query->where('activo', 1);
+                        })],
+                        'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
+                            return $query->where('activo', 1);
+                        })],
+                        'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+                    ]);
+                    $attributeNames = array(
+                        'name' => 'nombre',
+                        'password' => 'contraseña'     
+                     );
+                     $todobien->setAttributeNames($attributeNames);
+                    if($todobien->fails()){
+                        return redirect()->back()->withInput()->withErrors($todobien->errors());
+                    }else{
+                    //Actualizamos usuario
+                    $user = User::findOrFail($id);
+                    if($request->password){
+                        $user->password = $password = bcrypt($request->password);
+                    }
+                    $user->name = $request->name;
+                    $user->email = $request->email;
+                    $user->save();
+                    //Actualizamos roles
+                    if($request->get('roles')){
+                    $user->roles()->sync($request->get('roles'));
+                    }else{
+                        $user->roles()->sync($request->get('roles'));
+                    }
+                    return back()->with('mensaje', 'Usuario actualizado con éxito.');
+                }
+                }
             }
         }
-            }else{
-                $todobien = Validator::make($request->all(),[
-                    'name' => ['required','alpha_num','max:26','min:6',Rule::unique('users')->ignore($id)->where(function ($query){
-                        return $query->where('activo', 1);
-                    })],
-                    'email' => ['required','email:rfc,dns','max:40','min:10',Rule::unique('users')->ignore($id)->where(function ($query){
-                        return $query->where('activo', 1);
-                    })],
-                    'password' => ['nullable','string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
-                ]);
-                $attributeNames = array(
-                    'name' => 'nombre',
-                    'password' => 'contraseña'     
-                 );
-                 $todobien->setAttributeNames($attributeNames);
-                if($todobien->fails()){
-                    return redirect()->back()->withInput()->withErrors($todobien->errors());
-                }else{
-                //Actualizamos usuario
-                $user = User::findOrFail($id);
-                if($request->password){
-                    $user->password = $password = bcrypt($request->password);
-                }
-                $user->name = $request->name;
-                $user->email = $request->email;
-                $user->save();
-                //Actualizamos roles
-                if($request->get('roles')){
-                $user->roles()->sync($request->get('roles'));
-                }else{
-                    $user->roles()->sync($request->get('roles'));
-                }
-                return back()->with('mensaje', 'Usuario actualizado con éxito.');
-            }
-            }
-            
         }
     
         /**
