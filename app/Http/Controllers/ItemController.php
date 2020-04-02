@@ -144,8 +144,8 @@ class ItemController extends Controller {
 
     public function update( Request $request, $id ) {
         $todobien = Validator::make($request->all(),[
-            'nombre' => ['required',Rule::unique('items')->ignore($id)->where(function ($query){
-                return $query->where('activo', 1);
+            'nombre' => ['required',Rule::unique('items')->ignore($id)->where(function ($query)use($request){
+                return $query->where('activo', 1)->where('cu_id', $request->curso);
             }),'string','max:20','min:4'],
             'curso' => 'required','alpha_num','max:3','min:2',
             'descripcion' => 'required|max:255|min:10',
