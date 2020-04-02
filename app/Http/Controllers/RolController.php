@@ -348,76 +348,83 @@ class RolController extends Controller
                     return redirect()->back()->with('erroresc', '¡No tienes permisos!')->withInput();
                 }
             }else{
-                if(($request->get('special'))&&($request->get('permissions'))){
-                    return redirect()->back()->with('erroresc', '¡Haz seleccionado campos imcompatibles!')->withInput();
-                }else{
-                    if(($request->get('permissions')) || ($request->get('special'))){
-                    if($request->get('permissions')){
-                        $cantidad = $request->get('permissions');
-                    $mucho = count($cantidad);
-                        if($mucho >= 15){
-                            return redirect()->back()->with('erroresc', '¡Para todos los permisos crea un usuario administrador!')->withInput();
+                if($request->special == 'all-access'){
+                    $result = collect($roles)->contains('name','Admin');
+                    if($result){
+                        if(($request->get('special'))&&($request->get('permissions'))){
+                            return redirect()->back()->with('erroresc', '¡Haz seleccionado campos imcompatibles!')->withInput();
                         }else{
-                            $todobien = Validator::make($request->all(),[
-                                'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
-                                'slug' => 'required','alpha','max:3','min:2',
-                                'description' => 'max:255|required'
-                            ]);
-                            $attributeNames = array(
-                                'name' => 'nombre',
-                                'slug' => 'acrónimo',
-                                'description' => 'descripcion'     
-                             );
-                             $todobien->setAttributeNames($attributeNames);
-                            if($todobien->fails()){
-                                return redirect()->back()->withInput()->withErrors($todobien->errors());
-                            }else{
-                            $role = Role::findOrFail($id);
-                            $role->name = $request->name;
-                            $role->slug = $request->slug;
-                            $role->special = $request->get('special');
-                            $role->description = $request->description;
-                            $role->save();
+                            if(($request->get('permissions')) || ($request->get('special'))){
                             if($request->get('permissions')){
-                                $role->permissions()->sync($request->get('permissions'));
+                                $cantidad = $request->get('permissions');
+                            $mucho = count($cantidad);
+                                if($mucho >= 15){
+                                    return redirect()->back()->with('erroresc', '¡Para todos los permisos crea un usuario administrador!')->withInput();
+                                }else{
+                                    $todobien = Validator::make($request->all(),[
+                                        'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
+                                        'slug' => 'required','alpha','max:3','min:2',
+                                        'description' => 'max:255|required'
+                                    ]);
+                                    $attributeNames = array(
+                                        'name' => 'nombre',
+                                        'slug' => 'acrónimo',
+                                        'description' => 'descripcion'     
+                                     );
+                                     $todobien->setAttributeNames($attributeNames);
+                                    if($todobien->fails()){
+                                        return redirect()->back()->withInput()->withErrors($todobien->errors());
+                                    }else{
+                                    $role = Role::findOrFail($id);
+                                    $role->name = $request->name;
+                                    $role->slug = $request->slug;
+                                    $role->special = $request->get('special');
+                                    $role->description = $request->description;
+                                    $role->save();
+                                    if($request->get('permissions')){
+                                        $role->permissions()->sync($request->get('permissions'));
+                                    }else{
+                                        $role->permissions()->sync($request->get('permissions')); 
+                                    }
+                                    return back()->with('mensaje', 'Rol editado con éxito.');
+                                }
+                                }
                             }else{
-                                $role->permissions()->sync($request->get('permissions')); 
+                                $todobien = Validator::make($request->all(),[
+                                    'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
+                                    'slug' => 'required','alpha','max:3','min:2',
+                                    'description' => 'max:255|required'
+                                ]);
+                                $attributeNames = array(
+                                    'name' => 'nombre',
+                                    'slug' => 'acrónimo',
+                                    'description' => 'descripcion'     
+                                 );
+                                 $todobien->setAttributeNames($attributeNames);
+                                if($todobien->fails()){
+                                    return redirect()->back()->withInput()->withErrors($todobien->errors());
+                                }else{
+                                $role = Role::findOrFail($id);
+                                $role->name = $request->name;
+                                $role->slug = $request->slug;
+                                $role->special = $request->get('special');
+                                $role->description = $request->description;
+                                $role->save();
+                                if($request->get('permissions')){
+                                    $role->permissions()->sync($request->get('permissions'));
+                                }else{
+                                    $role->permissions()->sync($request->get('permissions')); 
+                                }
+                                return back()->with('mensaje', 'Rol editado con éxito.');
                             }
-                            return back()->with('mensaje', 'Rol editado con éxito.');
+                            }
+                        }else{
+                            return redirect()->back()->with('erroresc', '¡Seleciona algún permiso o acceso!')->withInput();
                         }
                         }
                     }else{
-                        $todobien = Validator::make($request->all(),[
-                            'name' => 'required|alpha|max:15|min:4|unique:roles,name,'.$id,
-                            'slug' => 'required','alpha','max:3','min:2',
-                            'description' => 'max:255|required'
-                        ]);
-                        $attributeNames = array(
-                            'name' => 'nombre',
-                            'slug' => 'acrónimo',
-                            'description' => 'descripcion'     
-                         );
-                         $todobien->setAttributeNames($attributeNames);
-                        if($todobien->fails()){
-                            return redirect()->back()->withInput()->withErrors($todobien->errors());
-                        }else{
-                        $role = Role::findOrFail($id);
-                        $role->name = $request->name;
-                        $role->slug = $request->slug;
-                        $role->special = $request->get('special');
-                        $role->description = $request->description;
-                        $role->save();
-                        if($request->get('permissions')){
-                            $role->permissions()->sync($request->get('permissions'));
-                        }else{
-                            $role->permissions()->sync($request->get('permissions')); 
-                        }
-                        return back()->with('mensaje', 'Rol editado con éxito.');
+                        return 'no es admin';
                     }
-                    }
-                }else{
-                    return redirect()->back()->with('erroresc', '¡Seleciona algún permiso o acceso!')->withInput();
-                }
                 }
             }
         }
