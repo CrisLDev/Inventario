@@ -91,17 +91,22 @@ class UserController extends Controller
             if($usuariorol){
                 $usuarioId = $usuariorol->{'role_id'};
                 $usuarioroles = Role::where('id', $usuarioId)->first();
+                $userAdmin = $usuarioroles->name;
                 $roles = auth()->user()->roles;
                 $result = collect($roles)->contains('name','Admin');
-                if($result){
+                if($userAdmin == 'Admin'){
+                    if($result){
+                        $user = User::findOrFail($id);
+                    $roles = Role::get();
+                    return view('users.editar', compact('user', 'roles'));
+                    }else{
+                        return redirect()->back()->with('erroresc', '¡No tienes permiso!')->withInput();
+                    }
+                }else{
                     $user = User::findOrFail($id);
                     $roles = Role::get();
                     return view('users.editar', compact('user', 'roles'));
-            }else{
-                $user = User::findOrFail($id);
-                $roles = Role::get();
-                return view('users.editar', compact('user', 'roles'));
-            }
+                }
 
             }else{
                 $user = User::findOrFail($id);
