@@ -132,7 +132,7 @@ class UserController extends Controller
                 if($result){
                     if($request->get('roles')){
                         $count = count($request->get('roles'));
-                        if($count > 4){
+                        if($count >= 4){
                             return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
                         }else{
                         $todobien = Validator::make($request->all(),[
@@ -297,7 +297,7 @@ class UserController extends Controller
                 if($result){
                     if($request->get('roles')){
                         $count = count($request->get('roles'));
-                        if($count > 4){
+                        if($count >= 4){
                             return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
                         }else{
                         $todobien = Validator::make($request->all(),[
@@ -375,7 +375,7 @@ class UserController extends Controller
             }else{
                 if($request->get('roles')){
                     $count = count($request->get('roles'));
-                    if($count > 4){
+                    if($count >= 4){
                         return redirect()->back()->with('erroresc', '¡Haz seleccionado más de un rol!')->withInput();
                     }else{
                     $todobien = Validator::make($request->all(),[
