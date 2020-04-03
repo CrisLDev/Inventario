@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Curso;
 
+use App\Item;
+
 use Validator;
 
 use Illuminate\Validation\Rule;
@@ -145,6 +147,7 @@ class CursoController extends Controller
     public function destroy($id)
     {
         $data = Curso::findOrFail( $id );
+        $item= Item::where('cu_id', $id )->delete();
         $data->activo = 0;
         $data->save();
         return back()->with( 'mensaje', 'Curso Eliminado' );
